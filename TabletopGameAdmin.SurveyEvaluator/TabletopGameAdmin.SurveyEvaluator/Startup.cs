@@ -1,32 +1,17 @@
 namespace TabletopGameAdmin.SurveyEvaluator
 {
-	using Microsoft.AspNetCore.Builder;
-	using Microsoft.AspNetCore.Hosting;
-	using Microsoft.AspNetCore.Http;
+	using Google.Cloud.Functions.Hosting;
 	using Microsoft.Extensions.DependencyInjection;
-	using Microsoft.Extensions.Hosting;
 
-	public class Startup
+	/// <summary>
+	///   Initialize the function.
+	/// </summary>
+	public class Startup : FunctionsStartup
 	{
-		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-		{
-			if (env.IsDevelopment())
-			{
-				app.UseDeveloperExceptionPage();
-			}
-
-			app.UseRouting();
-
-			app.UseEndpoints(
-				endpoints =>
-				{
-					endpoints.MapGet("/", async context => { await context.Response.WriteAsync("Hello World!"); });
-				});
-		}
-
-		// This method gets called by the runtime. Use this method to add services to the container.
-		// For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+		/// <summary>
+		///   This method gets called by the runtime. Use this method to add services to the container.
+		/// </summary>
+		/// <param name="services">Add services to this collection used in dependency injection context.</param>
 		public void ConfigureServices(IServiceCollection services)
 		{
 		}
