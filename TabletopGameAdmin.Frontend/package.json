@@ -11,21 +11,26 @@
     "puglint": "pug-lint -c ./configs/.pug-lintrc.json -r inline ./app/views/",
     "serve": "nodemon index.js",
     "stylelint": "npx stylelint --config ./configs/.stylelintrc.json ./client/scss/**/*",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npm run testIntegration",
+    "testUnit": "mocha ./tests/unittests/**/*-tests.js --config configs/.mocharc.json",
+    "testIntegration": "mocha ./tests/**/*-tests.js --config configs/.mocharc.json",
     "uglyfy": "uglifyjs ./client/js/*.js -o app/public/client.min.js",
     "ugly": "npm run uglyfy -- --compress --mangle",
-    "uglybeauty": "npm run uglyfy -- --beautify"    
+    "uglybeauty": "npm run uglyfy -- --beautify"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "chai": "^4.3.6",
     "eslint": "^7.2.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
+    "mocha": "^9.2.0",
     "nodemon": "^2.0.15",
     "pug-lint": "^2.6.0",
     "stylelint": "^14.3.0",
     "stylelint-config-sass-guidelines": "^9.0.1",
+    "supertest": "^6.2.2",
     "uglify-js": "^3.15.0"
   },
   "dependencies": {
