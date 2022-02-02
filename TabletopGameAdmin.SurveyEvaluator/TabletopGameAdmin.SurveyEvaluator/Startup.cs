@@ -1,7 +1,11 @@
 namespace TabletopGameAdmin.SurveyEvaluator
 {
 	using Google.Cloud.Functions.Hosting;
+	using Microsoft.AspNetCore.Hosting;
+	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
+	using TabletopGameAdmin.SurveyEvaluator.Contracts;
+	using TabletopGameAdmin.SurveyEvaluator.Model;
 
 	/// <summary>
 	///   Initialize the function.
@@ -11,9 +15,14 @@ namespace TabletopGameAdmin.SurveyEvaluator
 		/// <summary>
 		///   This method gets called by the runtime. Use this method to add services to the container.
 		/// </summary>
+		/// <param name="context">The builder context.</param>
 		/// <param name="services">Add services to this collection used in dependency injection context.</param>
-		public void ConfigureServices(IServiceCollection services)
+		public override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
 		{
+			var configuration = new FunctionConfiguration();
+			context.Configuration.Bind(configuration);
+
+			services.AddScoped<IFunctionConfiguration>(_ => configuration);
 		}
 	}
 }
