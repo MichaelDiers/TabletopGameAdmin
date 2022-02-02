@@ -44,18 +44,16 @@ namespace TabletopGameAdmin.SurveyEvaluator
 		/// <param name="data">The data send with the message.</param>
 		/// <param name="cancellationToken">A <see cref="CancellationToken" />.</param>
 		/// <returns>A <see cref="Task" /> without a result.</returns>
-		public Task HandleAsync(CloudEvent cloudEvent, MessagePublishedData data, CancellationToken cancellationToken)
+		public async Task HandleAsync(CloudEvent cloudEvent, MessagePublishedData data, CancellationToken cancellationToken)
 		{
 			try
 			{
-				// do something
+				await this.provider.HandleAsync(data?.Message?.TextData);
 			}
 			catch (Exception e)
 			{
 				this.logger.LogError(e, "Unexpected error!");
 			}
-
-			return Task.CompletedTask;
 		}
 	}
 }
