@@ -4,12 +4,37 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "eslint": "eslint -c ./configs/.eslintrc.js .",
+    "git": "git add . && git status",
+    "gitadd": "npm run lint && npm run ugly && npm run git",
+    "lint": "npm run eslint && npm run puglint && npm run stylelint",
+    "puglint": "pug-lint -c ./configs/.pug-lintrc.json -r inline ./app/views/",
     "serve": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "stylelint": "npx stylelint --config ./configs/.stylelintrc.json ./client/scss/**/*",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "uglyfy": "uglifyjs ./client/js/*.js -o app/public/client.min.js",
+    "ugly": "npm run uglyfy -- --compress --mangle",
+    "uglybeauty": "npm run uglyfy -- --beautify"    
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.15",
+    "pug-lint": "^2.6.0",
+    "stylelint": "^14.3.0",
+    "stylelint-config-sass-guidelines": "^9.0.1",
+    "uglify-js": "^3.15.0"
+  },
+  "dependencies": {
+    "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
+    "csurf": "^1.11.0",
+    "express": "^4.17.2",
+    "helmet": "^5.0.2",
+    "pug": "^3.0.2",
+    "uuid": "^8.3.2"
   }
 }

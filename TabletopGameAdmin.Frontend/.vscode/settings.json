@@ -11,12 +11,12 @@
       {
           "format": "expanded",
           "extensionName": ".css",
-          "savePath": "/functions/app/static"
+          "savePath": "/app/public"
       },
       {
           "format": "compressed",
           "extensionName": ".min.css",
-          "savePath": "/functions/app/static"
+          "savePath": "/app/public"
       }
     ],
     "typescript.preferences.quoteStyle": "single"
