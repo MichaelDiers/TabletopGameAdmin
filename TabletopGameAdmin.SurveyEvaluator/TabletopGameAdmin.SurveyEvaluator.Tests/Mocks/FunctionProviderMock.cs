@@ -1,26 +1,28 @@
-﻿namespace TabletopGameAdmin.SurveyEvaluator.Logic
+﻿namespace TabletopGameAdmin.SurveyEvaluator.Tests.Mocks
 {
-	using System;
 	using System.Threading.Tasks;
+	using Newtonsoft.Json;
 	using TabletopGameAdmin.SurveyEvaluator.Contracts;
+	using TabletopGameAdmin.SurveyEvaluator.Logic;
+	using Xunit;
 
 	/// <summary>
 	///   Provider that handles the business logic of the cloud function.
 	/// </summary>
-	public class FunctionProvider : IFunctionProvider
+	public class FunctionProviderMock : IFunctionProvider
 	{
 		/// <summary>
-		///   Access the application settings.
+		///   The expected incoming message for <see cref="HandleAsync" />.
 		/// </summary>
-		private readonly IFunctionConfiguration configuration;
+		private readonly IMessage expectedMessage;
 
 		/// <summary>
 		///   Creates a new instance of <see cref="FunctionProvider" />.
 		/// </summary>
-		/// <param name="configuration">Access to the application settings.</param>
-		public FunctionProvider(IFunctionConfiguration configuration)
+		/// <param name="expectedMessage">The expected incoming message for <see cref="HandleAsync" />.</param>
+		public FunctionProviderMock(IMessage expectedMessage)
 		{
-			this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+			this.expectedMessage = expectedMessage;
 		}
 
 		/// <summary>
@@ -30,10 +32,7 @@
 		/// <returns>A <see cref="Task" /> without a result.</returns>
 		public Task HandleAsync(IMessage message)
 		{
-			if (message == null)
-			{
-				throw new ArgumentNullException(nameof(message));
-			}
+			Assert.Equal(JsonConvert.SerializeObject(this.expectedMessage), JsonConvert.SerializeObject(message));
 
 			return Task.CompletedTask;
 		}

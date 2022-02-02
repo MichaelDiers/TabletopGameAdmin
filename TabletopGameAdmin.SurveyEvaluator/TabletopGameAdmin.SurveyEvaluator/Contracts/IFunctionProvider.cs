@@ -8,10 +8,10 @@
 	public interface IFunctionProvider
 	{
 		/// <summary>
-		///   Handle an incoming json formatted message from google cloud pub/sub.
+		///   Handle an incoming message from google cloud pub/sub.
 		/// </summary>
-		/// <param name="json">The json message.</param>
+		/// <param name="message">The incoming message from pub/sub.</param>
 		/// <returns>A <see cref="Task" /> without a result.</returns>
-		Task HandleAsync(string json);
+		Task HandleAsync(IMessage message);
 	}
 }

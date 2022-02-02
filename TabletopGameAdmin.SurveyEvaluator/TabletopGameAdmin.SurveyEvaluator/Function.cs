@@ -8,7 +8,9 @@ namespace TabletopGameAdmin.SurveyEvaluator
 	using Google.Cloud.Functions.Hosting;
 	using Google.Events.Protobuf.Cloud.PubSub.V1;
 	using Microsoft.Extensions.Logging;
+	using Newtonsoft.Json;
 	using TabletopGameAdmin.SurveyEvaluator.Contracts;
+	using TabletopGameAdmin.SurveyEvaluator.Model;
 
 	/// <summary>
 	///   Google cloud function that handles Pub/Sub messages.
@@ -48,7 +50,21 @@ namespace TabletopGameAdmin.SurveyEvaluator
 		{
 			try
 			{
-				await this.provider.HandleAsync(data?.Message?.TextData);
+				var json = data?.Message?.TextData;
+				if (string.IsNullOrWhiteSpace(json))
+				{
+					throw new ArgumentException("Empty incoming json message", nameof(MessagePublishedData.Message.TextData));
+				}
+
+				var message = JsonConvert.DeserializeObject<Message>(json);
+				if (message == null)
+				{
+					throw new ArgumentException(
+						$"Cannot deserialize json to ${nameof(Message)}: '{json}'",
+						nameof(MessagePublishedData.Message.TextData));
+				}
+
+				await this.provider.HandleAsync(message);
 			}
 			catch (Exception e)
 			{
