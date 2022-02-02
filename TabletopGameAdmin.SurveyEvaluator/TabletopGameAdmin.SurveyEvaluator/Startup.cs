@@ -5,6 +5,7 @@ namespace TabletopGameAdmin.SurveyEvaluator
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.DependencyInjection;
 	using TabletopGameAdmin.SurveyEvaluator.Contracts;
+	using TabletopGameAdmin.SurveyEvaluator.Logic;
 	using TabletopGameAdmin.SurveyEvaluator.Model;
 
 	/// <summary>
@@ -23,6 +24,7 @@ namespace TabletopGameAdmin.SurveyEvaluator
 			context.Configuration.Bind(configuration);
 
 			services.AddScoped<IFunctionConfiguration>(_ => configuration);
+			services.AddScoped<IFunctionProvider, FunctionProvider>();
 		}
 	}
 }
