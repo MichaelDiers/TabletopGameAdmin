@@ -1,13 +1,11 @@
 require('chai').should();
-const express = require('express');
 const supertest = require('supertest');
 
-const route = require('../../../../app/routes/home');
+const app = require('../../../../app/app');
 
 describe('app', () => {
   before(function before() {
-    this.app = express();
-    this.app.use('/', route());
+    this.app = app();
   });
 
   describe('routes', () => {

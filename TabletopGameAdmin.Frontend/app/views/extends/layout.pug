@@ -1,0 +1,27 @@
+block variables
+
+if !publicLink
+  - var publicLink = '../public/'
+
+if !lang
+  - var lang = 'de'
+
+if !title
+  - var title = 'TabletopGameAdmin.Frontend'
+
+doctype html
+html(lang=lang)
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width', initial-scale=1.0)
+    meta(name='google', content='notranslate')
+    title= title
+    link(rel='stylesheet', href= publicLink + 'main.min.css')
+  body
+    header
+      include ../includes/header
+    main
+      block content
+    footer
+      include ../includes/footer
+    script(src= publicLink + 'client.min.js')
