@@ -1,0 +1,9 @@
+// default theme colors
+$lightness: 11%;
+
+$color-background: hsl(0, 0, $lightness);
+$color-foreground: hsl(0, 0, 100% - $lightness);
+
+// light theme colors
+$color-background-light: hsl(0, 0, 100% - $lightness);
+$color-foreground-light: hsl(0, 0, $lightness);
