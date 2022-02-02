@@ -10,6 +10,7 @@ const initialize = () => {
   const router = express.Router();
 
   router.use('/', routers.public());
+  router.use('/', routers.home());
 
   const app = express();
   app.use(router);
