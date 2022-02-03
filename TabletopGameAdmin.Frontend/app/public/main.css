@@ -47,7 +47,7 @@ body {
   color: #e3e3e3;
 }
 
-body.light {
+.light {
   background: #e3e3e3;
   color: #1c1c1c;
 }
