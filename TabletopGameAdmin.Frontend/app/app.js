@@ -1,6 +1,7 @@
 const express = require('express');
 
-const routers = require('./routes/index');
+const middlewares = require('./middlewares/index');
+const routes = require('./routes/index');
 
 /**
  * Initialize the express app.
@@ -17,8 +18,11 @@ const initialize = (options = {}) => {
 
   const router = express.Router();
 
-  router.use('/', routers.public());
-  router.use('/', routers.home());
+  router.use('/', routes.public());
+
+  middlewares.base({ router });
+
+  router.use('/', routes.home());
 
   const app = express();
 
