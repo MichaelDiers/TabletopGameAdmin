@@ -18,12 +18,16 @@ const initialize = (options = {}) => {
 
   const router = express.Router();
 
+  /**
+   * cookie-less routes
+   */
   router.use('/', routes.public());
-
   middlewares.base({ router });
-
   router.use('/', routes.home());
 
+  /**
+   * cookies required routes
+   */
   const app = express();
 
   app.set('views', viewLocalFolder);
