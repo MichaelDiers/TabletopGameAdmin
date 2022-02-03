@@ -23,6 +23,7 @@ const initialize = (options = {}) => {
    */
   router.use('/', routes.public());
   middlewares.base({ router });
+  middlewares.pug({ router });
   router.use('/', routes.home());
 
   /**

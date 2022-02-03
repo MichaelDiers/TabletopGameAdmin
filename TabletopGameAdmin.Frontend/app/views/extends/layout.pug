@@ -1,22 +1,12 @@
-block variables
-
-if !publicLink
-  - var publicLink = '../public/'
-
-if !lang
-  - var lang = 'de'
-
-if !title
-  - var title = 'TabletopGameAdmin.Frontend'
-
 doctype html
-html(lang=lang)
+html(lang=pugData.lang)
   head
     meta(charset='utf-8')
     meta(name='viewport', content='width=device-width', initial-scale=1.0)
     meta(name='google', content='notranslate')
     title= title
-    link(rel='stylesheet', href= publicLink + 'main.min.css')
+    each stylesheet in pugData.files.stylesheets
+      link(rel='stylesheet', href=stylesheet)
   body
     header
       include ../includes/header
@@ -24,4 +14,5 @@ html(lang=lang)
       block content
     footer
       include ../includes/footer
-    script(src= publicLink + 'client.min.js')
+    each js in pugData.files.jss
+      script(src=js)
