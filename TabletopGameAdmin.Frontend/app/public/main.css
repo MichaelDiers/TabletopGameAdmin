@@ -63,11 +63,15 @@ html {
 
 .headline {
   font-family: 'Montserrat Subrayada', sans-serif;
-  font-size: 20px;
+  font-size: 5.55556vw;
+}
+
+.top-menu {
+  font-size: 4.44444vw;
 }
 
 .nav {
-  font-size: 30px;
+  font-size: 8.33333vw;
 }
 
 body {
@@ -80,10 +84,10 @@ header {
       grid-template-areas: 'symbol theme' 'title title';
   -ms-grid-columns: auto 1fr;
       grid-template-columns: auto 1fr;
-  -ms-grid-rows: 24px 88px;
-      grid-template-rows: 24px 88px;
-  margin-top: 16px;
-  padding: 16px;
+  -ms-grid-rows: 6.66667vw 24.44444vw;
+      grid-template-rows: 6.66667vw 24.44444vw;
+  margin-top: 4.44444vw;
+  padding: 4.44444vw;
 }
 
 header input,
@@ -91,14 +95,14 @@ header .menu-symbol {
   -ms-grid-row: 1;
   -ms-grid-column: 1;
   grid-area: symbol;
-  height: 24px;
+  height: 6.66667vw;
   position: absolute;
-  width: 24px;
+  width: 6.66667vw;
 }
 
 header input {
   opacity: 0;
-  z-index: 100;
+  z-index: 50;
 }
 
 header .headline {
@@ -109,12 +113,15 @@ header .headline {
   -ms-grid-column: 1;
   -ms-grid-column-span: 2;
   grid-area: title;
-  margin-bottom: 28px;
-  margin-left: 56px;
+  margin-bottom: 7.77778vw;
+  margin-left: 15.55556vw;
 }
 
 header .theme-light,
 header .theme-dark {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
   -ms-grid-row: 1;
   -ms-grid-column: 2;
   grid-area: theme;
@@ -123,44 +130,47 @@ header .theme-dark {
 }
 
 header .menu-symbol div {
-  height: 3px;
-  margin-left: 2px;
+  height: 0.83333vw;
+  margin-left: 0.55556vw;
   position: absolute;
   -webkit-transform: rotateX(0deg);
           transform: rotateX(0deg);
-  -webkit-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
-  width: 20px;
-  z-index: 90;
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
+  -webkit-transition-property: margin-top transform opacity;
+  transition-property: margin-top transform opacity;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+  width: 5.55556vw;
+  z-index: 49;
 }
 
 header .menu-symbol div:first-child {
-  margin-top: 4px;
+  margin-top: 1.11111vw;
 }
 
 header .menu-symbol div:nth-child(2) {
-  margin-top: 10px;
+  margin-top: 2.77778vw;
 }
 
 header .menu-symbol div:last-child {
-  margin-top: 16px;
+  margin-top: 4.44444vw;
 }
 
 header input:checked ~ .menu-symbol div:first-child {
-  margin-top: 10px;
+  margin-top: 2.77778vw;
   -webkit-transform: rotateZ(225deg);
           transform: rotateZ(225deg);
 }
 
 header input:checked ~ .menu-symbol div:nth-child(2) {
-  margin-top: 10px;
   opacity: 0;
   -webkit-transform: translateX(-100px);
           transform: translateX(-100px);
 }
 
 header input:checked ~ .menu-symbol div:last-child {
-  margin-top: 10px;
+  margin-top: 2.77778vw;
   -webkit-transform: rotateZ(-225deg);
           transform: rotateZ(-225deg);
 }
@@ -169,14 +179,14 @@ header input:checked ~ .menu-symbol div:last-child {
   height: 100%;
   left: 0;
   overflow-x: hidden;
-  padding-top: 60px;
+  padding-top: 40vw;
   position: absolute;
   text-align: center;
   top: 0;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
+  -webkit-transition: width 0.5s ease-in-out;
+  transition: width 0.5s ease-in-out;
   width: 0;
-  z-index: 80;
+  z-index: 48;
 }
 
 header input:checked ~ .nav {
@@ -192,11 +202,19 @@ header .nav li {
   margin-bottom: 30px;
 }
 
+.theme-light,
+.theme-dark,
+header .nav li:hover {
+  cursor: pointer;
+}
+
 * {
-  -webkit-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
+  -webkit-transition-duration: 1s;
+          transition-duration: 1s;
   -webkit-transition-property: color background-color;
   transition-property: color background-color;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
 }
 
 body {

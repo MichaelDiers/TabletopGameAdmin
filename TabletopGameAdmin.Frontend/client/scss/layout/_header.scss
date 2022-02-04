@@ -4,72 +4,74 @@ header {
     'symbol theme'
     'title title';
   grid-template-columns: auto 1fr;
-  grid-template-rows: 24px 88px;
-  margin-top: 16px;
-  padding: 16px;
+  grid-template-rows: $header-mobile-top-row-height $header-mobile-bottom-row-height;
+  margin-top: $header-mobile-margin-top;
+  padding: $header-mobile-padding;
 }
 
 header input,
 header .menu-symbol {
   grid-area: symbol;
-  height: 24px;
+  height: $header-mobile-top-row-height;
   position: absolute;
-  width: 24px;
+  width: $header-mobile-top-row-height;
 }
 
 header input {
   opacity: 0;
-  z-index: 100;
+  z-index: $header-mobile-symbol-z-index;
 }
 
 header .headline {
   align-self: end;
   grid-area: title;
-  margin-bottom: 28px;
-  margin-left: 56px;
+  margin-bottom: $header-mobile-headline-margin-bottom;
+  margin-left: $header-mobile-headline-margin-left;
 }
 
 header .theme-light,
 header .theme-dark {
+  align-self: center;
   grid-area: theme;
   justify-self: end;
 }
 
 header .menu-symbol div {
-  height: 3px;
-  margin-left: 2px;
+  height: $header-mobile-symbol-bar-height;
+  margin-left: $header-mobile-symbol-bar-margin-left;
   position: absolute;
   transform: rotateX(0deg);
-  transition: all 1s ease-in-out;
-  width: 20px;
-  z-index: 90;
+  transition-duration: 1s;
+  transition-property: margin-top transform opacity;
+  transition-timing-function: ease-in-out;
+  width: $header-mobile-symbol-bar-width;
+  z-index: $header-mobile-symbol-z-index - 1;
 }
 
 header .menu-symbol div:first-child {
-  margin-top: 4px;
+  margin-top: $header-mobile-symbol-top-bar-margin-top;
 }
 
 header .menu-symbol div:nth-child(2) {
-  margin-top: 10px;
+  margin-top: $header-mobile-symbol-middle-bar-margin-top;
 }
 
 header .menu-symbol div:last-child {
-  margin-top: 16px;
+  margin-top: $header-mobile-symbol-bottom-bar-margin-top;
 }
 
 header input:checked ~ .menu-symbol div:first-child {
-  margin-top: 10px;
+  margin-top: $header-mobile-symbol-middle-bar-margin-top;
   transform: rotateZ(225deg);
 }
 
-header input:checked ~ .menu-symbol div:nth-child(2) {
-  margin-top: 10px;
+header input:checked ~ .menu-symbol div:nth-child(2) {  
   opacity: 0;
   transform: translateX(-100px);
 }
 
 header input:checked ~ .menu-symbol div:last-child {
-  margin-top: 10px;
+  margin-top: $header-mobile-symbol-middle-bar-margin-top;
   transform: rotateZ(-225deg);
 }
 
@@ -77,13 +79,13 @@ header input:checked ~ .menu-symbol div:last-child {
   height: 100%;
   left: 0;
   overflow-x: hidden;
-  padding-top: 60px;
+  padding-top: $header-mobile-nav-padding-top;
   position: absolute;
   text-align: center;
   top: 0;
-  transition: 0.5s;
+  transition: width 0.5s ease-in-out;
   width: 0;
-  z-index: 80;
+  z-index: $header-mobile-symbol-z-index - 2;
 }
 
 header input:checked ~ .nav {
@@ -96,5 +98,11 @@ header .nav ul {
 }
 
 header .nav li {
-  margin-bottom: 30px;
+  margin-bottom: $header-mobile-nav-entry-margin-top;
+}
+
+.theme-light,
+.theme-dark,
+header .nav li:hover {
+  cursor: pointer;
 }

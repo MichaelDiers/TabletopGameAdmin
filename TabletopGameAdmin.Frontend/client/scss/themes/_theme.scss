@@ -1,6 +1,7 @@
 * {
-  transition: all 1s ease-in-out;
+  transition-duration: 1s;
   transition-property: color background-color;
+  transition-timing-function: ease-in-out;
 }
 
 body {

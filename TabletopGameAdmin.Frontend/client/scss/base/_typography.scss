@@ -4,9 +4,13 @@ html {
 
 .headline {
   font-family: 'Montserrat Subrayada', sans-serif;
-  font-size: 20px;
+  font-size: $header-mobile-headline-font-size;
+}
+
+.top-menu {
+  font-size: $header-mobile-top-menu-font-size;
 }
 
 .nav {
-  font-size: 30px;
+  font-size: $header-mobile-slide-menu-font-size;
 }

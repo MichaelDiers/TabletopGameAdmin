@@ -16,3 +16,46 @@ $breakpoint-large: 'large';
 $breakpoint-small-min-width: 600px;
 $breakpoint-medium-min-width: 1000px;
 $breakpoint-large-min-width: 1200px;
+
+// header mobile
+$header-mobile-symbol-z-index: 50;
+$material-design-header-width: 360px;
+
+$material-design-header-headline-font-size: 20px;
+$material-design-header-top-menu-font-size: 16px;
+$material-design-header-slide-menu-font-size: 30px;
+
+$material-design-header-padding: 16px;
+$material-design-header-top-row-height: 24px;
+$material-design-header-bottom-row-height: 88px;
+$material-design-header-margin-top: 16px;
+$material-design-header-headline-margin-bottom: 28px;
+$material-design-header-headline-margin-left: 56px;
+
+$material-design-header-symbol-bar-height: 3px;
+$material-design-header-symbol-bar-margin-left: 2px;
+$material-design-header-symbol-bar-width: 20px;
+$material-design-header-symbol-top-bar-margin-top: 4px;
+$material-design-header-symbol-middle-bar-margin-top: $material-design-header-symbol-top-bar-margin-top + 2 * $material-design-header-symbol-bar-height;
+$material-design-header-symbol-bottom-bar-margin-top: $material-design-header-symbol-middle-bar-margin-top + 2 * $material-design-header-symbol-bar-height;
+
+$header-mobile-headline-font-size: ($material-design-header-headline-font-size / $material-design-header-width) * 100vw;
+$header-mobile-top-menu-font-size: ($material-design-header-top-menu-font-size / $material-design-header-width) * 100vw;
+$header-mobile-slide-menu-font-size: ($material-design-header-slide-menu-font-size / $material-design-header-width) * 100vw;
+
+$header-mobile-padding: ($material-design-header-padding / $material-design-header-width) * 100vw;
+$header-mobile-top-row-height: ($material-design-header-top-row-height / $material-design-header-width) * 100vw;
+$header-mobile-bottom-row-height: ($material-design-header-bottom-row-height / $material-design-header-width) * 100vw;
+$header-mobile-margin-top: ($material-design-header-margin-top / $material-design-header-width) * 100vw;
+$header-mobile-headline-margin-bottom: ($material-design-header-headline-margin-bottom / $material-design-header-width) * 100vw;
+$header-mobile-headline-margin-left: ($material-design-header-headline-margin-left / $material-design-header-width) * 100vw;
+
+$header-mobile-symbol-bar-height: ($material-design-header-symbol-bar-height / $material-design-header-width) * 100vw;
+$header-mobile-symbol-bar-margin-left: ($material-design-header-symbol-bar-margin-left / $material-design-header-width) * 100vw;
+$header-mobile-symbol-bar-width: ($material-design-header-symbol-bar-width / $material-design-header-width) * 100vw;
+$header-mobile-symbol-top-bar-margin-top: ($material-design-header-symbol-top-bar-margin-top / $material-design-header-width) * 100vw;
+$header-mobile-symbol-middle-bar-margin-top: ($material-design-header-symbol-middle-bar-margin-top / $material-design-header-width) * 100vw;
+$header-mobile-symbol-bottom-bar-margin-top: ($material-design-header-symbol-bottom-bar-margin-top / $material-design-header-width) * 100vw;
+
+$header-mobile-nav-padding-top: $header-mobile-margin-top + $header-mobile-padding + $header-mobile-top-row-height + $header-mobile-bottom-row-height;
+$header-mobile-nav-entry-margin-top: 30px;
