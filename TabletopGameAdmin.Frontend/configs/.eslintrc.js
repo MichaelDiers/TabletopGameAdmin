@@ -16,4 +16,7 @@ module.exports = {
   ignorePatterns: [
     '**/*.min.js',
   ],
+  globals: {
+    document: false,
+  },
 };

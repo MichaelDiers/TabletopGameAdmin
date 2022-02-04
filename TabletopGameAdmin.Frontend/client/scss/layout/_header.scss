@@ -1,3 +1,100 @@
 header {
-  margin-top: 10vw;
+  display: grid;
+  grid-template-areas:
+    'symbol theme'
+    'title title';
+  grid-template-columns: auto 1fr;
+  grid-template-rows: 24px 88px;
+  margin-top: 16px;
+  padding: 16px;
+}
+
+header input,
+header .menu-symbol {
+  grid-area: symbol;
+  height: 24px;
+  position: absolute;
+  width: 24px;
+}
+
+header input {
+  opacity: 0;
+  z-index: 100;
+}
+
+header .headline {
+  align-self: end;
+  grid-area: title;
+  margin-bottom: 28px;
+  margin-left: 56px;
+}
+
+header .theme-light,
+header .theme-dark {
+  grid-area: theme;
+  justify-self: end;
+}
+
+header .menu-symbol div {
+  height: 3px;
+  margin-left: 2px;
+  position: absolute;
+  transform: rotateX(0deg);
+  transition: all 1s ease-in-out;
+  width: 20px;
+  z-index: 90;
+}
+
+header .menu-symbol div:first-child {
+  margin-top: 4px;
+}
+
+header .menu-symbol div:nth-child(2) {
+  margin-top: 10px;
+}
+
+header .menu-symbol div:last-child {
+  margin-top: 16px;
+}
+
+header input:checked ~ .menu-symbol div:first-child {
+  margin-top: 10px;
+  transform: rotateZ(225deg);
+}
+
+header input:checked ~ .menu-symbol div:nth-child(2) {
+  margin-top: 10px;
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+header input:checked ~ .menu-symbol div:last-child {
+  margin-top: 10px;
+  transform: rotateZ(-225deg);
+}
+
+.nav {
+  height: 100%;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: 60px;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transition: 0.5s;
+  width: 0;
+  z-index: 80;
+}
+
+header input:checked ~ .nav {
+  width: 100%;
+}
+
+header .nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+header .nav li {
+  margin-bottom: 30px;
 }

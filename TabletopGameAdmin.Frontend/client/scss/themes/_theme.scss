@@ -1,4 +1,25 @@
+* {
+  transition: all 1s ease-in-out;
+  transition-property: color background-color;
+}
+
 body {
   background: $color-background;
   color: $color-foreground;
+}
+
+.theme-dark {
+  display: none;
+}
+
+header .menu-symbol div {
+  background: $color-foreground;
+}
+
+.nav {
+  background-color: $color-background;
+}
+
+.hover-underline-animation::after {
+  background-color: $color-foreground;
 }

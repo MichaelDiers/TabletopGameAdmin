@@ -1,2 +1,17 @@
 header
-  .header= pugData.header.title
+  input(type='checkbox')
+  .menu-symbol
+    div
+    div
+    div
+  .headline= pugData.header.title
+  .theme-light Light Theme
+  .theme-dark Dark Theme
+  .nav
+    ul
+      each entry in pugData.menu
+        li(class=entry.class)
+          if entry.link
+            a.hover-underline-animation(href=entry.link)= entry.name
+          else
+            a.hover-underline-animation= entry.name

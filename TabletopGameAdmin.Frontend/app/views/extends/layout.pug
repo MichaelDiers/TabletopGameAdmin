@@ -8,11 +8,9 @@ html(lang=pugData.lang)
     each stylesheet in pugData.files.stylesheets
       link(rel='stylesheet', href=stylesheet)
   body
-    header
-      include ../includes/header
+    include ../includes/header
     main
       block content
-    footer
-      include ../includes/footer
+    include ../includes/footer
     each js in pugData.files.jss
       script(src=js)
