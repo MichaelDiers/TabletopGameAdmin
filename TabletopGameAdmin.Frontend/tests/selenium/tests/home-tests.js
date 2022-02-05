@@ -1,7 +1,8 @@
 const { Builder } = require('selenium-webdriver');
 const HomeIndex = require('../pages/home/home-index');
+const { browsers } = require('../selenium-helper');
 
-['firefox', 'chrome'].forEach((browser) => {
+browsers.forEach((browser) => {
   describe(browser, () => {
     before(async function before() {
       this.timeout(5000);
