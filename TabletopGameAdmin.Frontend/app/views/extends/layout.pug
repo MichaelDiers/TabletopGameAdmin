@@ -1,3 +1,5 @@
+block variables
+
 doctype html
 html(lang=pugData.lang)
   head
@@ -7,7 +9,7 @@ html(lang=pugData.lang)
     title= title
     each stylesheet in pugData.files.stylesheets
       link(rel='stylesheet', href=stylesheet)
-  body
+  body(id=auit)
     include ../includes/header
     main
       block content
