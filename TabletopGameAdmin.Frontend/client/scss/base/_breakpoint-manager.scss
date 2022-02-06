@@ -1,7 +1,6 @@
 // https://sass-guidelin.es/#responsive-web-design-and-breakpoints
 
 $breakpoints: (
-  $breakpoint-small: (min-width: $breakpoint-small-min-width),
   $breakpoint-medium: (min-width: $breakpoint-medium-min-width),
   $breakpoint-large: (min-width: $breakpoint-large-min-width),
 );
@@ -10,7 +9,7 @@ $breakpoints: (
   $raw-query: map-get($breakpoints, $breakpoint);
 
   @if $raw-query {
-    $query: if (
+    $query: if(
       type-of($raw-query) == 'string',
       unquote($raw-query),
       inspect($raw-query)
@@ -21,17 +20,13 @@ $breakpoints: (
     }
   } @else {
     @error 'No value found for `#{$breakpoint}`. '
-      + 'Please make sure it is defined in `$breakpoints` map.';
+         + 'Please make sure it is defined in `$breakpoints` map.';
   }
 }
 
-@mixin respond-to-for-property($property, $mobile, $small, $medium, $large) {
+@mixin respond-to-for-property($property, $mobile, $medium, $large) {
   #{$property}: $mobile;
   
-  @include respond-to($breakpoint-small) {
-    #{$property}: $small;
-  }
-
   @include respond-to($breakpoint-medium) {
     #{$property}: $medium;
   }

@@ -9,11 +9,9 @@ $color-background-light: hsl(0, 0, 100% - $lightness);
 $color-foreground-light: hsl(0, 0, $lightness);
 
 // breakpoints
-$breakpoint-small: 'small';
 $breakpoint-medium: 'medium';
 $breakpoint-large: 'large';
 
-$breakpoint-small-min-width: 600px;
 $breakpoint-medium-min-width: 1000px;
 $breakpoint-large-min-width: 1200px;
 
