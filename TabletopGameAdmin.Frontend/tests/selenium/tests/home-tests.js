@@ -1,24 +1,34 @@
-const { Builder } = require('selenium-webdriver');
 const HomeIndex = require('../pages/home/home-index');
-const { browsers } = require('../selenium-helper');
+const seleniumHelper = require('../selenium-helper');
 
-browsers.forEach((browser) => {
-  describe(browser, () => {
+// iterate browsers
+seleniumHelper.browsers.forEach((browser) => {
+  describe(`${browser}`, () => {
+    // init driver
     before(async function before() {
-      this.timeout(5000);
-      this.driver = await new Builder().forBrowser(browser).build();
+      await seleniumHelper.before(this, browser);
     });
 
+    // quit driver
     after(async function after() {
-      await this.driver.quit();
+      await seleniumHelper.after(this);
     });
 
-    describe('app', () => {
-      describe('routes', () => {
-        describe('home.js', () => {
-          it('GET /', async function check() {
-            await this.driver.get('http://localhost:3000');
-            await (new HomeIndex(this.driver).waitForPage());
+    // ierate window sizes
+    seleniumHelper.sizes.forEach((size) => {
+      // set window size
+      before(async function before() {
+        await seleniumHelper.before(this, browser, size);
+      });
+
+      describe(`${browser}: ${JSON.stringify(size)}`, () => {
+        describe('app', () => {
+          describe('routes', () => {
+            describe('home.js', () => {
+              it('GET /', async function check() {
+                await (new HomeIndex(this.driver).waitForPage());
+              });
+            });
           });
         });
       });
