@@ -1,0 +1,83 @@
+nav {
+  grid-area: nav;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  grid-template-areas: 'symbol';
+}
+
+nav input,
+nav .menu-symbol {
+  grid-area: symbol;
+  position: relative;
+}
+
+nav input {
+  opacity: 0;
+  z-index: 20;
+}
+
+nav .menu-symbol div {
+  height: 12.5%;
+  position: absolute;
+  transform: rotateX(0deg);
+  transition-duration: 1s;
+  transition-property: margin-top transform opacity;
+  transition-timing-function: ease-in-out;
+  width: 100%;
+  z-index: 15;
+}
+
+
+nav .menu-symbol div:first-child {
+  margin-top: 18.75%;
+}
+
+nav .menu-symbol div:nth-child(2) {
+  margin-top: 43.75%;
+}
+
+nav .menu-symbol div:last-child {
+  margin-top: 68.75%;
+}
+
+nav input:checked ~ .menu-symbol div:first-child {
+  margin-top: 43.75%;;
+  transform: rotateZ(225deg);
+}
+
+nav input:checked ~ .menu-symbol div:nth-child(2) {  
+  opacity: 0;
+  transform: translateX(-100px);
+}
+
+nav input:checked ~ .menu-symbol div:last-child {
+  margin-top: 43.75%;
+  transform: rotateZ(-225deg);
+}
+
+.nav {
+  height: 100%;
+  left: 0;
+  overflow-x: hidden;
+  padding-top: $header-mobile-nav-padding-top;
+  position: absolute;
+  text-align: center;
+  top: 0;
+  transition: width 0.5s ease-in-out;
+  width: 0;
+  z-index: 10;
+}
+
+nav input:checked ~ .nav {
+  width: 100%;
+}
+
+nav .nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+nav .nav li {
+  margin-bottom: $header-mobile-nav-entry-margin-top;
+}
