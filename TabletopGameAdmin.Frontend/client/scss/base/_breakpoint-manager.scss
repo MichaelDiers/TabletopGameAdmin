@@ -35,3 +35,18 @@ $breakpoints: (
     #{$property}: $large;
   }
 }
+
+@mixin media-queries($property, $from, $to, $step, $fromPropertyValue, $propertyValueStep) {
+  #{$property}: $fromPropertyValue;
+
+  $currentPropertyValue: $fromPropertyValue + $propertyValueStep;
+  $from: $from + $step;
+  @while $from < $to {
+    @media (min-width: $from) {
+      #{$property}: $currentPropertyValue;
+    }
+
+    $currentPropertyValue: $currentPropertyValue + $propertyValueStep;
+    $from: $from + $step;
+  }
+}
