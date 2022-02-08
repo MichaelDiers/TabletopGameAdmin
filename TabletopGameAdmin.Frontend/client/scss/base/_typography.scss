@@ -1,16 +1,17 @@
 html {
   font-family: 'Montserrat', sans-serif;
+  font-size: 100%;
 }
 
 .headline {
-  font-family: 'Montserrat Subrayada', sans-serif;
-  font-size: $header-mobile-headline-font-size;
+  font-family: 'Montserrat Subrayada', sans-serif; 
+  font-size: 1.3rem;
 }
 
 .top-menu {
-  font-size: $header-mobile-top-menu-font-size;
+  font-size: 1.1rem;
 }
 
 .nav {
-  font-size: $header-mobile-slide-menu-font-size;
+  font-size: 1.1rem;
 }

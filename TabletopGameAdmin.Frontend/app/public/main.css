@@ -59,19 +59,20 @@ input {
 
 html {
   font-family: 'Montserrat', sans-serif;
+  font-size: 100%;
 }
 
 .headline {
   font-family: 'Montserrat Subrayada', sans-serif;
-  font-size: 5.55556vw;
+  font-size: 1.3rem;
 }
 
 .top-menu {
-  font-size: 4.44444vw;
+  font-size: 1.1rem;
 }
 
 .nav {
-  font-size: 8.33333vw;
+  font-size: 1.1rem;
 }
 
 body {
@@ -216,15 +217,6 @@ nav .nav ul {
 
 nav .nav li {
   margin-bottom: 30px;
-}
-
-* {
-  -webkit-transition-duration: 1s;
-          transition-duration: 1s;
-  -webkit-transition-property: color background-color;
-  transition-property: color background-color;
-  -webkit-transition-timing-function: ease-in-out;
-          transition-timing-function: ease-in-out;
 }
 
 body {

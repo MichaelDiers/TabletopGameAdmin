@@ -1,9 +1,3 @@
-* {
-  transition-duration: 1s;
-  transition-property: color background-color;
-  transition-timing-function: ease-in-out;
-}
-
 body {
   background: $color-background;
   color: $color-foreground;

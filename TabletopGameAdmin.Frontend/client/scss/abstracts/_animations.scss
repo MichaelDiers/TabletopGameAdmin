@@ -8,12 +8,14 @@
   content: '';
   height: 2px;
   left: 0;
-  opacity: 0;
   position: absolute;
-  transition: opacity 0.5s ease-in-out;
-  width: 100%;  
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+  width: 100%;
 }
 
 .hover-underline-animation:hover::after {
-  opacity: 1;
+  transform: scaleX(1);
+  transform-origin: bottom left;
 }
