@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Authors>MichaelDiers</Authors>
+    <RepositoryUrl>https://github.com/MichaelDiers/TabletopGameAdmin.git</RepositoryUrl>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
