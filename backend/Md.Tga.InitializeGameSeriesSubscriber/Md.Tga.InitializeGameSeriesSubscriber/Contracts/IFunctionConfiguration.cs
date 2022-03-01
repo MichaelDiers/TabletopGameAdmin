@@ -5,5 +5,9 @@
     /// </summary>
     public interface IFunctionConfiguration
     {
+        /// <summary>
+        ///     Gets the project id.
+        /// </summary>
+        string ProjectId { get; }
     }
 }
