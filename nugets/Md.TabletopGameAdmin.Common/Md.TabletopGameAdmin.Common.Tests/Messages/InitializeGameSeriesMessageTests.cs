@@ -1,7 +1,7 @@
 ﻿namespace Md.TabletopGameAdmin.Common.Tests.Messages
 {
     using System;
-    using Md.GoogleCloudPubSub.Base.Contracts.Messages;
+    using Md.GoogleCloud.Base.Contracts.Messages;
     using Md.TabletopGameAdmin.Common.Contracts.Messages;
     using Md.TabletopGameAdmin.Common.Messages;
     using Md.TabletopGameAdmin.Common.Tests.Models;

@@ -1,6 +1,6 @@
 ﻿namespace Md.TabletopGameAdmin.Common.Contracts.Messages
 {
-    using Md.GoogleCloudPubSub.Base.Contracts.Messages;
+    using Md.GoogleCloud.Base.Contracts.Messages;
     using Md.TabletopGameAdmin.Common.Contracts.Models;
 
     /// <summary>

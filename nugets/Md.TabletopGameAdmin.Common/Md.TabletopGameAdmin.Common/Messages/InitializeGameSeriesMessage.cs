@@ -1,11 +1,11 @@
 ﻿namespace Md.TabletopGameAdmin.Common.Messages
 {
     using System;
-    using Md.GoogleCloudPubSub.Base.Messages;
-    using Newtonsoft.Json;
+    using Md.GoogleCloud.Base.Messages;
     using Md.TabletopGameAdmin.Common.Contracts.Messages;
     using Md.TabletopGameAdmin.Common.Contracts.Models;
     using Md.TabletopGameAdmin.Common.Models;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Describes a message that describes a new game series.
