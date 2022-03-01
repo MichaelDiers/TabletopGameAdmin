@@ -12,5 +12,10 @@
         ///     Get the data of the game series.
         /// </summary>
         IGameSeries GameSeries { get; }
+
+        /// <summary>
+        ///     Get the data the internal id.
+        /// </summary>
+        string InternalId { get; }
     }
 }
