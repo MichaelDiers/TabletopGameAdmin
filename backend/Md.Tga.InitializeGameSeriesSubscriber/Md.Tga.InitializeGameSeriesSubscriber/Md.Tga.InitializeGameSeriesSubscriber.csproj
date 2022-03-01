@@ -8,7 +8,7 @@
 		<PackageReference Include="Google.Cloud.PubSub.V1" Version="2.7.0" />
 		<PackageReference Include="Md.GoogleCloud.Base" Version="1.0.3" />
 		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.0.6" />
-		<PackageReference Include="Md.TabletopGameAdmin.Common" Version="1.0.2" />
+		<PackageReference Include="Md.TabletopGameAdmin.Common" Version="1.0.3" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 

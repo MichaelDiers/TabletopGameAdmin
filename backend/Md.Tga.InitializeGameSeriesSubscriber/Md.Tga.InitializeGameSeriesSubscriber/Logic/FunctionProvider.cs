@@ -4,8 +4,8 @@
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Logic;
     using Md.TabletopGameAdmin.Common.Contracts.Messages;
-    using Microsoft.Extensions.Logging;
     using Md.Tga.InitializeGameSeriesSubscriber.Contracts;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     ///     Provider that handles the business logic of the cloud function.

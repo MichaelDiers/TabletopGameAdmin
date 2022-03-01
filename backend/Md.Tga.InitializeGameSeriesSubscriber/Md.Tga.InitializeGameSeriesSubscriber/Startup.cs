@@ -3,12 +3,12 @@ namespace Md.Tga.InitializeGameSeriesSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.TabletopGameAdmin.Common.Contracts.Messages;
-    using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
     using Md.Tga.InitializeGameSeriesSubscriber.Contracts;
     using Md.Tga.InitializeGameSeriesSubscriber.Logic;
     using Md.Tga.InitializeGameSeriesSubscriber.Model;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     ///     Initialize the function.
