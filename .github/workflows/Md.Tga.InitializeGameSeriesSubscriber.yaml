@@ -14,7 +14,7 @@ env:
   ENTRY_POINT: Md.Tga.InitializeGameSeriesSubscriber.Function
   FUNCTION_NAME: InitializeGameSeriesSubscriber
   SLN_FILE: 'backend/Md.Tga.InitializeGameSeriesSubscriber/Md.Tga.InitializeGameSeriesSubscriber.sln'
-  TOPIC_NAME_SUB: !!!!${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_GAME_SERIES }}  
+  TOPIC_NAME_SUB: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_GAME_SERIES }}  
   NUGET_USERNAME: MichaelDiers
   NUGET_CONFIG: '.github/workflows/Generic-Nuget.config'
   CSPROJ_NUGET: 'backend/Md.Tga.InitializeGameSeriesSubscriber/Md.Tga.InitializeGameSeriesSubscriber/nuget.config'
