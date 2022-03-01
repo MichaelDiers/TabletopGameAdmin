@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Newtonsoft.Json;
     using Md.TabletopGameAdmin.Common.Contracts.Models;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Describes a game series.
@@ -68,7 +68,7 @@
         /// <summary>
         ///     Gets the countries of the game series.
         /// </summary>
-        [JsonProperty("sides", Required = Required.Always, Order = 112)]
+        [JsonProperty("countries", Required = Required.Always, Order = 112)]
         public IEnumerable<ICountry> Countries { get; }
 
         /// <summary>
