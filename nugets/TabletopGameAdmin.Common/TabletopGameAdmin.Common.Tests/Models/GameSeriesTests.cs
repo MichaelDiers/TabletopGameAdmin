@@ -11,21 +11,12 @@
     /// </summary>
     public class GameSeriesTests
     {
-        /// <summary>
-        ///     Checks for implemented interfaces.
-        /// </summary>
-        [Fact]
-        public void Implements()
-        {
-            TestHelper.Implements<GameSeries, IBase, INamedBase, IGameSeries>(Create());
-        }
-
-        private static GameSeries Create()
+        public static GameSeries Create()
         {
             return Create(Guid.NewGuid().ToString());
         }
 
-        private static GameSeries Create(string id)
+        public static GameSeries Create(string id)
         {
             var sides = Enumerable.Range(0, 2).Select(i => new NamedBase(Guid.NewGuid().ToString(), $"side_{i}"))
                 .ToArray();
@@ -42,6 +33,15 @@
                 countries,
                 new Person(Guid.NewGuid().ToString(), "organizer", "organizer@foo.example"),
                 players);
+        }
+
+        /// <summary>
+        ///     Checks for implemented interfaces.
+        /// </summary>
+        [Fact]
+        public void Implements()
+        {
+            TestHelper.Implements<GameSeries, IBase, INamedBase, IGameSeries>(Create());
         }
     }
 }
