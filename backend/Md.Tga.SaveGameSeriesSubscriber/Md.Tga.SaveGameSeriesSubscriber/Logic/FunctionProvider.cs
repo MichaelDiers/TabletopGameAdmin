@@ -35,7 +35,7 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISaveGameSeriesMessage message)
         {
-            await this.database.InsertAsync(message.GameSeries);
+            await this.database.InsertAsync(message.InternalId, message.GameSeries);
         }
     }
 }

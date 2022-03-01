@@ -10,7 +10,7 @@
 		<PackageReference Include="Md.GoogleCloud.Base" Version="1.0.5" />
 		<PackageReference Include="Md.GoogleCloudFirestore" Version="1.0.1" />
 		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.0.7" />
-		<PackageReference Include="Md.TabletopGameAdmin.Common" Version="1.0.4" />
+		<PackageReference Include="Md.TabletopGameAdmin.Common" Version="1.0.6" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
