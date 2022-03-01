@@ -1,6 +1,6 @@
 ﻿namespace Md.TabletopGameAdmin.Common.Contracts.Models
 {
-    using Md.TabletopGameAdmin.Common.Contracts.Functional;
+    using Md.GoogleCloud.Base.Contracts.Logic;
 
     /// <summary>
     ///     Base object for all models.
