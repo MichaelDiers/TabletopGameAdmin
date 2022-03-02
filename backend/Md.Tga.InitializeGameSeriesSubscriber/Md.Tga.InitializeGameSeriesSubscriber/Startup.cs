@@ -2,7 +2,7 @@ namespace Md.Tga.InitializeGameSeriesSubscriber
 {
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;
-    using Md.TabletopGameAdmin.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.InitializeGameSeriesSubscriber.Contracts;
     using Md.Tga.InitializeGameSeriesSubscriber.Logic;
     using Md.Tga.InitializeGameSeriesSubscriber.Model;
