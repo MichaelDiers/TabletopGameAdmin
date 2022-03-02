@@ -17,7 +17,6 @@
         /// </summary>
         /// <param name="processId">The global process id.</param>
         /// <param name="internalId">The internal id of the game series.</param>
-        [JsonConstructor]
         public StartGameMessage(string processId, string internalId)
             : this(processId, null, internalId)
         {
