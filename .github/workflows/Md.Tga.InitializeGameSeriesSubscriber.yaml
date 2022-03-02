@@ -18,7 +18,9 @@ env:
   NUGET_USERNAME: MichaelDiers
   NUGET_CONFIG: '.github/workflows/Generic-Nuget.config'
   CSPROJ_NUGET: 'backend/Md.Tga.InitializeGameSeriesSubscriber/Md.Tga.InitializeGameSeriesSubscriber/nuget.config'
-  CSPROJ_TEST_NUGET: 'backend/Md.Tga.InitializeGameSeriesSubscriber/Md.Tga.InitializeGameSeriesSubscriber.Tests/nuget.config'   
+  CSPROJ_TEST_NUGET: 'backend/Md.Tga.InitializeGameSeriesSubscriber/Md.Tga.InitializeGameSeriesSubscriber.Tests/nuget.config'
+  SAVE_GAME_SERIES_TOPIC_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}
+  START_GAME_TOPIC_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_START_GAME }}
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -34,6 +36,8 @@ jobs:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
           ProjectId: ${{ env.PROJECT_ID }}
+          SaveGameSeriesTopicName: ${{ env.SAVE_GAME_SERIES_TOPIC_NAME }}
+          StartGameTopicName: ${{ env.START_GAME_TOPIC_NAME }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
@@ -74,7 +78,9 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          ProjectId: ${{ env.PROJECT_ID }}          
+          ProjectId: ${{ env.PROJECT_ID }}
+          SaveGameSeriesTopicName: ${{ env.SAVE_GAME_SERIES_TOPIC_NAME }}
+          StartGameTopicName: ${{ env.START_GAME_TOPIC_NAME }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
@@ -117,7 +123,9 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          ProjectId: ${{ env.PROJECT_ID }}          
+          ProjectId: ${{ env.PROJECT_ID }}
+          SaveGameSeriesTopicName: ${{ env.SAVE_GAME_SERIES_TOPIC_NAME }}
+          StartGameTopicName: ${{ env.START_GAME_TOPIC_NAME }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:

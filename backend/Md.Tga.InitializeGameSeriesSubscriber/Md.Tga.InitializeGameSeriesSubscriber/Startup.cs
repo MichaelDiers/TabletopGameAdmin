@@ -26,7 +26,8 @@ namespace Md.Tga.InitializeGameSeriesSubscriber
             context.Configuration.Bind(configuration);
 
             services.AddScoped<IFunctionConfiguration>(_ => configuration);
-
+            services.AddScoped<IStartGamePubSubClient, StartGamePubSubClient>();
+            services.AddScoped<ISaveGameSeriesPubSubClient, SaveGameSeriesPubSubClient>();
             services.AddScoped<IPubSubProvider<IInitializeGameSeriesMessage>, FunctionProvider>();
         }
     }

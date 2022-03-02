@@ -7,8 +7,8 @@
 	<ItemGroup>
 		<PackageReference Include="Google.Cloud.Functions.Hosting" Version="1.0.0" />
 		<PackageReference Include="Google.Cloud.PubSub.V1" Version="2.7.0" />
-		<PackageReference Include="Md.GoogleCloud.Base" Version="1.1.9" />
-		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.1.9" />
+		<PackageReference Include="Md.GoogleCloud.Base" Version="1.1.10" />
+		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.1.10" />
 		<PackageReference Include="Md.Tga.Common" Version="1.1.1" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
