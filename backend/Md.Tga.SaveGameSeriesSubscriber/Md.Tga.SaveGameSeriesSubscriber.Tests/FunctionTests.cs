@@ -6,7 +6,7 @@
     using CloudNative.CloudEvents;
     using Google.Cloud.Functions.Testing;
     using Google.Events.Protobuf.Cloud.PubSub.V1;
-    using Md.TabletopGameAdmin.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.SaveGameSeriesSubscriber.Tests.Data;
     using Md.Tga.SaveGameSeriesSubscriber.Tests.Mocks;
     using Newtonsoft.Json;

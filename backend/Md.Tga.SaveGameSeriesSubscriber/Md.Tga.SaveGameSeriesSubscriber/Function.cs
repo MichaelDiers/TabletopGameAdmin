@@ -3,8 +3,8 @@ namespace Md.Tga.SaveGameSeriesSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloudPubSub.Logic;
-    using Md.TabletopGameAdmin.Common.Contracts.Messages;
-    using Md.TabletopGameAdmin.Common.Messages;
+    using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Messages;
     using Microsoft.Extensions.Logging;
 
     /// <summary>

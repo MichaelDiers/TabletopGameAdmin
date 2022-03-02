@@ -4,7 +4,7 @@
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
-    using Md.TabletopGameAdmin.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Messages;
     using Microsoft.Extensions.Logging;
 
     /// <summary>

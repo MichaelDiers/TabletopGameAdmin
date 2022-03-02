@@ -3,7 +3,7 @@ namespace Md.Tga.SaveGameSeriesSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloudFirestore.Logic;
-    using Md.TabletopGameAdmin.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.SaveGameSeriesSubscriber.Contracts;
     using Md.Tga.SaveGameSeriesSubscriber.Logic;
     using Md.Tga.SaveGameSeriesSubscriber.Model;
