@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.StartGameSubscriber.Tests.Data
 {
     using System.IO;
-    using Md.TabletopGameAdmin.Common.Messages;
+    using Md.Tga.Common.Messages;
     using Newtonsoft.Json;
 
     internal static class TestData

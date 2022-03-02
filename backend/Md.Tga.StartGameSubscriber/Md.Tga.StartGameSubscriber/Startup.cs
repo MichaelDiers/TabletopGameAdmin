@@ -2,8 +2,7 @@ namespace Md.Tga.StartGameSubscriber
 {
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;
-    using Md.GoogleCloudFirestore.Logic;
-    using Md.TabletopGameAdmin.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.StartGameSubscriber.Contracts;
     using Md.Tga.StartGameSubscriber.Logic;
     using Md.Tga.StartGameSubscriber.Model;
@@ -27,9 +26,9 @@ namespace Md.Tga.StartGameSubscriber
             context.Configuration.Bind(configuration);
 
             services.AddScoped<IFunctionConfiguration>(_ => configuration);
-            services.AddScoped<IDatabaseConfiguration>(_ => configuration);
-            services.AddScoped<IDatabase, Database>();
-
+            services.AddScoped<IGameSeriesReadOnlyDatabase>(
+                _ => new GameSeriesReadOnlyDatabase(configuration.GameSeries));
+            services.AddScoped<IGamesReadOnlyDatabase>(_ => new GamesReadOnlyDatabase(configuration.Games));
             services.AddScoped<IPubSubProvider<IStartGameMessage>, FunctionProvider>();
         }
     }

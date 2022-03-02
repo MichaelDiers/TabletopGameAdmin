@@ -1,5 +1,6 @@
 ﻿namespace Md.Tga.StartGameSubscriber.Model
 {
+    using Md.GoogleCloud.Base.Logic;
     using Md.Tga.StartGameSubscriber.Contracts;
 
     /// <summary>
@@ -8,13 +9,13 @@
     public class FunctionConfiguration : IFunctionConfiguration
     {
         /// <summary>
-        ///     Gets or sets the name of the database collection.
+        ///     Gets the database configuration for collection games.
         /// </summary>
-        public string CollectionName { get; set; }
+        public DatabaseConfiguration Games { get; set; }
 
         /// <summary>
-        ///     Gets or sets the project id.
+        ///     Gets the database configuration for collection game-series.
         /// </summary>
-        public string ProjectId { get; set; }
+        public DatabaseConfiguration GameSeries { get; set; }
     }
 }

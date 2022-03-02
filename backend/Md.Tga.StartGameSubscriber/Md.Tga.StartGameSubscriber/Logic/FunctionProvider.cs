@@ -4,7 +4,8 @@
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
-    using Md.TabletopGameAdmin.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.StartGameSubscriber.Contracts;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -13,19 +14,30 @@
     public class FunctionProvider : PubSubProvider<IStartGameMessage, Function>
     {
         /// <summary>
-        ///     Access the database.
+        ///     Access to the database collection games.
         /// </summary>
-        private readonly IDatabase database;
+        private readonly IReadOnlyDatabase gamesDatabase;
+
+        /// <summary>
+        ///     Access to the database collection game-series.
+        /// </summary>
+        private readonly IReadOnlyDatabase gameSeriesDatabase;
 
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
         /// <param name="logger">An error logger.</param>
-        /// <param name="database">Access to the database.</param>
-        public FunctionProvider(ILogger<Function> logger, IDatabase database)
+        /// <param name="gameSeriesDatabase">Access to the database collection game-series.</param>
+        /// <param name="gamesDatabase">Access to the database collection games.</param>
+        public FunctionProvider(
+            ILogger<Function> logger,
+            IGameSeriesReadOnlyDatabase gameSeriesDatabase,
+            IGamesReadOnlyDatabase gamesDatabase
+        )
             : base(logger)
         {
-            this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.gameSeriesDatabase = gameSeriesDatabase ?? throw new ArgumentNullException(nameof(gameSeriesDatabase));
+            this.gamesDatabase = gamesDatabase ?? throw new ArgumentNullException(nameof(gamesDatabase));
         }
 
         /// <summary>
