@@ -35,10 +35,9 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          Games.ProjectId: ${{ env.PROJECT_ID }}
-          Games.CollectionName: ${{ env.COLLECTION_NAME_GAMES }}
-          GameSeries.ProjectId: ${{ env.PROJECT_ID }}
-          GameSeries.CollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
+          ProjectId: ${{ env.PROJECT_ID }}
+          GamesCollectionName: ${{ env.COLLECTION_NAME_GAMES }}
+          GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
@@ -79,10 +78,9 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          Games.ProjectId: ${{ env.PROJECT_ID }}
-          Games.CollectionName: ${{ env.COLLECTION_NAME_GAMES }}
-          GameSeries.ProjectId: ${{ env.PROJECT_ID }}
-          GameSeries.CollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
+          ProjectId: ${{ env.PROJECT_ID }}
+          GamesCollectionName: ${{ env.COLLECTION_NAME_GAMES }}
+          GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
@@ -125,10 +123,9 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          Games.ProjectId: ${{ env.PROJECT_ID }}
-          Games.CollectionName: ${{ env.COLLECTION_NAME_GAMES }}
-          GameSeries.ProjectId: ${{ env.PROJECT_ID }}
-          GameSeries.CollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
+          ProjectId: ${{ env.PROJECT_ID }}
+          GamesCollectionName: ${{ env.COLLECTION_NAME_GAMES }}
+          GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:

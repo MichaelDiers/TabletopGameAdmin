@@ -1,20 +1,23 @@
 ﻿namespace Md.Tga.StartGameSubscriber.Contracts
 {
-    using Md.GoogleCloud.Base.Logic;
-
     /// <summary>
     ///     Access the application settings.
     /// </summary>
     public interface IFunctionConfiguration
     {
         /// <summary>
-        ///     Gets the database configuration for collection games.
+        ///     Gets the name of the games collection.
         /// </summary>
-        DatabaseConfiguration Games { get; }
+        string GamesCollectionName { get; }
 
         /// <summary>
-        ///     Gets the database configuration for collection game-series.
+        ///     Gets the name of the game-series collection.
         /// </summary>
-        DatabaseConfiguration GameSeries { get; }
+        string GameSeriesCollectionName { get; }
+
+        /// <summary>
+        ///     Gets the project id.
+        /// </summary>
+        string ProjectId { get; }
     }
 }
