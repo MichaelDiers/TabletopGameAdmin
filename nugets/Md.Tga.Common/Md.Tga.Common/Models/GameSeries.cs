@@ -136,18 +136,21 @@
                 && dictionary.TryGetValue(NameName, out var nameValue)
                 && nameValue is string name
                 && dictionary.TryGetValue(SidesName, out var sidesValue)
-                && sidesValue is IEnumerable<IDictionary<string, object>> sidesDictionaries
+                && sidesValue is IEnumerable<object> sidesEnumerable
                 && dictionary.TryGetValue(CountriesName, out var countriesValue)
-                && countriesValue is IEnumerable<IDictionary<string, object>> countriesDictionaries
+                && countriesValue is IEnumerable<object> countriesEnumerable
                 && dictionary.TryGetValue(OrganizerName, out var organizerValue)
                 && organizerValue is IDictionary<string, object> organizerDictionary
                 && dictionary.TryGetValue(PlayersName, out var playersValue)
-                && playersValue is IEnumerable<IDictionary<string, object>> playersDictionaries)
+                && playersValue is IEnumerable<object> playersEnumerable)
             {
-                var sides = sidesDictionaries.Select(NamedBase.FromDictionary).ToArray();
-                var countries = countriesDictionaries.Select(Country.FromDictionary).ToArray();
+                var sides = sidesEnumerable.Select(side => (IDictionary<string, object>)side)
+                    .Select(NamedBase.FromDictionary).ToArray();
+                var countries = countriesEnumerable.Select(country => (IDictionary<string, object>)country)
+                    .Select(Country.FromDictionary).ToArray();
                 var organizer = Person.FromDictionary(organizerDictionary);
-                var players = playersDictionaries.Select(Person.FromDictionary).ToArray();
+                var players = playersEnumerable.Select(player => (IDictionary<string, object>)player)
+                    .Select(Person.FromDictionary).ToArray();
                 return new GameSeries(
                     id,
                     name,
