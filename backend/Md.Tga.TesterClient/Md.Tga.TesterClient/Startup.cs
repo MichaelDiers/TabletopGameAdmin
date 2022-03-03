@@ -6,6 +6,7 @@ namespace Md.Tga.TesterClient
     using Md.GoogleCloudFirestore.Logic;
     using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.TesterClient.Contracts;
+    using Md.Tga.TesterClient.Logic;
     using Md.Tga.TesterClient.Model;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -35,6 +36,8 @@ namespace Md.Tga.TesterClient
             services.AddScoped<IPubSubClientConfiguration>(
                 _ => new PubSubClientConfiguration(configuration.ProjectId, configuration.PubSubTopic));
             services.AddScoped<IPubSubClient, PubSubClient>();
+
+            services.AddScoped<IFunctionProvider, FunctionProvider>();
         }
     }
 }
