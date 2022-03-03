@@ -8,6 +8,10 @@
     <DebugType>embedded</DebugType>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <Optimize>True</Optimize>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="Md.GoogleCloud.Base" Version="1.1.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />

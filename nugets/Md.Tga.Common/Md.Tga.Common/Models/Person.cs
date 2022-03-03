@@ -57,17 +57,43 @@
         /// <returns>An instance of <see cref="Person" />.</returns>
         public new static Person FromDictionary(IDictionary<string, object> dictionary)
         {
-            if (dictionary.TryGetValue(IdName, out var idValue)
-                && idValue is string id
-                && dictionary.TryGetValue(NameName, out var nameValue)
-                && nameValue is string name
-                && dictionary.TryGetValue(EmailName, out var emailValue)
-                && emailValue is string email)
+            if (!dictionary.TryGetValue(IdName, out var idValue))
             {
-                return new Person(id, name, email);
+                throw new ArgumentException($"Invalid data from dictionary: Missing {IdName}", nameof(dictionary));
             }
 
-            throw new ArgumentException("Invalid data from dictionary", nameof(dictionary));
+            if (!(idValue is string id))
+            {
+                throw new ArgumentException(
+                    $"Invalid data from dictionary: {IdName} {idValue} is not a string",
+                    nameof(dictionary));
+            }
+
+            if (!dictionary.TryGetValue(NameName, out var nameValue))
+            {
+                throw new ArgumentException($"Invalid data from dictionary: Missing {NameName}", nameof(dictionary));
+            }
+
+            if (!(nameValue is string name))
+            {
+                throw new ArgumentException(
+                    $"Invalid data from dictionary: {NameName} {nameValue} is not a string",
+                    nameof(dictionary));
+            }
+
+            if (!dictionary.TryGetValue(EmailName, out var emailValue))
+            {
+                throw new ArgumentException($"Invalid data from dictionary: Missing {EmailName}", nameof(dictionary));
+            }
+
+            if (!(emailValue is string email))
+            {
+                throw new ArgumentException(
+                    $"Invalid data from dictionary: {EmailName} {emailValue} is not a string",
+                    nameof(dictionary));
+            }
+
+            return new Person(id, name, email);
         }
     }
 }
