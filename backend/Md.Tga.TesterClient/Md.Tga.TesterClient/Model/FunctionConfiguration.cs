@@ -23,8 +23,8 @@
         public string ProjectId { get; set; } = "";
 
         /// <summary>
-        ///     Gets the name of the pub/sub message.
+        ///     Gets the name of the topic of the pub/sub message.
         /// </summary>
-        public string PubSubMessageName { get; set; } = "";
+        public string PubSubTopic { get; } = "";
     }
 }

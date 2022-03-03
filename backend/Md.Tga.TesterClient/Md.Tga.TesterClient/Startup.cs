@@ -33,7 +33,7 @@ namespace Md.Tga.TesterClient
             services.AddScoped<IReadOnlyDatabase, ReadonlyDatabase>();
 
             services.AddScoped<IPubSubClientConfiguration>(
-                _ => new PubSubClientConfiguration(configuration.ProjectId, configuration.PubSubMessageName));
+                _ => new PubSubClientConfiguration(configuration.ProjectId, configuration.PubSubTopic));
             services.AddScoped<IPubSubClient, PubSubClient>();
         }
     }

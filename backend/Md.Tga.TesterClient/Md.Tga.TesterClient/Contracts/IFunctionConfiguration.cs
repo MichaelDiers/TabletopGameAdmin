@@ -21,8 +21,8 @@
         string ProjectId { get; }
 
         /// <summary>
-        ///     Gets the name of the pub/sub message.
+        ///     Gets the name of the topic of the pub/sub message.
         /// </summary>
-        string PubSubMessageName { get; }
+        string PubSubTopic { get; }
     }
 }
