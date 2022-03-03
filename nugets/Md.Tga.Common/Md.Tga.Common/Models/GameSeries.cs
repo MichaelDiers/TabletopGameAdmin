@@ -13,6 +13,26 @@
 
     {
         /// <summary>
+        ///     The name of json entry countries.
+        /// </summary>
+        public const string CountriesName = "countries";
+
+        /// <summary>
+        ///     The name of json entry organizer.
+        /// </summary>
+        public const string OrganizerName = "organizer";
+
+        /// <summary>
+        ///     The name of json entry players.
+        /// </summary>
+        public const string PlayersName = "players";
+
+        /// <summary>
+        ///     The name of json entry sides.
+        /// </summary>
+        public const string SidesName = "sides";
+
+        /// <summary>
         ///     Create a new instance of <see cref="GameSeries" />.
         /// </summary>
         /// <param name="id">The id of the object. Has to be a guid.</param>
@@ -68,25 +88,25 @@
         /// <summary>
         ///     Gets the countries of the game series.
         /// </summary>
-        [JsonProperty("countries", Required = Required.Always, Order = 112)]
+        [JsonProperty(CountriesName, Required = Required.Always, Order = 112)]
         public IEnumerable<ICountry> Countries { get; }
 
         /// <summary>
         ///     Gets the organizer of the game series.
         /// </summary>
-        [JsonProperty("organizer", Required = Required.Always, Order = 113)]
+        [JsonProperty(OrganizerName, Required = Required.Always, Order = 113)]
         public IPerson Organizer { get; }
 
         /// <summary>
         ///     Gets the players of the game series.
         /// </summary>
-        [JsonProperty("players", Required = Required.Always, Order = 114)]
+        [JsonProperty(PlayersName, Required = Required.Always, Order = 114)]
         public IEnumerable<IPerson> Players { get; }
 
         /// <summary>
         ///     Gets the side of the game.
         /// </summary>
-        [JsonProperty("sides", Required = Required.Always, Order = 111)]
+        [JsonProperty(SidesName, Required = Required.Always, Order = 111)]
         public IEnumerable<INamedBase> Sides { get; }
 
         /// <summary>
@@ -97,11 +117,47 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add("sides", this.Sides.Select(side => side.ToDictionary()).ToArray());
-            dictionary.Add("countries", this.Sides.Select(country => country.ToDictionary()).ToArray());
-            dictionary.Add("organizer", this.Organizer.ToDictionary());
-            dictionary.Add("players", this.Players.Select(player => player.ToDictionary()).ToArray());
+            dictionary.Add(SidesName, this.Sides.Select(side => side.ToDictionary()).ToArray());
+            dictionary.Add(CountriesName, this.Countries.Select(country => country.ToDictionary()).ToArray());
+            dictionary.Add(OrganizerName, this.Organizer.ToDictionary());
+            dictionary.Add(PlayersName, this.Players.Select(player => player.ToDictionary()).ToArray());
             return dictionary;
+        }
+
+        /// <summary>
+        ///     Initialize the object from dictionary data.
+        /// </summary>
+        /// <param name="dictionary">The object is initialized from the dictionary.</param>
+        /// <returns>An instance of <see cref="GameSeries" />.</returns>
+        public new static GameSeries FromDictionary(IDictionary<string, object> dictionary)
+        {
+            if (dictionary.TryGetValue(IdName, out var idValue)
+                && idValue is string id
+                && dictionary.TryGetValue(NameName, out var nameValue)
+                && nameValue is string name
+                && dictionary.TryGetValue(SidesName, out var sidesValue)
+                && sidesValue is IEnumerable<IDictionary<string, object>> sidesDictionaries
+                && dictionary.TryGetValue(CountriesName, out var countriesValue)
+                && countriesValue is IEnumerable<IDictionary<string, object>> countriesDictionaries
+                && dictionary.TryGetValue(OrganizerName, out var organizerValue)
+                && organizerValue is IDictionary<string, object> organizerDictionary
+                && dictionary.TryGetValue(PlayersName, out var playersValue)
+                && playersValue is IEnumerable<IDictionary<string, object>> playersDictionaries)
+            {
+                var sides = sidesDictionaries.Select(NamedBase.FromDictionary).ToArray();
+                var countries = countriesDictionaries.Select(Country.FromDictionary).ToArray();
+                var organizer = Person.FromDictionary(organizerDictionary);
+                var players = playersDictionaries.Select(Person.FromDictionary).ToArray();
+                return new GameSeries(
+                    id,
+                    name,
+                    sides,
+                    countries,
+                    organizer,
+                    players);
+            }
+
+            throw new ArgumentException("Invalid data from dictionary", nameof(dictionary));
         }
     }
 }

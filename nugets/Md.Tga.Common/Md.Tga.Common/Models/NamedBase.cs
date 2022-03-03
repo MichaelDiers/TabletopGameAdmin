@@ -2,14 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
     using Md.Tga.Common.Contracts.Models;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Describes a named base object.
     /// </summary>
     public class NamedBase : Base, INamedBase
     {
+        /// <summary>
+        ///     The name of json entry name.
+        /// </summary>
+        public const string NameName = "name";
+
         /// <summary>
         ///     Create a new instance of <see cref="NamedBase" />.
         /// </summary>
@@ -29,7 +34,7 @@
         /// <summary>
         ///     Gets the name.
         /// </summary>
-        [JsonProperty("name", Required = Required.Always, Order = 11)]
+        [JsonProperty(NameName, Required = Required.Always, Order = 11)]
         public string Name { get; }
 
         /// <summary>
@@ -40,8 +45,26 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add("name", this.Name);
+            dictionary.Add(NameName, this.Name);
             return dictionary;
+        }
+
+        /// <summary>
+        ///     Initialize the object from dictionary data.
+        /// </summary>
+        /// <param name="dictionary">The object is initialized from the dictionary.</param>
+        /// <returns>An instance of <see cref="NamedBase" />.</returns>
+        public static NamedBase FromDictionary(IDictionary<string, object> dictionary)
+        {
+            if (dictionary.TryGetValue(IdName, out var idValue)
+                && idValue is string id
+                && dictionary.TryGetValue(NameName, out var nameValue)
+                && nameValue is string name)
+            {
+                return new NamedBase(id, name);
+            }
+
+            throw new ArgumentException("Invalid data from dictionary", nameof(dictionary));
         }
     }
 }

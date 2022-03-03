@@ -1,9 +1,12 @@
 ﻿namespace Md.Tga.Common.Tests.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
+    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Models;
+    using Newtonsoft.Json;
     using Xunit;
 
     /// <summary>
@@ -11,12 +14,152 @@
     /// </summary>
     public class GameSeriesTests
     {
-        public static GameSeries Create()
+        [Fact]
+        public void AddToDictionary()
         {
-            return Create(Guid.NewGuid().ToString());
+            var obj = Init();
+            var dictionary = new Dictionary<string, object>();
+            obj.AddToDictionary(dictionary);
+            Assert.NotNull(dictionary);
+            Assert.Equal(6, dictionary.Count);
+            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
         }
 
-        public static GameSeries Create(string id)
+        public static GameSeries Create()
+        {
+            return Init(Guid.NewGuid().ToString());
+        }
+
+        [Fact]
+        public void ExtendsBase()
+        {
+            Assert.IsAssignableFrom<Base>(Init());
+        }
+
+        [Fact]
+        public void ExtendsNamedBase()
+        {
+            Assert.IsAssignableFrom<NamedBase>(Init());
+        }
+
+        [Fact]
+        public void FromDictionary()
+        {
+            var expected = Init();
+            var dictionary = expected.ToDictionary();
+            var actual = GameSeries.FromDictionary(dictionary);
+            Assert.NotNull(expected);
+            Assert.NotNull(actual);
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.Name, actual.Name);
+
+            Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
+            foreach (var expectedCountry in expected.Countries)
+            {
+                Assert.Contains(
+                    actual.Countries,
+                    country => expectedCountry.Id == country.Id
+                               && expectedCountry.Name == country.Name
+                               && expectedCountry.SideId == country.SideId);
+            }
+
+            Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
+            foreach (var expectedSide in expected.Sides)
+            {
+                Assert.Contains(
+                    actual.Sides,
+                    country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
+            }
+
+            Assert.Equal(expected.Players.Count(), actual.Players.Count());
+            foreach (var expectedPlayer in expected.Players)
+            {
+                Assert.Contains(
+                    actual.Players,
+                    person => expectedPlayer.Id == person.Id
+                              && expectedPlayer.Name == person.Name
+                              && expectedPlayer.Email == person.Email);
+            }
+
+            Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
+            Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
+            Assert.Equal(expected.Organizer.Id, actual.Organizer.Id);
+        }
+
+
+        [Fact]
+        public void ImplementsIBase()
+        {
+            Assert.IsAssignableFrom<IBase>(Init());
+        }
+
+        [Fact]
+        public void ImplementsIToDictionary()
+        {
+            Assert.IsAssignableFrom<IToDictionary>(Init());
+        }
+
+        [Fact]
+        public void Json()
+        {
+            var expected = Init();
+            var actual = JsonConvert.DeserializeObject<GameSeries>(JsonConvert.SerializeObject(expected));
+            Assert.NotNull(expected);
+            Assert.NotNull(actual);
+            Assert.Equal(expected.Id, actual.Id);
+            Assert.Equal(expected.Name, actual.Name);
+
+            Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
+            foreach (var expectedCountry in expected.Countries)
+            {
+                Assert.Contains(
+                    actual.Countries,
+                    country => expectedCountry.Id == country.Id
+                               && expectedCountry.Name == country.Name
+                               && expectedCountry.SideId == country.SideId);
+            }
+
+            Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
+            foreach (var expectedSide in expected.Sides)
+            {
+                Assert.Contains(
+                    actual.Sides,
+                    country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
+            }
+
+            Assert.Equal(expected.Players.Count(), actual.Players.Count());
+            foreach (var expectedPlayer in expected.Players)
+            {
+                Assert.Contains(
+                    actual.Players,
+                    person => expectedPlayer.Id == person.Id
+                              && expectedPlayer.Name == person.Name
+                              && expectedPlayer.Email == person.Email);
+            }
+
+            Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
+            Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
+            Assert.Equal(expected.Organizer.Id, actual.Organizer.Id);
+        }
+
+        [Fact]
+        public void ToDictionary()
+        {
+            var obj = Init();
+            var dictionary = obj.ToDictionary();
+            Assert.NotNull(dictionary);
+            Assert.Equal(6, dictionary.Count);
+            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
+        }
+
+        private static GameSeries Init()
+        {
+            return Init(Guid.NewGuid().ToString());
+        }
+
+        private static GameSeries Init(string id)
         {
             var sides = Enumerable.Range(0, 2).Select(i => new NamedBase(Guid.NewGuid().ToString(), $"side_{i}"))
                 .ToArray();
@@ -33,15 +176,6 @@
                 countries,
                 new Person(Guid.NewGuid().ToString(), "organizer", "organizer@foo.example"),
                 players);
-        }
-
-        /// <summary>
-        ///     Checks for implemented interfaces.
-        /// </summary>
-        [Fact]
-        public void Implements()
-        {
-            TestHelper.Implements<GameSeries, IBase, INamedBase, IGameSeries>(Create());
         }
     }
 }

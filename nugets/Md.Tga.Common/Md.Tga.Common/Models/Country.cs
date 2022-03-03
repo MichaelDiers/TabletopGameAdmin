@@ -2,14 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
     using Md.Tga.Common.Contracts.Models;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Describes a country.
     /// </summary>
     public class Country : NamedBase, ICountry
     {
+        /// <summary>
+        ///     The name of json entry sideId.
+        /// </summary>
+        public const string SideIdName = "sideId";
+
         /// <summary>
         ///     Create a new instance of <see cref="Country" />.
         /// </summary>
@@ -35,7 +40,7 @@
         /// <summary>
         ///     Gets the id of the side that the country supports.
         /// </summary>
-        [JsonProperty("sideId", Required = Required.Always, Order = 111)]
+        [JsonProperty(SideIdName, Required = Required.Always, Order = 111)]
         public string SideId { get; }
 
         /// <summary>
@@ -46,8 +51,28 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add("sideId", this.SideId);
+            dictionary.Add(SideIdName, this.SideId);
             return dictionary;
+        }
+
+        /// <summary>
+        ///     Initialize the object from dictionary data.
+        /// </summary>
+        /// <param name="dictionary">The object is initialized from the dictionary.</param>
+        /// <returns>An instance of <see cref="Country" />.</returns>
+        public new static Country FromDictionary(IDictionary<string, object> dictionary)
+        {
+            if (dictionary.TryGetValue(IdName, out var idValue)
+                && idValue is string id
+                && dictionary.TryGetValue(NameName, out var nameValue)
+                && nameValue is string name
+                && dictionary.TryGetValue(SideIdName, out var sideIdValue)
+                && sideIdValue is string sideId)
+            {
+                return new Country(id, name, sideId);
+            }
+
+            throw new ArgumentException("Invalid data from dictionary", nameof(dictionary));
         }
     }
 }

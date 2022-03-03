@@ -2,14 +2,19 @@
 {
     using System;
     using System.Collections.Generic;
-    using Newtonsoft.Json;
     using Md.Tga.Common.Contracts.Models;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Base object for all models.
     /// </summary>
     public class Base : IBase
     {
+        /// <summary>
+        ///     The name of json entry id.
+        /// </summary>
+        public const string IdName = "id";
+
         /// <summary>
         ///     Create a new instance of <see cref="Base" />.
         /// </summary>
@@ -32,7 +37,7 @@
         /// <summary>
         ///     Gets the id.
         /// </summary>
-        [JsonProperty("id", Required = Required.Always, Order = 1)]
+        [JsonProperty(IdName, Required = Required.Always, Order = 1)]
         public string Id { get; }
 
         /// <summary>
@@ -42,7 +47,7 @@
         /// <returns>The given <paramref name="dictionary" />.</returns>
         public virtual IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
-            dictionary.Add("id", this.Id);
+            dictionary.Add(IdName, this.Id);
             return dictionary;
         }
 
