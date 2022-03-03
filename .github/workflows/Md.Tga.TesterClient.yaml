@@ -5,10 +5,10 @@ on:
       - main
     paths:
       - 'backend/Md.Tga.TesterClient/**'
-      - '.github/workflows/Md.Tga.TesterClient.yaml'	
+      - '.github/workflows/Md.Tga.TesterClient.yaml'
   workflow_dispatch:
 env:
-  APP_SETTINGS_JSON: 'backend/Md.Tga.TesterClient/Md.Tga.TesterClient/appsettings.json'  
+  APP_SETTINGS_JSON: 'backend/Md.Tga.TesterClient/Md.Tga.TesterClient/appsettings.json'
   COLLECTION_NAME: ${{ secrets.GLOBAL_COLLECTION_GAME_SERIES }}
   DOCUMENT_ID: ${{ secrets.GLOBAL_COLLECTION_GAME_SERIES_TEST_CASE }}  
   PUB_SUB_TOPIC: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_GAME_SERIES }}
@@ -18,11 +18,11 @@ env:
   CSPROJ_TEST_NUGET: 'backend/Md.Tga.TesterClient/Md.Tga.TesterClient.Tests/nuget.config'
   SLN_FILE: backend/Md.Tga.TesterClient/Md.Tga.TesterClient.sln
   CONFIG: Release
-  FUNCTION_NAME: Md.Tga.TesterClient
+  FUNCTION_NAME: TesterClient
   SOURCE_DIR: 'backend/Md.Tga.TesterClient/Md.Tga.TesterClient'
   ENTRY_POINT: Md.Tga.TesterClient.Function
 jobs:
-  test:    
+  test:
     runs-on: ubuntu-latest    
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
@@ -63,7 +63,8 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
           source_dir: ${{ env.SOURCE_DIR }}
           entry_point: ${{ env.ENTRY_POINT }}
-  stage:    
+  stage:
+    needs: test
     runs-on: ubuntu-latest    
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
@@ -104,7 +105,8 @@ jobs:
           project_id: ${{ env.PROJECT_ID }}
           source_dir: ${{ env.SOURCE_DIR }}
           entry_point: ${{ env.ENTRY_POINT }}
-  prod:    
+  prod:
+    needs: stage
     runs-on: ubuntu-latest
     environment:
       name: Md.Tga.TesterClient-Prod
