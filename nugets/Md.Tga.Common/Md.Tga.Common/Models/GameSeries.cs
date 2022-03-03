@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Md.Tga.Common.Contracts.Models;
+    using Md.Tga.Common.Extensions;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -131,36 +132,21 @@
         /// <returns>An instance of <see cref="GameSeries" />.</returns>
         public new static GameSeries FromDictionary(IDictionary<string, object> dictionary)
         {
-            if (dictionary.TryGetValue(IdName, out var idValue)
-                && idValue is string id
-                && dictionary.TryGetValue(NameName, out var nameValue)
-                && nameValue is string name
-                && dictionary.TryGetValue(SidesName, out var sidesValue)
-                && sidesValue is IEnumerable<object> sidesEnumerable
-                && dictionary.TryGetValue(CountriesName, out var countriesValue)
-                && countriesValue is IEnumerable<object> countriesEnumerable
-                && dictionary.TryGetValue(OrganizerName, out var organizerValue)
-                && organizerValue is IDictionary<string, object> organizerDictionary
-                && dictionary.TryGetValue(PlayersName, out var playersValue)
-                && playersValue is IEnumerable<object> playersEnumerable)
-            {
-                var sides = sidesEnumerable.Select(side => (IDictionary<string, object>)side)
-                    .Select(NamedBase.FromDictionary).ToArray();
-                var countries = countriesEnumerable.Select(country => (IDictionary<string, object>)country)
-                    .Select(Country.FromDictionary).ToArray();
-                var organizer = Person.FromDictionary(organizerDictionary);
-                var players = playersEnumerable.Select(player => (IDictionary<string, object>)player)
-                    .Select(Person.FromDictionary).ToArray();
-                return new GameSeries(
-                    id,
-                    name,
-                    sides,
-                    countries,
-                    organizer,
-                    players);
-            }
+            var id = dictionary.GetString(IdName);
+            var name = dictionary.GetString(NameName);
+            var organizer = Person.FromDictionary(dictionary.GetDictionary(OrganizerName));
 
-            throw new ArgumentException("Invalid data from dictionary", nameof(dictionary));
+            var sides = dictionary.GetDictionaries(SidesName).Select(NamedBase.FromDictionary).ToArray();
+            var countries = dictionary.GetDictionaries(CountriesName).Select(Country.FromDictionary).ToArray();
+            var players = dictionary.GetDictionaries(PlayersName).Select(Person.FromDictionary).ToArray();
+
+            return new GameSeries(
+                id,
+                name,
+                sides,
+                countries,
+                organizer,
+                players);
         }
     }
 }

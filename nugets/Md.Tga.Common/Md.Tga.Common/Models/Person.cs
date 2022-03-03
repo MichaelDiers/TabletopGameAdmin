@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Md.Tga.Common.Contracts.Models;
+    using Md.Tga.Common.Extensions;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -57,41 +58,9 @@
         /// <returns>An instance of <see cref="Person" />.</returns>
         public new static Person FromDictionary(IDictionary<string, object> dictionary)
         {
-            if (!dictionary.TryGetValue(IdName, out var idValue))
-            {
-                throw new ArgumentException($"Invalid data from dictionary: Missing {IdName}", nameof(dictionary));
-            }
-
-            if (!(idValue is string id))
-            {
-                throw new ArgumentException(
-                    $"Invalid data from dictionary: {IdName} {idValue} is not a string",
-                    nameof(dictionary));
-            }
-
-            if (!dictionary.TryGetValue(NameName, out var nameValue))
-            {
-                throw new ArgumentException($"Invalid data from dictionary: Missing {NameName}", nameof(dictionary));
-            }
-
-            if (!(nameValue is string name))
-            {
-                throw new ArgumentException(
-                    $"Invalid data from dictionary: {NameName} {nameValue} is not a string",
-                    nameof(dictionary));
-            }
-
-            if (!dictionary.TryGetValue(EmailName, out var emailValue))
-            {
-                throw new ArgumentException($"Invalid data from dictionary: Missing {EmailName}", nameof(dictionary));
-            }
-
-            if (!(emailValue is string email))
-            {
-                throw new ArgumentException(
-                    $"Invalid data from dictionary: {EmailName} {emailValue} is not a string",
-                    nameof(dictionary));
-            }
+            var id = dictionary.GetString(IdName);
+            var name = dictionary.GetString(NameName);
+            var email = dictionary.GetString(EmailName);
 
             return new Person(id, name, email);
         }

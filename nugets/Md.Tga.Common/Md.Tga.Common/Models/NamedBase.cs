@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Md.Tga.Common.Contracts.Models;
+    using Md.Tga.Common.Extensions;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -56,15 +57,9 @@
         /// <returns>An instance of <see cref="NamedBase" />.</returns>
         public static NamedBase FromDictionary(IDictionary<string, object> dictionary)
         {
-            if (dictionary.TryGetValue(IdName, out var idValue)
-                && idValue is string id
-                && dictionary.TryGetValue(NameName, out var nameValue)
-                && nameValue is string name)
-            {
-                return new NamedBase(id, name);
-            }
-
-            throw new ArgumentException("Invalid data from dictionary", nameof(dictionary));
+            var id = dictionary.GetString(IdName);
+            var name = dictionary.GetString(NameName);
+            return new NamedBase(id, name);
         }
     }
 }
