@@ -5,10 +5,11 @@
     <Authors>MichaelDiers</Authors>
     <RepositoryUrl>https://github.com/MichaelDiers/TabletopGameAdmin.git</RepositoryUrl>
     <Nullable>enable</Nullable>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Md.GoogleCloud.Base" Version="1.1.10" />
+    <PackageReference Include="Md.GoogleCloud.Base" Version="1.1.12" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
