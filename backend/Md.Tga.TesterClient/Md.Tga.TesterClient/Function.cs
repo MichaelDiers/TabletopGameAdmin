@@ -40,7 +40,7 @@ namespace Md.Tga.TesterClient
         protected override async Task HandleGetAsync(HttpContext context, object? content)
         {
             await this.functionProvider.InitializeGameSeries();
-            await this.SetJsonResponse(context, HttpStatusCode.OK, "{ test: 'ok' }");
+            await this.SetJsonResponse(context, HttpStatusCode.OK, "{\"test\": \"ok\" }");
         }
     }
 }

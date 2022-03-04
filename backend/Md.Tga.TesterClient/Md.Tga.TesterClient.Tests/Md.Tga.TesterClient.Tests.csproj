@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Functions.Testing" Version="1.0.0" />
     <PackageReference Include="Md.GoogleCloudFirestore" Version="1.1.9" />
-    <PackageReference Include="Md.Tga.Common" Version="1.1.3" />
+    <PackageReference Include="Md.Tga.Common" Version="1.1.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
