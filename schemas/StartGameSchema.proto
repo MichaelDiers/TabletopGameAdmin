@@ -28,5 +28,5 @@ message InitializeGameSeries {
        
     string processId = 1;
     string internalId = 2;
-    optional GameSeries gameSeries = 2;
+    optional GameSeries gameSeries = 3;
 };
