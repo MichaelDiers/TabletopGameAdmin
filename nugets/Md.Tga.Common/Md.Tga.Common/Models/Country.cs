@@ -26,14 +26,10 @@
             : base(id, name)
         {
             if (string.IsNullOrWhiteSpace(sideId))
-            {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(sideId));
-            }
 
             if (!Guid.TryParse(sideId, out var guid) || guid == Guid.Empty)
-            {
                 throw new ArgumentException($"Value is not a valid guid: {sideId}", nameof(sideId));
-            }
 
             this.SideId = sideId;
         }

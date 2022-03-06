@@ -26,9 +26,7 @@
             : base(id, name)
         {
             if (string.IsNullOrWhiteSpace(email))
-            {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(email));
-            }
 
             this.Email = email;
         }

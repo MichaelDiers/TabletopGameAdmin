@@ -76,13 +76,7 @@
             Person organizer,
             IEnumerable<Person> players
         )
-            : this(
-                id,
-                name,
-                sides,
-                countries,
-                organizer,
-                players as IEnumerable<IPerson>)
+            : this(id, name, sides, countries, organizer, players as IEnumerable<IPerson>)
         {
         }
 
@@ -140,13 +134,7 @@
             var countries = dictionary.GetDictionaries(CountriesName).Select(Country.FromDictionary).ToArray();
             var players = dictionary.GetDictionaries(PlayersName).Select(Person.FromDictionary).ToArray();
 
-            return new GameSeries(
-                id,
-                name,
-                sides,
-                countries,
-                organizer,
-                players);
+            return new GameSeries(id, name, sides, countries, organizer, players);
         }
     }
 }

@@ -25,9 +25,7 @@
             : base(id)
         {
             if (string.IsNullOrWhiteSpace(name))
-            {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
-            }
 
             this.Name = name;
         }

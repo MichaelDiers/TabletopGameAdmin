@@ -5,6 +5,7 @@
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Models;
+    using Newtonsoft.Json;
     using Xunit;
 
     public class BaseTests
@@ -67,6 +68,19 @@
         private static BaseImplementation Init()
         {
             return new BaseImplementation(Guid.NewGuid().ToString());
+        }
+
+        [Fact]
+        public void Serialize()
+        {
+            var obj = new BaseImplementation(Guid.NewGuid().ToString());
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(IBase obj)
+        {
+            return $"{{\"id\":\"{obj.Id}\"}}";
         }
     }
 }

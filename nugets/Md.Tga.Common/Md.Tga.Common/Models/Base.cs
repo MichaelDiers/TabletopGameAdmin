@@ -22,14 +22,10 @@
         protected Base(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-            {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(id));
-            }
 
             if (!Guid.TryParse(id, out var guid) || guid == Guid.Empty)
-            {
                 throw new ArgumentException($"Value is not a valid guid: {id}", nameof(id));
-            }
 
             this.Id = id;
         }

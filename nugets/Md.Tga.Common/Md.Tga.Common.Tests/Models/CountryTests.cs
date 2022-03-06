@@ -51,8 +51,8 @@
         [InlineData("")]
         public void CtorThrowsArgumentExceptionForInvalidName(string name)
         {
-            Assert.Throws<ArgumentException>(
-                () => new Country(Guid.NewGuid().ToString(), name, Guid.NewGuid().ToString()));
+            Assert.Throws<ArgumentException>(() =>
+                new Country(Guid.NewGuid().ToString(), name, Guid.NewGuid().ToString()));
         }
 
         [Theory]
@@ -128,6 +128,20 @@
         private static Country Init()
         {
             return new Country(Guid.NewGuid().ToString(), "name", Guid.NewGuid().ToString());
+        }
+
+        [Fact]
+        public void Serialize()
+        {
+            var obj = new Country(Guid.NewGuid().ToString(), "the name", Guid.NewGuid().ToString());
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(ICountry obj)
+        {
+            var baseJson = NamedBaseTests.SerializePlain(obj);
+            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"sideId\":\"{obj.SideId}\"}}";
         }
     }
 }

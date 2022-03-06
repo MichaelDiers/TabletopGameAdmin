@@ -126,5 +126,19 @@
         {
             return new Person(Guid.NewGuid().ToString(), "name", "foo@bar.example");
         }
+
+        [Fact]
+        public void Serialize()
+        {
+            var obj = new Person(Guid.NewGuid().ToString(), "the name", Guid.NewGuid().ToString());
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(IPerson obj)
+        {
+            var baseJson = NamedBaseTests.SerializePlain(obj);
+            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"email\":\"{obj.Email}\"}}";
+        }
     }
 }

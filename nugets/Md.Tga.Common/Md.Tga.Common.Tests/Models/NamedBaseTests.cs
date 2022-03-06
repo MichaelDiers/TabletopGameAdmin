@@ -11,7 +11,7 @@
     /// <summary>
     ///     Tests for <see cref="NamedBase" />.
     /// </summary>
-    public class NamesBaseTests
+    public class NamedBaseTests
     {
         [Fact]
         public void AddToDictionary()
@@ -106,6 +106,20 @@
         private static NamedBase Init()
         {
             return new NamedBase(Guid.NewGuid().ToString(), "name");
+        }
+
+        [Fact]
+        public void Serialize()
+        {
+            var obj = new NamedBase(Guid.NewGuid().ToString(), "the name");
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(INamedBase obj)
+        {
+            var baseJson = BaseTests.SerializePlain(obj);
+            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"name\":\"{obj.Name}\"}}";
         }
     }
 }

@@ -44,14 +44,10 @@
             : base(processId)
         {
             if (string.IsNullOrWhiteSpace(internalId))
-            {
                 throw new ArgumentException("Value cannot be null or whitespace.", nameof(internalId));
-            }
 
             if (!Guid.TryParse(internalId, out var guid) || guid == Guid.Empty)
-            {
                 throw new ArgumentException("Value is not a valid guid.", nameof(internalId));
-            }
 
             this.GameSeries = gameSeries;
             this.InternalId = internalId;
