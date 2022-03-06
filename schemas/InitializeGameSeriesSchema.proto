@@ -21,7 +21,7 @@ message InitializeGameSeries {
         string id = 1;
         string name = 2;
         repeated Side sides = 3;
-        Countries countries = 4;
+        repeated Countries countries = 4;
         Person organizer = 5;
         repeated Person players = 6;
     };
