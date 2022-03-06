@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Md.Tga.InitializeGameSeriesSubscriber": {
+    "Md.Tga.TesterClient": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

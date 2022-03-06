@@ -55,12 +55,11 @@
             {
                 var gameSeries = GameSeries.FromDictionary(dictionary);
                 var message = new InitializeGameSeriesMessage(Guid.NewGuid().ToString(), gameSeries);
-                System.Console.WriteLine(Newtonsoft.Json.JsonConvert.SerializeObject(message));
                 await this.pubSubClient.PublishAsync(message);
             }
             else
             {
-                throw new InvalidOperationException($"Cannot test data: {this.configuration.DocumentId}");
+                throw new InvalidOperationException($"Cannot find test data: {this.configuration.DocumentId}");
             }
         }
     }
