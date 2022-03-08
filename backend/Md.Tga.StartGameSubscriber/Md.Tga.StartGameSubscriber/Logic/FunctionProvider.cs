@@ -87,9 +87,9 @@
             var translations = await this.translationsDatabase.ReadGermanTranslations();
             if (translations != null)
             {
-                if (translations.ContainsKey("survey-name"))
+                if (translations.ContainsKey("game-name"))
                 {
-                    surveyName = translations["survey-name"];
+                    surveyName = translations["game-name"];
                 }
 
                 if (translations.ContainsKey("survey-info"))
@@ -114,12 +114,12 @@
 
                 if (translations.ContainsKey("survey-question-1"))
                 {
-                    questions[0] = translations["survey-question-1"];
+                    questions[1] = translations["survey-question-1"];
                 }
 
                 if (translations.ContainsKey("survey-question-2"))
                 {
-                    questions[0] = translations["survey-question-2"];
+                    questions[2] = translations["survey-question-2"];
                 }
             }
 
