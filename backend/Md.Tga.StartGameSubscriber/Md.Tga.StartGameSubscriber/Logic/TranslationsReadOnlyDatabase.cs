@@ -44,14 +44,12 @@
         public async Task<IDictionary<string, string>?> ReadGermanTranslations()
         {
             var result = await this.ReadByDocumentIdAsync(this.configuration.TranslationsDocument);
-            if (result?.TryGetValue(GermanTranslations, out var translations) == true)
+            if (result?.TryGetValue(GermanTranslations, out var translations) == true
+                && translations is IDictionary<string, object> deTranslations)
             {
-                if (translations is IDictionary<string, object> deTranslations)
-                {
-                    return new Dictionary<string, string>(
-                        deTranslations.Select(pair => new KeyValuePair<string, string>(pair.Key, (string)pair.Value))
-                            .ToArray());
-                }
+                return new Dictionary<string, string>(
+                    deTranslations.Select(pair => new KeyValuePair<string, string>(pair.Key, (string)pair.Value))
+                        .ToArray());
             }
 
             return null;
