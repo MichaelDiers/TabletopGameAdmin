@@ -1,0 +1,31 @@
+sequenceDiagram
+    participant C as Client
+    participant IGSS as InitializeGameSeriesSubscriber<br>.net core
+    participant PS as Google Cloud<br>Pub/Sub
+    participant SGSS as SaveGameSeriesSubscriber<br>.net core
+    participant F as Google Cloud<br>Firestore
+    participant SGS as StartGameSubscriber<br>.net core
+    participant ISSS as InitializeSurveySubscriber<br>.net core
+    C--)+PS: INITIALIZE_GAME_SERIES
+    PS--)+IGSS: INITIALIZE_GAME_SERIES
+    deactivate PS
+    IGSS--)+PS: SAVE_GAME_SERIES
+    PS--)+SGSS: SAVE_GAME_SERIES
+    deactivate PS
+    SGSS->>+F: save game series
+    F-->>SGSS: response
+    deactivate F    
+    deactivate SGSS
+    IGSS--)+PS: START_GAME
+    deactivate IGSS
+    PS--)+SGS: START_GAME
+    deactivate PS
+    SGS--)+PS: INITIALIZE_SURVEY
+    deactivate SGS
+    PS--)ISSS: INTIALIZE_SURVEY
+    deactivate PS
+
+{
+  "theme": "default",
+  "actorFontFamily": "Montserrat"
+}
