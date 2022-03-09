@@ -1,6 +1,6 @@
 ﻿namespace Md.Tga.Common.Messages
 {
-    using System;
+    using Md.Common.Extensions;
     using Md.GoogleCloud.Base.Messages;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
@@ -43,14 +43,8 @@
         public StartGameMessage(string processId, IGameSeries? gameSeries, string internalId)
             : base(processId)
         {
-            if (string.IsNullOrWhiteSpace(internalId))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(internalId));
-
-            if (!Guid.TryParse(internalId, out var guid) || guid == Guid.Empty)
-                throw new ArgumentException("Value is not a valid guid.", nameof(internalId));
-
             this.GameSeries = gameSeries;
-            this.InternalId = internalId;
+            this.InternalId = internalId.ValidateIsAGuid();
         }
 
         /// <summary>

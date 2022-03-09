@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.Common.Models
 {
-    using System;
     using System.Collections.Generic;
+    using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Extensions;
     using Newtonsoft.Json;
@@ -25,13 +25,7 @@
         public Country(string id, string name, string sideId)
             : base(id, name)
         {
-            if (string.IsNullOrWhiteSpace(sideId))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(sideId));
-
-            if (!Guid.TryParse(sideId, out var guid) || guid == Guid.Empty)
-                throw new ArgumentException($"Value is not a valid guid: {sideId}", nameof(sideId));
-
-            this.SideId = sideId;
+            this.SideId = sideId.ValidateIsAGuid();
         }
 
         /// <summary>

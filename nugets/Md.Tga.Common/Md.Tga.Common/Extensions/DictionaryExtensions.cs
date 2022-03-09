@@ -23,19 +23,25 @@
         )
         {
             if (!dictionary.TryGetValue(key, out var valueObject))
+            {
                 throw new ArgumentException($"Missing key '{key}' in dictionary", nameof(dictionary));
+            }
 
             if (!(valueObject is IEnumerable<object> valueEnumerable))
+            {
                 throw new ArgumentException(
                     $"Value '{valueObject}' is not an IEnumerable<object> for key '{key}' or empty in dictionary",
                     nameof(dictionary));
+            }
 
             foreach (var entry in valueEnumerable)
             {
                 if (!(entry is IDictionary<string, object> parsedEntry))
+                {
                     throw new ArgumentException(
                         "For key '{key}' there exists an entry in the enumerable that is not a IDictionary{string, object}.",
                         nameof(dictionary));
+                }
 
                 yield return parsedEntry;
             }
@@ -53,11 +59,16 @@
         public static IDictionary<string, object> GetDictionary(this IDictionary<string, object> dictionary, string key)
         {
             if (!dictionary.TryGetValue(key, out var value))
+            {
                 throw new ArgumentException($"Missing key '{key}' in dictionary", nameof(dictionary));
+            }
 
             if (!(value is IDictionary<string, object> d) || !d.Any())
+            {
                 throw new ArgumentException(
-                    $"Value '{value}' is not a dictionary for key '{key}' or empty in dictionary", nameof(dictionary));
+                    $"Value '{value}' is not a dictionary for key '{key}' or empty in dictionary",
+                    nameof(dictionary));
+            }
 
             return d;
         }
@@ -73,11 +84,16 @@
         public static string GetString(this IDictionary<string, object> dictionary, string key)
         {
             if (!dictionary.TryGetValue(key, out var value))
+            {
                 throw new ArgumentException($"Missing key '{key}' in dictionary", nameof(dictionary));
+            }
 
             if (!(value is string s) || string.IsNullOrWhiteSpace(s))
-                throw new ArgumentException($"Value '{value}' is not a string for key '{key}' or empty in dictionary",
+            {
+                throw new ArgumentException(
+                    $"Value '{value}' is not a string for key '{key}' or empty in dictionary",
                     nameof(dictionary));
+            }
 
             return s;
         }

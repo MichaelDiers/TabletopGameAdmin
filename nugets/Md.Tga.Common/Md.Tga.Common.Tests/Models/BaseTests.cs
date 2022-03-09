@@ -56,6 +56,19 @@
         }
 
         [Fact]
+        public void Serialize()
+        {
+            var obj = new BaseImplementation(Guid.NewGuid().ToString());
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(IBase obj)
+        {
+            return $"{{\"id\":\"{obj.Id}\"}}";
+        }
+
+        [Fact]
         public void ToDictionary()
         {
             var obj = Init();
@@ -68,19 +81,6 @@
         private static BaseImplementation Init()
         {
             return new BaseImplementation(Guid.NewGuid().ToString());
-        }
-
-        [Fact]
-        public void Serialize()
-        {
-            var obj = new BaseImplementation(Guid.NewGuid().ToString());
-            var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
-        }
-
-        public static string SerializePlain(IBase obj)
-        {
-            return $"{{\"id\":\"{obj.Id}\"}}";
         }
     }
 }

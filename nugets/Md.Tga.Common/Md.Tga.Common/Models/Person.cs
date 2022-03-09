@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.Common.Models
 {
-    using System;
     using System.Collections.Generic;
+    using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Extensions;
     using Newtonsoft.Json;
@@ -25,10 +25,7 @@
         public Person(string id, string name, string email)
             : base(id, name)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(email));
-
-            this.Email = email;
+            this.Email = email.ValidateIsAnEmail();
         }
 
         /// <summary>

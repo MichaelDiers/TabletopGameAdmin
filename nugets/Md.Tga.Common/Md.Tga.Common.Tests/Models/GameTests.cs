@@ -31,11 +31,15 @@
         public void Ctor()
         {
             var id = Guid.NewGuid().ToString();
-            var name = "name";
+            const string name = "name";
             var internalGameSeriesId = Guid.NewGuid().ToString();
             var surveyId = Guid.NewGuid().ToString();
 
-            var obj = new Game(id, name, internalGameSeriesId, surveyId);
+            var obj = new Game(
+                id,
+                name,
+                internalGameSeriesId,
+                surveyId);
 
             Assert.Equal(id, obj.Id);
             Assert.Equal(name, obj.Name);
@@ -50,8 +54,12 @@
         [InlineData("00000000-0000-0000-0000-000000000000")]
         public void CtorThrowsArgumentExceptionForInvalidId(string id)
         {
-            Assert.Throws<ArgumentException>(() =>
-                new Game(id, "name of the game", Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
+            Assert.Throws<ArgumentException>(
+                () => new Game(
+                    id,
+                    "name of the game",
+                    Guid.NewGuid().ToString(),
+                    Guid.NewGuid().ToString()));
         }
 
         [Theory]
@@ -60,8 +68,24 @@
         [InlineData("00000000-0000-0000-0000-000000000000")]
         public void CtorThrowsArgumentExceptionForInvalidInternalGameSeriesId(string id)
         {
-            Assert.Throws<ArgumentException>(() =>
-                new Game(Guid.NewGuid().ToString(), "name of the game", id, Guid.NewGuid().ToString()));
+            Assert.Throws<ArgumentException>(
+                () => new Game(
+                    Guid.NewGuid().ToString(),
+                    "name of the game",
+                    id,
+                    Guid.NewGuid().ToString()));
+        }
+
+        [Theory]
+        [InlineData("")]
+        public void CtorThrowsArgumentExceptionForInvalidName(string name)
+        {
+            Assert.Throws<ArgumentException>(
+                () => new Game(
+                    Guid.NewGuid().ToString(),
+                    name,
+                    Guid.NewGuid().ToString(),
+                    Guid.NewGuid().ToString()));
         }
 
         [Theory]
@@ -70,16 +94,12 @@
         [InlineData("00000000-0000-0000-0000-000000000000")]
         public void CtorThrowsArgumentExceptionForInvalidSurveyId(string id)
         {
-            Assert.Throws<ArgumentException>(() =>
-                new Game(Guid.NewGuid().ToString(), "name of the game", Guid.NewGuid().ToString(), id));
-        }
-
-        [Theory]
-        [InlineData("")]
-        public void CtorThrowsArgumentExceptionForInvalidName(string name)
-        {
-            Assert.Throws<ArgumentException>(() =>
-                new Game(Guid.NewGuid().ToString(), name, Guid.NewGuid().ToString(), Guid.NewGuid().ToString()));
+            Assert.Throws<ArgumentException>(
+                () => new Game(
+                    Guid.NewGuid().ToString(),
+                    "name of the game",
+                    Guid.NewGuid().ToString(),
+                    id));
         }
 
         [Fact]
@@ -127,6 +147,15 @@
             Assert.IsAssignableFrom<IToDictionary>(Init());
         }
 
+        public static Game Init()
+        {
+            return new Game(
+                Guid.NewGuid().ToString(),
+                "name of the game",
+                Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString());
+        }
+
         [Fact]
         public void Json()
         {
@@ -140,28 +169,12 @@
         }
 
         [Fact]
-        public void ToDictionary()
-        {
-            var obj = Init();
-            var dictionary = obj.ToDictionary();
-            Assert.NotNull(dictionary);
-            Assert.Equal(4, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
-            Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
-            Assert.Equal(obj.InternalGameSeriesId, dictionary[Game.InternalGameSeriesIdName]);
-            Assert.Equal(obj.SurveyId, dictionary[Game.SurveyIdName]);
-        }
-
-        public static Game Init()
-        {
-            return new Game(Guid.NewGuid().ToString(), "name of the game", Guid.NewGuid().ToString(),
-                Guid.NewGuid().ToString());
-        }
-
-        [Fact]
         public void Serialize()
         {
-            var obj = new Game(Guid.NewGuid().ToString(), "game name", Guid.NewGuid().ToString(),
+            var obj = new Game(
+                Guid.NewGuid().ToString(),
+                "game name",
+                Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString());
             var actual = JsonConvert.SerializeObject(obj);
             Assert.Equal(SerializePlain(obj), actual);
@@ -172,6 +185,19 @@
             var baseJson = NamedBaseTests.SerializePlain(obj);
             return
                 $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"internalGameSeriesId\":\"{obj.InternalGameSeriesId}\",\"surveyId\":\"{obj.SurveyId}\"}}";
+        }
+
+        [Fact]
+        public void ToDictionary()
+        {
+            var obj = Init();
+            var dictionary = obj.ToDictionary();
+            Assert.NotNull(dictionary);
+            Assert.Equal(4, dictionary.Count);
+            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
+            Assert.Equal(obj.InternalGameSeriesId, dictionary[Game.InternalGameSeriesIdName]);
+            Assert.Equal(obj.SurveyId, dictionary[Game.SurveyIdName]);
         }
     }
 }

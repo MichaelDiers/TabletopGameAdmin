@@ -35,7 +35,7 @@
             Assert.Equal(SerializePlain(message), actual);
         }
 
-        public static string SerializePlain(IInitializeGameSeriesMessage obj)
+        private static string SerializePlain(IInitializeGameSeriesMessage obj)
         {
             var gameSeries = GameSeriesTests.SerializePlain(obj.GameSeries);
             return $"{{\"processId\":\"{obj.ProcessId}\",\"gameSeries\":{gameSeries}}}";

@@ -30,8 +30,8 @@
         public void Ctor()
         {
             var id = Guid.NewGuid().ToString();
-            var name = "name";
-            var email = "foo@bar.example";
+            const string name = "name";
+            const string email = "foo@bar.example";
             var obj = new Person(id, name, email);
             Assert.Equal(id, obj.Id);
             Assert.Equal(name, obj.Name);
@@ -111,6 +111,20 @@
         }
 
         [Fact]
+        public void Serialize()
+        {
+            var obj = new Person(Guid.NewGuid().ToString(), "the name", "email@foo.example");
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(IPerson obj)
+        {
+            var baseJson = NamedBaseTests.SerializePlain(obj);
+            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"email\":\"{obj.Email}\"}}";
+        }
+
+        [Fact]
         public void ToDictionary()
         {
             var obj = Init();
@@ -125,20 +139,6 @@
         private static Person Init()
         {
             return new Person(Guid.NewGuid().ToString(), "name", "foo@bar.example");
-        }
-
-        [Fact]
-        public void Serialize()
-        {
-            var obj = new Person(Guid.NewGuid().ToString(), "the name", Guid.NewGuid().ToString());
-            var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
-        }
-
-        public static string SerializePlain(IPerson obj)
-        {
-            var baseJson = NamedBaseTests.SerializePlain(obj);
-            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"email\":\"{obj.Email}\"}}";
         }
     }
 }

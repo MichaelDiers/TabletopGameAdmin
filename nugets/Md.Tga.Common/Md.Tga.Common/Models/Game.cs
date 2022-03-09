@@ -1,6 +1,7 @@
 ﻿namespace Md.Tga.Common.Models
 {
     using System.Collections.Generic;
+    using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Extensions;
     using Newtonsoft.Json;
@@ -76,7 +77,11 @@
             var internalGameSeriesId = dictionary.GetString(InternalGameSeriesIdName);
             var surveyId = dictionary.GetString(SurveyIdName);
 
-            return new Game(id, name, internalGameSeriesId, surveyId);
+            return new Game(
+                id,
+                name,
+                internalGameSeriesId,
+                surveyId);
         }
     }
 }

@@ -56,20 +56,31 @@
 
             Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
             foreach (var expectedCountry in expected.Countries)
-                Assert.Contains(actual.Countries,
-                    country => expectedCountry.Id == country.Id && expectedCountry.Name == country.Name &&
-                               expectedCountry.SideId == country.SideId);
+            {
+                Assert.Contains(
+                    actual.Countries,
+                    country => expectedCountry.Id == country.Id
+                               && expectedCountry.Name == country.Name
+                               && expectedCountry.SideId == country.SideId);
+            }
 
             Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
             foreach (var expectedSide in expected.Sides)
-                Assert.Contains(actual.Sides,
+            {
+                Assert.Contains(
+                    actual.Sides,
                     country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
+            }
 
             Assert.Equal(expected.Players.Count(), actual.Players.Count());
             foreach (var expectedPlayer in expected.Players)
-                Assert.Contains(actual.Players,
-                    person => expectedPlayer.Id == person.Id && expectedPlayer.Name == person.Name &&
-                              expectedPlayer.Email == person.Email);
+            {
+                Assert.Contains(
+                    actual.Players,
+                    person => expectedPlayer.Id == person.Id
+                              && expectedPlayer.Name == person.Name
+                              && expectedPlayer.Email == person.Email);
+            }
 
             Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
             Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
@@ -101,24 +112,54 @@
 
             Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
             foreach (var expectedCountry in expected.Countries)
-                Assert.Contains(actual.Countries,
-                    country => expectedCountry.Id == country.Id && expectedCountry.Name == country.Name &&
-                               expectedCountry.SideId == country.SideId);
+            {
+                Assert.Contains(
+                    actual.Countries,
+                    country => expectedCountry.Id == country.Id
+                               && expectedCountry.Name == country.Name
+                               && expectedCountry.SideId == country.SideId);
+            }
 
             Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
             foreach (var expectedSide in expected.Sides)
-                Assert.Contains(actual.Sides,
+            {
+                Assert.Contains(
+                    actual.Sides,
                     country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
+            }
 
             Assert.Equal(expected.Players.Count(), actual.Players.Count());
             foreach (var expectedPlayer in expected.Players)
-                Assert.Contains(actual.Players,
-                    person => expectedPlayer.Id == person.Id && expectedPlayer.Name == person.Name &&
-                              expectedPlayer.Email == person.Email);
+            {
+                Assert.Contains(
+                    actual.Players,
+                    person => expectedPlayer.Id == person.Id
+                              && expectedPlayer.Name == person.Name
+                              && expectedPlayer.Email == person.Email);
+            }
 
             Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
             Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
             Assert.Equal(expected.Organizer.Id, actual.Organizer.Id);
+        }
+
+        [Fact]
+        public void Serialize()
+        {
+            var obj = Init();
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(IGameSeries obj)
+        {
+            var baseJson = NamedBaseTests.SerializePlain(obj);
+            var sides = string.Join(",", obj.Sides.Select(NamedBaseTests.SerializePlain));
+            var countries = string.Join(",", obj.Countries.Select(CountryTests.SerializePlain));
+            var organizer = PersonTests.SerializePlain(obj.Organizer);
+            var players = string.Join(",", obj.Players.Select(PersonTests.SerializePlain));
+            return
+                $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}]}}";
         }
 
         [Fact]
@@ -142,32 +183,18 @@
             var sides = Enumerable.Range(0, 2).Select(i => new NamedBase(Guid.NewGuid().ToString(), $"side_{i}"))
                 .ToArray();
 
-            var countries = Enumerable.Range(0, sides.Length * 2).Select(i =>
-                new Country(Guid.NewGuid().ToString(), $"country_{i}", sides[i % sides.Length].Id)).ToArray();
+            var countries = Enumerable.Range(0, sides.Length * 2).Select(
+                i => new Country(Guid.NewGuid().ToString(), $"country_{i}", sides[i % sides.Length].Id)).ToArray();
 
             var players = Enumerable.Range(0, countries.Length)
                 .Select(i => new Person(Guid.NewGuid().ToString(), $"player_{i}", "player@foo.example")).ToArray();
-            return new GameSeries(id, "game series", sides, countries,
-                new Person(Guid.NewGuid().ToString(), "organizer", "organizer@foo.example"), players);
-        }
-
-        [Fact]
-        public void Serialize()
-        {
-            var obj = Init();
-            var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
-        }
-
-        public static string SerializePlain(IGameSeries obj)
-        {
-            var baseJson = NamedBaseTests.SerializePlain(obj);
-            var sides = string.Join(",", obj.Sides.Select(NamedBaseTests.SerializePlain));
-            var countries = string.Join(",", obj.Countries.Select(CountryTests.SerializePlain));
-            var organizer = PersonTests.SerializePlain(obj.Organizer);
-            var players = string.Join(",", obj.Players.Select(PersonTests.SerializePlain));
-            return
-                $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}]}}";
+            return new GameSeries(
+                id,
+                "game series",
+                sides,
+                countries,
+                new Person(Guid.NewGuid().ToString(), "organizer", "organizer@foo.example"),
+                players);
         }
     }
 }

@@ -29,7 +29,7 @@
         public void Ctor()
         {
             var id = Guid.NewGuid().ToString();
-            var name = "name";
+            const string name = "name";
             var obj = new NamedBase(id, name);
             Assert.Equal(id, obj.Id);
             Assert.Equal(name, obj.Name);
@@ -93,6 +93,20 @@
         }
 
         [Fact]
+        public void Serialize()
+        {
+            var obj = new NamedBase(Guid.NewGuid().ToString(), "the name");
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(INamedBase obj)
+        {
+            var baseJson = BaseTests.SerializePlain(obj);
+            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"name\":\"{obj.Name}\"}}";
+        }
+
+        [Fact]
         public void ToDictionary()
         {
             var obj = Init();
@@ -106,20 +120,6 @@
         private static NamedBase Init()
         {
             return new NamedBase(Guid.NewGuid().ToString(), "name");
-        }
-
-        [Fact]
-        public void Serialize()
-        {
-            var obj = new NamedBase(Guid.NewGuid().ToString(), "the name");
-            var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
-        }
-
-        public static string SerializePlain(INamedBase obj)
-        {
-            var baseJson = BaseTests.SerializePlain(obj);
-            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"name\":\"{obj.Name}\"}}";
         }
     }
 }

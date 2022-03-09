@@ -30,7 +30,7 @@
         public void Ctor()
         {
             var id = Guid.NewGuid().ToString();
-            var name = "name";
+            const string name = "name";
             var sideId = Guid.NewGuid().ToString();
             var obj = new Country(id, name, sideId);
             Assert.Equal(id, obj.Id);
@@ -51,8 +51,8 @@
         [InlineData("")]
         public void CtorThrowsArgumentExceptionForInvalidName(string name)
         {
-            Assert.Throws<ArgumentException>(() =>
-                new Country(Guid.NewGuid().ToString(), name, Guid.NewGuid().ToString()));
+            Assert.Throws<ArgumentException>(
+                () => new Country(Guid.NewGuid().ToString(), name, Guid.NewGuid().ToString()));
         }
 
         [Theory]
@@ -114,6 +114,20 @@
         }
 
         [Fact]
+        public void Serialize()
+        {
+            var obj = new Country(Guid.NewGuid().ToString(), "the name", Guid.NewGuid().ToString());
+            var actual = JsonConvert.SerializeObject(obj);
+            Assert.Equal(SerializePlain(obj), actual);
+        }
+
+        public static string SerializePlain(ICountry obj)
+        {
+            var baseJson = NamedBaseTests.SerializePlain(obj);
+            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"sideId\":\"{obj.SideId}\"}}";
+        }
+
+        [Fact]
         public void ToDictionary()
         {
             var obj = Init();
@@ -128,20 +142,6 @@
         private static Country Init()
         {
             return new Country(Guid.NewGuid().ToString(), "name", Guid.NewGuid().ToString());
-        }
-
-        [Fact]
-        public void Serialize()
-        {
-            var obj = new Country(Guid.NewGuid().ToString(), "the name", Guid.NewGuid().ToString());
-            var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
-        }
-
-        public static string SerializePlain(ICountry obj)
-        {
-            var baseJson = NamedBaseTests.SerializePlain(obj);
-            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"sideId\":\"{obj.SideId}\"}}";
         }
     }
 }

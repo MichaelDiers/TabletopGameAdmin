@@ -16,22 +16,22 @@
         /// <summary>
         ///     The name of json entry countries.
         /// </summary>
-        public const string CountriesName = "countries";
+        private const string CountriesName = "countries";
 
         /// <summary>
         ///     The name of json entry organizer.
         /// </summary>
-        public const string OrganizerName = "organizer";
+        private const string OrganizerName = "organizer";
 
         /// <summary>
         ///     The name of json entry players.
         /// </summary>
-        public const string PlayersName = "players";
+        private const string PlayersName = "players";
 
         /// <summary>
         ///     The name of json entry sides.
         /// </summary>
-        public const string SidesName = "sides";
+        private const string SidesName = "sides";
 
         /// <summary>
         ///     Create a new instance of <see cref="GameSeries" />.
@@ -76,7 +76,13 @@
             Person organizer,
             IEnumerable<Person> players
         )
-            : this(id, name, sides, countries, organizer, players as IEnumerable<IPerson>)
+            : this(
+                id,
+                name,
+                sides,
+                countries,
+                organizer,
+                players as IEnumerable<IPerson>)
         {
         }
 
@@ -134,7 +140,13 @@
             var countries = dictionary.GetDictionaries(CountriesName).Select(Country.FromDictionary).ToArray();
             var players = dictionary.GetDictionaries(PlayersName).Select(Person.FromDictionary).ToArray();
 
-            return new GameSeries(id, name, sides, countries, organizer, players);
+            return new GameSeries(
+                id,
+                name,
+                sides,
+                countries,
+                organizer,
+                players);
         }
     }
 }

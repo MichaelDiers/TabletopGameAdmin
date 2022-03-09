@@ -1,6 +1,7 @@
 ﻿namespace Md.Tga.Common.Messages
 {
     using System;
+    using Md.Common.Extensions;
     using Md.GoogleCloud.Base.Messages;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
@@ -22,14 +23,8 @@
         public SaveGameSeriesMessage(string processId, IGameSeries gameSeries, string internalId)
             : base(processId)
         {
-            if (string.IsNullOrWhiteSpace(internalId))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(internalId));
-
-            if (!Guid.TryParse(internalId, out var guid) || guid == Guid.Empty)
-                throw new ArgumentException("Value is not a valid guid.", nameof(internalId));
-
             this.GameSeries = gameSeries ?? throw new ArgumentNullException(nameof(gameSeries));
-            this.InternalId = internalId;
+            this.InternalId = internalId.ValidateIsAGuid();
         }
 
         /// <summary>
@@ -46,15 +41,15 @@
         }
 
         /// <summary>
-        ///     Get the data the internal id.
-        /// </summary>
-        [JsonProperty("internalId", Required = Required.Always, Order = 12)]
-        public string InternalId { get; }
-
-        /// <summary>
         ///     Get the data of the game series.
         /// </summary>
         [JsonProperty("gameSeries", Required = Required.Always, Order = 11)]
         public IGameSeries GameSeries { get; }
+
+        /// <summary>
+        ///     Get the data the internal id.
+        /// </summary>
+        [JsonProperty("internalId", Required = Required.Always, Order = 12)]
+        public string InternalId { get; }
     }
 }

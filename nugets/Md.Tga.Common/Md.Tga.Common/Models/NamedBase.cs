@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.Common.Models
 {
-    using System;
     using System.Collections.Generic;
+    using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Extensions;
     using Newtonsoft.Json;
@@ -24,10 +24,7 @@
         public NamedBase(string id, string name)
             : base(id)
         {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(name));
-
-            this.Name = name;
+            this.Name = name.ValidateIsNotNullOrWhitespace();
         }
 
         /// <summary>
