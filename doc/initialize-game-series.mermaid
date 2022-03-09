@@ -1,66 +1,41 @@
 sequenceDiagram
     participant C as Client
-    participant IGSS as InitializeGameSeriesSubscriber<br>.net core
+    participant InitGameSeries as InitializeGameSeriesSubscriber<br>.net core
     participant PS as Google Cloud<br>Pub/Sub
-    participant SGSS as SaveGameSeriesSubscriber<br>.net core
+    participant SaveGameSeries as SaveGameSeriesSubscriber<br>.net core
     participant F as Google Cloud<br>Firestore
-    participant SGS as StartGameSubscriber<br>.net core
-    participant ISSS as InitializeSurveySubscriber<br>.net core
+    participant SaveGame as SaveGameSubscriber<br>.net core
+    participant StartGame as StartGameSubscriber<br>.net core
+    participant InitSurvey as InitializeSurveySubscriber<br>.net core
     C--)+PS: INITIALIZE_GAME_SERIES
-    PS--)IGSS: INITIALIZE_GAME_SERIES
+    PS--)InitGameSeries: INITIALIZE_GAME_SERIES
     deactivate PS
-    activate IGSS
-    IGSS--)+PS: SAVE_GAME_SERIES
-    PS--)+SGSS: SAVE_GAME_SERIES
+    activate InitGameSeries
+    InitGameSeries--)+PS: SAVE_GAME_SERIES
+    PS--)+SaveGameSeries: SAVE_GAME_SERIES
     deactivate PS
-    SGSS->>+F: save game series
-    F-->>SGSS: response
+    SaveGameSeries->>+F: save game series
+    F-->>SaveGameSeries: response
     deactivate F    
-    deactivate SGSS
-    IGSS--)PS: START_GAME
-    deactivate IGSS
+    deactivate SaveGameSeries
+    InitGameSeries--)PS: START_GAME
+    deactivate InitGameSeries
     activate PS
-    PS--)SGS: START_GAME
+    PS--)StartGame: START_GAME
     deactivate PS
-    activate SGS
-    SGS--)PS: INITIALIZE_SURVEY
-    deactivate SGS
+    activate StartGame
+    StartGame--)+PS: SAVE_GAME
+    PS--)+SaveGame: SAVE_GAME
+    deactivate PS
+    SaveGame->>+F: save game
+    F-->>SaveGame: response
+    deactivate F
+    deactivate SaveGame
+    StartGame--)PS: INITIALIZE_SURVEY
+    deactivate StartGame
     activate PS
-    PS--)ISSS: INTIALIZE_SURVEY
+    PS--)InitSurvey: INTIALIZE_SURVEY
     deactivate PS
-    activate ISSS
-    Note right of ISSS: see surveys repository
-    deactivate ISSS
-sequenceDiagram
-    participant C as Client
-    participant IGSS as InitializeGameSeriesSubscriber<br>.net core
-    participant PS as Google Cloud<br>Pub/Sub
-    participant SGSS as SaveGameSeriesSubscriber<br>.net core
-    participant F as Google Cloud<br>Firestore
-    participant SGS as StartGameSubscriber<br>.net core
-    participant ISSS as InitializeSurveySubscriber<br>.net core
-    C--)+PS: INITIALIZE_GAME_SERIES
-    PS--)IGSS: INITIALIZE_GAME_SERIES
-    deactivate PS
-    activate IGSS
-    IGSS--)+PS: SAVE_GAME_SERIES
-    PS--)+SGSS: SAVE_GAME_SERIES
-    deactivate PS
-    SGSS->>+F: save game series
-    F-->>SGSS: response
-    deactivate F    
-    deactivate SGSS
-    IGSS--)PS: START_GAME
-    deactivate IGSS
-    activate PS
-    PS--)SGS: START_GAME
-    deactivate PS
-    activate SGS
-    SGS--)PS: INITIALIZE_SURVEY
-    deactivate SGS
-    activate PS
-    PS--)ISSS: INTIALIZE_SURVEY
-    deactivate PS
-    activate ISSS
-    Note right of ISSS: see surveys repository
-    deactivate ISSS
+    activate InitSurvey
+    Note right of InitSurvey: see surveys repository
+    deactivate InitSurvey
