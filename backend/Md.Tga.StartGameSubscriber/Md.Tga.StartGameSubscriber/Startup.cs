@@ -3,6 +3,7 @@ namespace Md.Tga.StartGameSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
+    using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.StartGameSubscriber.Contracts;
     using Md.Tga.StartGameSubscriber.Logic;
@@ -27,12 +28,22 @@ namespace Md.Tga.StartGameSubscriber
             context.Configuration.Bind(configuration);
 
             services.AddScoped<IFunctionConfiguration>(_ => configuration);
+
             services.AddScoped<IGameSeriesReadOnlyDatabase>(
                 _ => new GameSeriesReadOnlyDatabase(
                     new DatabaseConfiguration(configuration.ProjectId, configuration.GameSeriesCollectionName)));
             services.AddScoped<IGamesReadOnlyDatabase>(
                 _ => new GamesReadOnlyDatabase(
                     new DatabaseConfiguration(configuration.ProjectId, configuration.GamesCollectionName)));
+            services.AddScoped<ITranslationsReadOnlyDatabase>(
+                _ => new TranslationsReadOnlyDatabase(
+                    new DatabaseConfiguration(configuration.ProjectId, configuration.TranslationsCollectionName),
+                    configuration));
+
+            services.AddScoped<IPubSubClientConfiguration>(
+                _ => new PubSubClientConfiguration(configuration.ProjectId, configuration.InitializeSurveyTopicName));
+            services.AddScoped<IPubSubClient, PubSubClient>();
+
             services.AddScoped<IPubSubProvider<IStartGameMessage>, FunctionProvider>();
         }
     }

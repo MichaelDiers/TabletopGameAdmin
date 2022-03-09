@@ -1,5 +1,6 @@
 ﻿namespace Md.Tga.StartGameSubscriber.Tests.Mocks
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Contracts.Logic;
@@ -59,6 +60,11 @@
                 Assert.Equal(this.expectedMessage.GameSeries.Organizer.Name, message.GameSeries.Organizer.Name);
             }
 
+            return Task.CompletedTask;
+        }
+
+        public Task LogErrorAsync(Exception ex, string message)
+        {
             return Task.CompletedTask;
         }
     }
