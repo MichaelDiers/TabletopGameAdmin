@@ -8,8 +8,8 @@ on:
       - '.github/workflows/Schema.SaveGame.yaml'
   workflow_dispatch:
 env:
-  TOPIC_NAME_SUB: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_GAME_SERIES }}
-  SCHEMA_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_GAME_SERIES }}_SCHEMA  
+  TOPIC_NAME_SUB: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME }}
+  SCHEMA_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME }}_SCHEMA  
   SCHEMA_FILE: 'schemas/SaveGameSchema.proto'
   MESSAGE_ENCODING: json
   SCHEMA_TYPE: PROTOCOL_BUFFER
