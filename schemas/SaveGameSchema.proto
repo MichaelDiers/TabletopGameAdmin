@@ -1,0 +1,12 @@
+syntax = "proto3";
+message SaveGame {
+    message Game {
+        string id = 1;
+        string name = 2;
+	string internalGameSeriesId = 3;
+	string surveyId = 4;
+    };
+
+    string processId = 1;
+    Game game = 2;
+};
