@@ -28,6 +28,11 @@
         public string ProjectId { get; set; } = "";
 
         /// <summary>
+        ///     Gets the name of to topic save game.
+        /// </summary>
+        public string SaveGameTopicName { get; set; } = "";
+
+        /// <summary>
         ///     Gets or sets the name of the translations collection.
         /// </summary>
         public string TranslationsCollectionName { get; set; } = "";

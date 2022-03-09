@@ -12,7 +12,7 @@
 		<PackageReference Include="Md.GoogleCloudFirestore" Version="1.1.10" />
 		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.1.4" />
 		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.1.14" />
-		<PackageReference Include="Md.Tga.Common" Version="1.1.9" />
+		<PackageReference Include="Md.Tga.Common" Version="1.1.12" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Surveys.Common" Version="1.0.31" />
 	</ItemGroup>

@@ -7,6 +7,7 @@
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
+    using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
     using Md.Tga.StartGameSubscriber.Contracts;
     using Microsoft.Extensions.Logging;
@@ -33,7 +34,12 @@
         /// <summary>
         ///     Access pub/sub.
         /// </summary>
-        private readonly IPubSubClient pubSubClient;
+        private readonly IPubSubClient initializeSurveyPubSubClient;
+
+        /// <summary>
+        ///     Access pub/sub.
+        /// </summary>
+        private readonly ISaveGamePubSubClient saveGamePubSubClient;
 
         /// <summary>
         ///     Access to the database collection translations.
@@ -47,13 +53,15 @@
         /// <param name="gameSeriesDatabase">Access to the database collection game-series.</param>
         /// <param name="gamesDatabase">Access to the database collection games.</param>
         /// <param name="translationsDatabase">Access to the database collection translations.</param>
-        /// <param name="pubSubClient">Client for accessing pub/sub.</param>
+        /// <param name="initializeSurveyPubSubClient">Client for accessing pub/sub.</param>
+        /// <param name="saveGamePubSubClient">Client for accessing pub/sub.</param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
             IGamesReadOnlyDatabase gamesDatabase,
             ITranslationsReadOnlyDatabase translationsDatabase,
-            IPubSubClient pubSubClient
+            IInitializeSurveyPubSubClient initializeSurveyPubSubClient,
+            ISaveGamePubSubClient saveGamePubSubClient
         )
             : base(logger)
         {
@@ -61,7 +69,11 @@
             this.gamesDatabase = gamesDatabase ?? throw new ArgumentNullException(nameof(gamesDatabase));
             this.translationsDatabase =
                 translationsDatabase ?? throw new ArgumentNullException(nameof(translationsDatabase));
-            this.pubSubClient = pubSubClient ?? throw new ArgumentNullException(nameof(pubSubClient));
+            this.initializeSurveyPubSubClient = initializeSurveyPubSubClient
+                                                ?? throw new ArgumentNullException(
+                                                    nameof(initializeSurveyPubSubClient));
+            this.saveGamePubSubClient =
+                saveGamePubSubClient ?? throw new ArgumentNullException(nameof(saveGamePubSubClient));
         }
 
         /// <summary>
@@ -131,7 +143,11 @@
                 surveyInfoLink,
                 answerDefault,
                 questions);
-            await this.pubSubClient.PublishAsync(initializeSurveyMessage);
+
+            var saveGameMessage = this.BuildSaveGameMessage(message.InternalId, initializeSurveyMessage);
+            await this.saveGamePubSubClient.PublishAsync(saveGameMessage);
+
+            await this.initializeSurveyPubSubClient.PublishAsync(initializeSurveyMessage);
         }
 
         private IInitializeSurveyMessage BuildInitializeSurveyMessage(
@@ -197,6 +213,17 @@
                     participants,
                     questions),
                 processId);
+        }
+
+        private ISaveGameMessage BuildSaveGameMessage(string internalGameSeriesId, IInitializeSurveyMessage message)
+        {
+            return new SaveGameMessage(
+                message.ProcessId,
+                new Game(
+                    Guid.NewGuid().ToString(),
+                    message.Survey.Name,
+                    internalGameSeriesId,
+                    message.Survey.Id));
         }
 
         /// <summary>

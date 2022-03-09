@@ -24,6 +24,7 @@ env:
   TOPIC_INITIALIZE_SURVEY: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_SURVEY }}
   COLLECTION_NAME_TRANSLATIONS: ${{ secrets.GLOBAL_COLLECTION_TRANSLATIONS }}
   DOCUMENT_TRANSLATIONS: ${{ secrets.GLOBAL_TRANSLATIONS_DOCUMENT }}
+  TOPIC_SAVE_GAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME }}
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -42,6 +43,7 @@ jobs:
           GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
           InitializeSurveyTopicName: ${{ env.TOPIC_INITIALIZE_SURVEY }}
           ProjectId: ${{ env.PROJECT_ID }}
+          SaveGameTopicName: ${{ env.TOPIC_SAVE_GAME }}
           TranslationsCollectionName: ${{ env.COLLECTION_NAME_TRANSLATIONS }}
           TranslationsDocument: ${{ env.DOCUMENT_TRANSLATIONS }}
       - name: use .net core
@@ -88,6 +90,7 @@ jobs:
           GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
           InitializeSurveyTopicName: ${{ env.TOPIC_INITIALIZE_SURVEY }}
           ProjectId: ${{ env.PROJECT_ID }}
+          SaveGameTopicName: ${{ env.TOPIC_SAVE_GAME }}
           TranslationsCollectionName: ${{ env.COLLECTION_NAME_TRANSLATIONS }}
           TranslationsDocument: ${{ env.DOCUMENT_TRANSLATIONS }}
       - name: use .net core
@@ -136,6 +139,7 @@ jobs:
           GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
           InitializeSurveyTopicName: ${{ env.TOPIC_INITIALIZE_SURVEY }}
           ProjectId: ${{ env.PROJECT_ID }}
+          SaveGameTopicName: ${{ env.TOPIC_SAVE_GAME }}
           TranslationsCollectionName: ${{ env.COLLECTION_NAME_TRANSLATIONS }}
           TranslationsDocument: ${{ env.DOCUMENT_TRANSLATIONS }}
       - name: use .net core

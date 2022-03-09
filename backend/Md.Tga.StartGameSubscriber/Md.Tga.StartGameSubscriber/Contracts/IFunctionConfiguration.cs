@@ -26,6 +26,11 @@
         string ProjectId { get; }
 
         /// <summary>
+        ///     Gets the name of to topic save game.
+        /// </summary>
+        string SaveGameTopicName { get; }
+
+        /// <summary>
         ///     Gets the name of the translations collection.
         /// </summary>
         string TranslationsCollectionName { get; }

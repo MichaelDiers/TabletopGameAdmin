@@ -3,7 +3,6 @@ namespace Md.Tga.StartGameSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
-    using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.StartGameSubscriber.Contracts;
     using Md.Tga.StartGameSubscriber.Logic;
@@ -40,9 +39,12 @@ namespace Md.Tga.StartGameSubscriber
                     new DatabaseConfiguration(configuration.ProjectId, configuration.TranslationsCollectionName),
                     configuration));
 
-            services.AddScoped<IPubSubClientConfiguration>(
-                _ => new PubSubClientConfiguration(configuration.ProjectId, configuration.InitializeSurveyTopicName));
-            services.AddScoped<IPubSubClient, PubSubClient>();
+            services.AddScoped<IInitializeSurveyPubSubClient>(
+                _ => new InitializeSurveyPubSubClient(
+                    new PubSubClientConfiguration(configuration.ProjectId, configuration.InitializeSurveyTopicName)));
+            services.AddScoped<ISaveGamePubSubClient>(
+                _ => new SaveGamePubSubClient(
+                    new PubSubClientConfiguration(configuration.ProjectId, configuration.SaveGameTopicName)));
 
             services.AddScoped<IPubSubProvider<IStartGameMessage>, FunctionProvider>();
         }

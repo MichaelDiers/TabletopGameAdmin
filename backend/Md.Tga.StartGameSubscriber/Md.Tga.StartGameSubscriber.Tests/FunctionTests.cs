@@ -8,7 +8,6 @@
     using Google.Cloud.Functions.Testing;
     using Google.Events.Protobuf.Cloud.PubSub.V1;
     using Md.GoogleCloud.Base.Logic;
-    using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.StartGameSubscriber.Logic;
     using Md.Tga.StartGameSubscriber.Model;
@@ -104,8 +103,10 @@
                 new TranslationsReadOnlyDatabase(
                     new DatabaseConfiguration(configuration.ProjectId, configuration.TranslationsCollectionName),
                     configuration),
-                new PubSubClient(
-                    new PubSubClientConfiguration(configuration.ProjectId, configuration.InitializeSurveyTopicName)));
+                new InitializeSurveyPubSubClient(
+                    new PubSubClientConfiguration(configuration.ProjectId, configuration.InitializeSurveyTopicName)),
+                new SaveGamePubSubClient(
+                    new PubSubClientConfiguration(configuration.ProjectId, configuration.SaveGameTopicName)));
             var function = new Function(logger, provider);
             await function.HandleAsync(cloudEvent, data, CancellationToken.None);
 
