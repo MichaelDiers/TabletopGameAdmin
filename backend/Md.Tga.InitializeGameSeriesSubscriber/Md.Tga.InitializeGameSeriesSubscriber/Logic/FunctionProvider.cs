@@ -29,8 +29,8 @@
         )
             : base(logger)
         {
-            this.saveGameSeriesPubSubClient = saveGameSeriesPubSubClient
-                                              ?? throw new ArgumentNullException(nameof(saveGameSeriesPubSubClient));
+            this.saveGameSeriesPubSubClient = saveGameSeriesPubSubClient ??
+                                              throw new ArgumentNullException(nameof(saveGameSeriesPubSubClient));
             this.startGamePubSubClient =
                 startGamePubSubClient ?? throw new ArgumentNullException(nameof(startGamePubSubClient));
         }
