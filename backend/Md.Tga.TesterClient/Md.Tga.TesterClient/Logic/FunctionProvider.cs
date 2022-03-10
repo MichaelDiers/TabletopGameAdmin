@@ -50,7 +50,7 @@
         /// <returns>A <see cref="Task" />.</returns>
         public async Task InitializeGameSeries()
         {
-            var dictionary = await this.database.ReadByDocumentId(this.configuration.DocumentId);
+            var dictionary = await this.database.ReadByDocumentIdAsync(this.configuration.DocumentId);
             if (dictionary != null)
             {
                 var gameSeries = GameSeries.FromDictionary(dictionary);
