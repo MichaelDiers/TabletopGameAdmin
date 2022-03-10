@@ -56,31 +56,25 @@
 
             Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
             foreach (var expectedCountry in expected.Countries)
-            {
                 Assert.Contains(
                     actual.Countries,
-                    country => expectedCountry.Id == country.Id
-                               && expectedCountry.Name == country.Name
-                               && expectedCountry.SideId == country.SideId);
-            }
+                    country => expectedCountry.Id == country.Id &&
+                               expectedCountry.Name == country.Name &&
+                               expectedCountry.SideId == country.SideId);
 
             Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
             foreach (var expectedSide in expected.Sides)
-            {
                 Assert.Contains(
                     actual.Sides,
                     country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
-            }
 
             Assert.Equal(expected.Players.Count(), actual.Players.Count());
             foreach (var expectedPlayer in expected.Players)
-            {
                 Assert.Contains(
                     actual.Players,
-                    person => expectedPlayer.Id == person.Id
-                              && expectedPlayer.Name == person.Name
-                              && expectedPlayer.Email == person.Email);
-            }
+                    person => expectedPlayer.Id == person.Id &&
+                              expectedPlayer.Name == person.Name &&
+                              expectedPlayer.Email == person.Email);
 
             Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
             Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
@@ -112,31 +106,25 @@
 
             Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
             foreach (var expectedCountry in expected.Countries)
-            {
                 Assert.Contains(
                     actual.Countries,
-                    country => expectedCountry.Id == country.Id
-                               && expectedCountry.Name == country.Name
-                               && expectedCountry.SideId == country.SideId);
-            }
+                    country => expectedCountry.Id == country.Id &&
+                               expectedCountry.Name == country.Name &&
+                               expectedCountry.SideId == country.SideId);
 
             Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
             foreach (var expectedSide in expected.Sides)
-            {
                 Assert.Contains(
                     actual.Sides,
                     country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
-            }
 
             Assert.Equal(expected.Players.Count(), actual.Players.Count());
             foreach (var expectedPlayer in expected.Players)
-            {
                 Assert.Contains(
                     actual.Players,
-                    person => expectedPlayer.Id == person.Id
-                              && expectedPlayer.Name == person.Name
-                              && expectedPlayer.Email == person.Email);
-            }
+                    person => expectedPlayer.Id == person.Id &&
+                              expectedPlayer.Name == person.Name &&
+                              expectedPlayer.Email == person.Email);
 
             Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
             Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
@@ -180,14 +168,17 @@
 
         private static GameSeries Init(string id)
         {
-            var sides = Enumerable.Range(0, 2).Select(i => new NamedBase(Guid.NewGuid().ToString(), $"side_{i}"))
+            var sides = Enumerable.Range(0, 2)
+                .Select(i => new NamedBase(Guid.NewGuid().ToString(), $"side_{i}"))
                 .ToArray();
 
-            var countries = Enumerable.Range(0, sides.Length * 2).Select(
-                i => new Country(Guid.NewGuid().ToString(), $"country_{i}", sides[i % sides.Length].Id)).ToArray();
+            var countries = Enumerable.Range(0, sides.Length * 2)
+                .Select(i => new Country(Guid.NewGuid().ToString(), $"country_{i}", sides[i % sides.Length].Id))
+                .ToArray();
 
             var players = Enumerable.Range(0, countries.Length)
-                .Select(i => new Person(Guid.NewGuid().ToString(), $"player_{i}", "player@foo.example")).ToArray();
+                .Select(i => new Person(Guid.NewGuid().ToString(), $"player_{i}", "player@foo.example"))
+                .ToArray();
             return new GameSeries(
                 id,
                 "game series",

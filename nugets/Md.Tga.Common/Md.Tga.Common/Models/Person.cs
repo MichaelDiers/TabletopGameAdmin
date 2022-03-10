@@ -25,7 +25,7 @@
         public Person(string id, string name, string email)
             : base(id, name)
         {
-            this.Email = email.ValidateIsAnEmail();
+            this.Email = email.ValidateIsAnEmail(nameof(email));
         }
 
         /// <summary>

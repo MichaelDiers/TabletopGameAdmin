@@ -24,7 +24,7 @@
         public NamedBase(string id, string name)
             : base(id)
         {
-            this.Name = name.ValidateIsNotNullOrWhitespace();
+            this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
         }
 
         /// <summary>

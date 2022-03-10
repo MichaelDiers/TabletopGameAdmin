@@ -21,7 +21,7 @@
         /// <param name="id">The id of the object. Has to be a guid.</param>
         protected Base(string id)
         {
-            this.Id = id.ValidateIsAGuid();
+            this.Id = id.ValidateIsAGuid(nameof(id));
         }
 
         /// <summary>

@@ -36,8 +36,8 @@
         )
             : base(id, name)
         {
-            this.InternalGameSeriesId = internalGameSeriesId.ValidateIsAGuid();
-            this.SurveyId = surveyId.ValidateIsAGuid();
+            this.InternalGameSeriesId = internalGameSeriesId.ValidateIsAGuid(nameof(internalGameSeriesId));
+            this.SurveyId = surveyId.ValidateIsAGuid(nameof(surveyId));
         }
 
         /// <summary>

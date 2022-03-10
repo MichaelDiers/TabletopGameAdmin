@@ -24,7 +24,7 @@
             : base(processId)
         {
             this.GameSeries = gameSeries ?? throw new ArgumentNullException(nameof(gameSeries));
-            this.InternalId = internalId.ValidateIsAGuid();
+            this.InternalId = internalId.ValidateIsAGuid(nameof(internalId));
         }
 
         /// <summary>

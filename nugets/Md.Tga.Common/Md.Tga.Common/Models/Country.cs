@@ -25,7 +25,7 @@
         public Country(string id, string name, string sideId)
             : base(id, name)
         {
-            this.SideId = sideId.ValidateIsAGuid();
+            this.SideId = sideId.ValidateIsAGuid(nameof(sideId));
         }
 
         /// <summary>
