@@ -45,13 +45,7 @@
         private static async Task HandleAsyncForMessage(IStartGameMessage message)
         {
             var json = JsonConvert.SerializeObject(message);
-            var data = new MessagePublishedData
-            {
-                Message = new PubsubMessage
-                {
-                    TextData = json
-                }
-            };
+            var data = new MessagePublishedData {Message = new PubsubMessage {TextData = json}};
 
             var cloudEvent = new CloudEvent
             {
@@ -73,13 +67,7 @@
         private static async Task HandleAsyncForMessageIntegration(IStartGameMessage message)
         {
             var json = JsonConvert.SerializeObject(message);
-            var data = new MessagePublishedData
-            {
-                Message = new PubsubMessage
-                {
-                    TextData = json
-                }
-            };
+            var data = new MessagePublishedData {Message = new PubsubMessage {TextData = json}};
 
             var cloudEvent = new CloudEvent
             {
@@ -93,6 +81,7 @@
             var configuration =
                 JsonConvert.DeserializeObject<FunctionConfiguration>(
                     await File.ReadAllTextAsync("appsettings.Development.json"));
+            Assert.NotNull(configuration);
             var logger = new MemoryLogger<Function>();
             var provider = new FunctionProvider(
                 logger,

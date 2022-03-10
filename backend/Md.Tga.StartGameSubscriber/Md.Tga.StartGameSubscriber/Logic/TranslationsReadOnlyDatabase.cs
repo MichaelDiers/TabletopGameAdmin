@@ -50,7 +50,7 @@
                 if (translations != null)
                 {
                     return new Dictionary<string, string>(
-                        translations.Select(pair => new KeyValuePair<string, string>(pair.Key, (string)pair.Value)));
+                        translations.Select(pair => new KeyValuePair<string, string>(pair.Key, (string) pair.Value)));
                 }
             }
 

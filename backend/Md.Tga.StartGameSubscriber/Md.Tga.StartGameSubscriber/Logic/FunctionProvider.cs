@@ -1,6 +1,7 @@
 ﻿namespace Md.Tga.StartGameSubscriber.Logic
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Contracts.Logic;
@@ -69,9 +70,8 @@
             this.gamesDatabase = gamesDatabase ?? throw new ArgumentNullException(nameof(gamesDatabase));
             this.translationsDatabase =
                 translationsDatabase ?? throw new ArgumentNullException(nameof(translationsDatabase));
-            this.initializeSurveyPubSubClient = initializeSurveyPubSubClient
-                                                ?? throw new ArgumentNullException(
-                                                    nameof(initializeSurveyPubSubClient));
+            this.initializeSurveyPubSubClient = initializeSurveyPubSubClient ??
+                                                throw new ArgumentNullException(nameof(initializeSurveyPubSubClient));
             this.saveGamePubSubClient =
                 saveGamePubSubClient ?? throw new ArgumentNullException(nameof(saveGamePubSubClient));
         }
@@ -89,12 +89,7 @@
             var surveyInfo = string.Empty;
             var surveyInfoLink = string.Empty;
             var answerDefault = string.Empty;
-            var questions = new[]
-            {
-                string.Empty,
-                string.Empty,
-                string.Empty
-            };
+            var questions = new[] {string.Empty, string.Empty, string.Empty};
 
             var translations = await this.translationsDatabase.ReadGermanTranslations();
             if (translations != null)
@@ -135,7 +130,7 @@
                 }
             }
 
-            var initializeSurveyMessage = this.BuildInitializeSurveyMessage(
+            var initializeSurveyMessage = BuildInitializeSurveyMessage(
                 message.ProcessId,
                 gameSeries,
                 surveyName,
@@ -144,20 +139,20 @@
                 answerDefault,
                 questions);
 
-            var saveGameMessage = this.BuildSaveGameMessage(message.InternalId, initializeSurveyMessage);
+            var saveGameMessage = BuildSaveGameMessage(message.InternalId, initializeSurveyMessage);
             await this.saveGamePubSubClient.PublishAsync(saveGameMessage);
 
             await this.initializeSurveyPubSubClient.PublishAsync(initializeSurveyMessage);
         }
 
-        private IInitializeSurveyMessage BuildInitializeSurveyMessage(
+        private static IInitializeSurveyMessage BuildInitializeSurveyMessage(
             string processId,
             IGameSeries gameSeries,
             string surveyName,
             string surveyInfo,
             string surveyInfoLink,
             string answerDefault,
-            string[] questionTexts
+            IReadOnlyList<string> questionTexts
         )
         {
             var choices = gameSeries.Countries.Select(
@@ -167,11 +162,12 @@
                     true,
                     i + 1));
             choices = choices.Prepend(
-                new Choice(
-                    Guid.NewGuid().ToString(),
-                    answerDefault,
-                    false,
-                    0)).ToArray();
+                    new Choice(
+                        Guid.NewGuid().ToString(),
+                        answerDefault,
+                        false,
+                        0))
+                .ToArray();
 
             var questions = new[]
             {
@@ -198,9 +194,10 @@
                     player.Email,
                     player.Name,
                     questions.Select(
-                        question => new QuestionReference(
-                            question.Id,
-                            question.Choices.First(choice => choice.Order == 0).Id)).ToArray(),
+                            question => new QuestionReference(
+                                question.Id,
+                                question.Choices.First(choice => choice.Order == 0).Id))
+                        .ToArray(),
                     i));
 
             return new InitializeSurveyMessage(
@@ -215,7 +212,10 @@
                 processId);
         }
 
-        private ISaveGameMessage BuildSaveGameMessage(string internalGameSeriesId, IInitializeSurveyMessage message)
+        private static ISaveGameMessage BuildSaveGameMessage(
+            string internalGameSeriesId,
+            IInitializeSurveyMessage message
+        )
         {
             return new SaveGameMessage(
                 message.ProcessId,
