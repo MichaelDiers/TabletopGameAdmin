@@ -7,6 +7,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Extensions\**" />
+	  <EmbeddedResource Remove="Extensions\**" />
+	  <None Remove="Extensions\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Md.GoogleCloud.Base" Version="1.1.21" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
@@ -23,10 +29,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Md.Tga.Common\Md.Tga.Common.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Extensions\" />
 	</ItemGroup>
 
 </Project>
