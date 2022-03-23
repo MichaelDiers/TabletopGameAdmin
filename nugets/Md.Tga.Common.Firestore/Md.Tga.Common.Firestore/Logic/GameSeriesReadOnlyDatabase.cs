@@ -1,8 +1,8 @@
 ﻿namespace Md.Tga.Common.Firestore.Logic
 {
-    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloudFirestore.Logic;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Firestore.Contracts.Model;
     using Md.Tga.Common.Models;
 
     /// <summary>
@@ -14,7 +14,7 @@
         ///     Creates a new instance of <see cref="GameSeriesReadOnlyDatabase" />.
         /// </summary>
         /// <param name="configuration">The database configuration.</param>
-        public GameSeriesReadOnlyDatabase(IDatabaseConfiguration configuration)
+        public GameSeriesReadOnlyDatabase(IGameSeriesDatabaseConfiguration configuration)
             : base(configuration, GameSeries.FromDictionary)
         {
         }
