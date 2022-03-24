@@ -2,9 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -15,14 +15,14 @@
         /// <summary>
         ///     Access the database.
         /// </summary>
-        private readonly IDatabase database;
+        private readonly IGameSeriesDatabase database;
 
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="database">Access to the database.</param>
-        public FunctionProvider(ILogger<Function> logger, IDatabase database)
+        public FunctionProvider(ILogger<Function> logger, IGameSeriesDatabase database)
             : base(logger)
         {
             this.database = database ?? throw new ArgumentNullException(nameof(database));

@@ -1,20 +1,12 @@
 ﻿namespace Md.Tga.SaveGameSeriesSubscriber.Model
 {
+    using Md.Common.Model;
     using Md.Tga.SaveGameSeriesSubscriber.Contracts;
 
     /// <summary>
     ///     Access the application settings.
     /// </summary>
-    public class FunctionConfiguration : IFunctionConfiguration
+    public class FunctionConfiguration : RuntimeEnvironment, IFunctionConfiguration
     {
-        /// <summary>
-        ///     Gets or sets the name of the database collection.
-        /// </summary>
-        public string CollectionName { get; set; }
-
-        /// <summary>
-        ///     Gets or sets the project id.
-        /// </summary>
-        public string ProjectId { get; set; }
     }
 }
