@@ -9,7 +9,6 @@ on:
   workflow_dispatch:
 env:
   APP_SETTINGS_JSON: 'backend/Md.Tga.TesterClient/Md.Tga.TesterClient/appsettings.json'
-  COLLECTION_NAME: ${{ secrets.GLOBAL_COLLECTION_GAME_SERIES }}
   DOCUMENT_ID: ${{ secrets.GLOBAL_COLLECTION_GAME_SERIES_TEST_CASE }}  
   PUB_SUB_TOPIC: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_GAME_SERIES }}
   NUGET_USERNAME: MichaelDiers
@@ -27,6 +26,7 @@ jobs:
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
       PROJECT_ID: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      ENVIRONMENT: 'Test'
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -35,10 +35,10 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          CollectionName: ${{ env.COLLECTION_NAME }}
           DocumentId: ${{ env.DOCUMENT_ID }}
           ProjectId: ${{ env.PROJECT_ID }}
           PubSubTopic: ${{ env.PUB_SUB_TOPIC }}
+          Environment: ${{ env.ENVIRONMENT }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
@@ -69,6 +69,7 @@ jobs:
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
       PROJECT_ID: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
+      ENVIRONMENT: 'Stage'
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -77,7 +78,7 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          CollectionName: ${{ env.COLLECTION_NAME }}
+          Environment: ${{ env.ENVIRONMENT }}
           DocumentId: ${{ env.DOCUMENT_ID }}
           ProjectId: ${{ env.PROJECT_ID }}
           PubSubTopic: ${{ env.PUB_SUB_TOPIC }}
@@ -113,6 +114,7 @@ jobs:
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
       PROJECT_ID: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
+      ENVIRONMENT: 'Prod'
     steps:
       - name: checkout
         uses: actions/checkout@v2
@@ -121,7 +123,7 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          CollectionName: ${{ env.COLLECTION_NAME }}
+          Environment: ${{ env.ENVIRONMENT }}
           DocumentId: ${{ env.DOCUMENT_ID }}
           ProjectId: ${{ env.PROJECT_ID }}
           PubSubTopic: ${{ env.PUB_SUB_TOPIC }}
