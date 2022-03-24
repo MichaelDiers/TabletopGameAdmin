@@ -28,6 +28,7 @@ namespace Md.Tga.TesterClient
         {
             var configuration = new FunctionConfiguration() as IFunctionConfiguration;
             context.Configuration.Bind(configuration);
+            services.AddScoped(_ => configuration);
 
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
