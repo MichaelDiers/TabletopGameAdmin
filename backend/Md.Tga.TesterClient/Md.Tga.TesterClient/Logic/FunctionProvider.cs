@@ -53,7 +53,10 @@
             var gameSeries = await this.database.ReadByDocumentIdAsync(this.configuration.DocumentId);
             if (gameSeries != null)
             {
-                var message = new InitializeGameSeriesMessage(Guid.NewGuid().ToString(), gameSeries);
+                var message = new SaveGameSeriesMessage(
+                    Guid.NewGuid().ToString(),
+                    gameSeries,
+                    Guid.NewGuid().ToString());
                 await this.pubSubClient.PublishAsync(message);
             }
             else

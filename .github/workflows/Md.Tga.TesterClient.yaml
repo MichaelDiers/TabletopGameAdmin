@@ -10,7 +10,7 @@ on:
 env:
   APP_SETTINGS_JSON: 'backend/Md.Tga.TesterClient/Md.Tga.TesterClient/appsettings.json'
   DOCUMENT_ID: ${{ secrets.GLOBAL_COLLECTION_GAME_SERIES_TEST_CASE }}  
-  PUB_SUB_TOPIC: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_GAME_SERIES }}
+  PUB_SUB_TOPIC: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}
   NUGET_USERNAME: MichaelDiers
   NUGET_CONFIG: '.github/workflows/Generic-Nuget.config'
   CSPROJ_NUGET: 'backend/Md.Tga.TesterClient/Md.Tga.TesterClient/nuget.config'  
