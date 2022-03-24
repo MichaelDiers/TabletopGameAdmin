@@ -3,8 +3,8 @@
     using System;
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
-    using Md.Tga.Common.Models;
     using Md.Tga.TesterClient.Contracts;
 
     /// <summary>
@@ -20,7 +20,7 @@
         /// <summary>
         ///     Access to the database.
         /// </summary>
-        private readonly IReadOnlyDatabase database;
+        private readonly IGameSeriesReadOnlyDatabase database;
 
         /// <summary>
         ///     Client for sending a message to pub/sub.
@@ -34,7 +34,7 @@
         /// <param name="pubSubClient">Client for sending a message to pub/sub.</param>
         /// <param name="configuration">The application configuration.</param>
         public FunctionProvider(
-            IReadOnlyDatabase database,
+            IGameSeriesReadOnlyDatabase database,
             IPubSubClient pubSubClient,
             IFunctionConfiguration configuration
         )
@@ -50,10 +50,9 @@
         /// <returns>A <see cref="Task" />.</returns>
         public async Task InitializeGameSeries()
         {
-            var dictionary = await this.database.ReadByDocumentIdAsync(this.configuration.DocumentId);
-            if (dictionary != null)
+            var gameSeries = await this.database.ReadByDocumentIdAsync(this.configuration.DocumentId);
+            if (gameSeries != null)
             {
-                var gameSeries = GameSeries.FromDictionary(dictionary);
                 var message = new InitializeGameSeriesMessage(Guid.NewGuid().ToString(), gameSeries);
                 await this.pubSubClient.PublishAsync(message);
             }

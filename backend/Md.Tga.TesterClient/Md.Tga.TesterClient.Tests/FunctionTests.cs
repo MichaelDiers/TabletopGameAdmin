@@ -16,7 +16,7 @@
         public async void Get()
         {
             var context = new DefaultHttpContext();
-            var text = await ExecuteRequest(context);
+            var text = await FunctionTests.ExecuteRequest(context);
             Assert.True(string.IsNullOrWhiteSpace(text));
         }
 

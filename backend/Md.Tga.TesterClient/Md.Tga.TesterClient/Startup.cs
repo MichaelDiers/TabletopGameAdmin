@@ -1,10 +1,12 @@
 namespace Md.Tga.TesterClient
 {
     using Google.Cloud.Functions.Hosting;
+    using Md.Common.Contracts;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
-    using Md.GoogleCloudFirestore.Logic;
     using Md.GoogleCloudPubSub.Logic;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.TesterClient.Contracts;
     using Md.Tga.TesterClient.Logic;
     using Md.Tga.TesterClient.Model;
@@ -27,11 +29,8 @@ namespace Md.Tga.TesterClient
             var configuration = new FunctionConfiguration() as IFunctionConfiguration;
             context.Configuration.Bind(configuration);
 
-            services.AddScoped(_ => configuration);
-
-            services.AddScoped<IDatabaseConfiguration>(
-                _ => new DatabaseConfiguration(configuration.ProjectId, configuration.CollectionName));
-            services.AddScoped<IReadOnlyDatabase, ReadonlyDatabase>();
+            services.AddScoped<IRuntimeEnvironment>(_ => configuration);
+            services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
 
             services.AddScoped<IPubSubClientConfiguration>(
                 _ => new PubSubClientConfiguration(configuration.ProjectId, configuration.PubSubTopic));
