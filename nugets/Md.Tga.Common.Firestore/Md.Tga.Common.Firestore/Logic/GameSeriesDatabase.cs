@@ -15,7 +15,7 @@
         /// </summary>
         /// <param name="runtimeEnvironment">The runtime environment.</param>
         public GameSeriesDatabase(IRuntimeEnvironment runtimeEnvironment)
-            : base(runtimeEnvironment, GameReadOnlyDatabase.CollectionName, GameSeries.FromDictionary)
+            : base(runtimeEnvironment, GameSeriesReadOnlyDatabase.CollectionName, GameSeries.FromDictionary)
         {
         }
     }
