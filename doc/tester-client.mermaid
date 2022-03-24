@@ -1,0 +1,15 @@
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant TC as TesterClient<br>.net core
+    participant FS as Google Cloud<br>Firestore
+    participant PS as Google Cloud<br>Pub/Sub
+    U->>+TC: http-trigger
+    TC->>+FS: read test case
+    FS-->>TC: response
+    deactivate FS
+    TC->>+PS: INITIALIZE_SURVEY
+    PS-->>TC: response
+    deactivate PS
+    TC-->>U: response
+    deactivate TC
