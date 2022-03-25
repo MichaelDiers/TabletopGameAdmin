@@ -2,9 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
+    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -17,15 +19,23 @@
         /// </summary>
         private readonly IGameSeriesDatabase database;
 
+
+        /// <summary>
+        ///     Send messages to to pub/sub.
+        /// </summary>
+        private readonly IPubSubClient pubSubClient;
+
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="database">Access to the database.</param>
-        public FunctionProvider(ILogger<Function> logger, IGameSeriesDatabase database)
+        /// <param name="pubSubClient">Access to pub/sub.</param>
+        public FunctionProvider(ILogger<Function> logger, IGameSeriesDatabase database, IPubSubClient pubSubClient)
             : base(logger)
         {
             this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.pubSubClient = pubSubClient;
         }
 
         /// <summary>
@@ -36,6 +46,7 @@
         protected override async Task HandleMessageAsync(ISaveGameSeriesMessage message)
         {
             await this.database.InsertAsync(message.InternalId, message.GameSeries);
+            await this.pubSubClient.PublishAsync(new StartGameMessage(message.ProcessId, message.InternalId));
         }
     }
 }

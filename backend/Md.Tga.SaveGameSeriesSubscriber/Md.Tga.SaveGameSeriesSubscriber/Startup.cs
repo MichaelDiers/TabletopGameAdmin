@@ -3,6 +3,8 @@ namespace Md.Tga.SaveGameSeriesSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts;
     using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.GoogleCloud.Base.Logic;
+    using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
@@ -29,6 +31,10 @@ namespace Md.Tga.SaveGameSeriesSubscriber
 
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
             services.AddScoped<IGameSeriesDatabase, GameSeriesDatabase>();
+
+            services.AddScoped<IPubSubClientConfiguration>(
+                _ => new PubSubClientConfiguration(configuration.ProjectId, configuration.PubSubTopicName));
+            services.AddScoped<IPubSubClient, PubSubClient>();
 
             services.AddScoped<IPubSubProvider<ISaveGameSeriesMessage>, FunctionProvider>();
         }

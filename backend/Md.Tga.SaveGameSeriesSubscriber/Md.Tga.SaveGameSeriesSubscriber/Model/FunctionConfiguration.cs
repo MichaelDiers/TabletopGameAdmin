@@ -8,5 +8,9 @@
     /// </summary>
     public class FunctionConfiguration : RuntimeEnvironment, IFunctionConfiguration
     {
+        /// <summary>
+        ///     Gets or sets the pub/sub topic name.
+        /// </summary>
+        public string PubSubTopicName { get; set; }
     }
 }

@@ -7,5 +7,9 @@
     /// </summary>
     public interface IFunctionConfiguration : IRuntimeEnvironment
     {
+        /// <summary>
+        ///     Gets the pub/sub topic name.
+        /// </summary>
+        string PubSubTopicName { get; }
     }
 }
