@@ -27,7 +27,7 @@
         /// <summary>
         ///     Gets the id.
         /// </summary>
-        [JsonProperty(IdName, Required = Required.Always, Order = 1)]
+        [JsonProperty(Base.IdName, Required = Required.Always, Order = 1)]
         public string Id { get; }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// <returns>The given <paramref name="dictionary" />.</returns>
         public virtual IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
-            dictionary.Add(IdName, this.Id);
+            dictionary.Add(Base.IdName, this.Id);
             return dictionary;
         }
 

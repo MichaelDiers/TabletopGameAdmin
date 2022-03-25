@@ -29,10 +29,10 @@
             var message = new SaveGameMessage(Guid.NewGuid().ToString(), game);
 
             var actual = JsonConvert.SerializeObject(message);
-            Assert.Equal(SerializePlain(message), actual);
+            Assert.Equal(SaveGameMessageTests.SerializePlain(message), actual);
 
             actual = JsonConvert.SerializeObject(message);
-            Assert.Equal(SerializePlain(message), actual);
+            Assert.Equal(SaveGameMessageTests.SerializePlain(message), actual);
         }
 
         private static string SerializePlain(ISaveGameMessage obj)

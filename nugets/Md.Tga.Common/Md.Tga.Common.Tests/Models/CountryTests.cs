@@ -16,7 +16,7 @@
         [Fact]
         public void AddToDictionary()
         {
-            var obj = Init();
+            var obj = CountryTests.Init();
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
@@ -67,19 +67,19 @@
         [Fact]
         public void ExtendsBase()
         {
-            Assert.IsAssignableFrom<Base>(Init());
+            Assert.IsAssignableFrom<Base>(CountryTests.Init());
         }
 
         [Fact]
         public void ExtendsNamedBase()
         {
-            Assert.IsAssignableFrom<NamedBase>(Init());
+            Assert.IsAssignableFrom<NamedBase>(CountryTests.Init());
         }
 
         [Fact]
         public void FromDictionary()
         {
-            var expected = Init();
+            var expected = CountryTests.Init();
             var dictionary = expected.ToDictionary();
             var actual = Country.FromDictionary(dictionary);
             Assert.NotNull(expected);
@@ -93,19 +93,19 @@
         [Fact]
         public void ImplementsIBase()
         {
-            Assert.IsAssignableFrom<IBase>(Init());
+            Assert.IsAssignableFrom<IBase>(CountryTests.Init());
         }
 
         [Fact]
         public void ImplementsIToDictionary()
         {
-            Assert.IsAssignableFrom<IToDictionary>(Init());
+            Assert.IsAssignableFrom<IToDictionary>(CountryTests.Init());
         }
 
         [Fact]
         public void Json()
         {
-            var expected = Init();
+            var expected = CountryTests.Init();
             var actual = JsonConvert.DeserializeObject<Country>(JsonConvert.SerializeObject(expected));
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -118,7 +118,7 @@
         {
             var obj = new Country(Guid.NewGuid().ToString(), "the name", Guid.NewGuid().ToString());
             var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
+            Assert.Equal(CountryTests.SerializePlain(obj), actual);
         }
 
         public static string SerializePlain(ICountry obj)
@@ -130,7 +130,7 @@
         [Fact]
         public void ToDictionary()
         {
-            var obj = Init();
+            var obj = CountryTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(3, dictionary.Count);

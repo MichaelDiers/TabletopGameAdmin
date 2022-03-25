@@ -89,25 +89,25 @@
         /// <summary>
         ///     Gets the countries of the game series.
         /// </summary>
-        [JsonProperty(CountriesName, Required = Required.Always, Order = 112)]
+        [JsonProperty(GameSeries.CountriesName, Required = Required.Always, Order = 112)]
         public IEnumerable<ICountry> Countries { get; }
 
         /// <summary>
         ///     Gets the organizer of the game series.
         /// </summary>
-        [JsonProperty(OrganizerName, Required = Required.Always, Order = 113)]
+        [JsonProperty(GameSeries.OrganizerName, Required = Required.Always, Order = 113)]
         public IPerson Organizer { get; }
 
         /// <summary>
         ///     Gets the players of the game series.
         /// </summary>
-        [JsonProperty(PlayersName, Required = Required.Always, Order = 114)]
+        [JsonProperty(GameSeries.PlayersName, Required = Required.Always, Order = 114)]
         public IEnumerable<IPerson> Players { get; }
 
         /// <summary>
         ///     Gets the side of the game.
         /// </summary>
-        [JsonProperty(SidesName, Required = Required.Always, Order = 111)]
+        [JsonProperty(GameSeries.SidesName, Required = Required.Always, Order = 111)]
         public IEnumerable<INamedBase> Sides { get; }
 
         /// <summary>
@@ -118,10 +118,12 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add(SidesName, this.Sides.Select(side => side.ToDictionary()).ToArray());
-            dictionary.Add(CountriesName, this.Countries.Select(country => country.ToDictionary()).ToArray());
-            dictionary.Add(OrganizerName, this.Organizer.ToDictionary());
-            dictionary.Add(PlayersName, this.Players.Select(player => player.ToDictionary()).ToArray());
+            dictionary.Add(GameSeries.SidesName, this.Sides.Select(side => side.ToDictionary()).ToArray());
+            dictionary.Add(
+                GameSeries.CountriesName,
+                this.Countries.Select(country => country.ToDictionary()).ToArray());
+            dictionary.Add(GameSeries.OrganizerName, this.Organizer.ToDictionary());
+            dictionary.Add(GameSeries.PlayersName, this.Players.Select(player => player.ToDictionary()).ToArray());
             return dictionary;
         }
 
@@ -132,13 +134,15 @@
         /// <returns>An instance of <see cref="GameSeries" />.</returns>
         public new static GameSeries FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(IdName);
-            var name = dictionary.GetString(NameName);
-            var organizer = Person.FromDictionary(dictionary.GetDictionary(OrganizerName));
+            var id = dictionary.GetString(Base.IdName);
+            var name = dictionary.GetString(NamedBase.NameName);
+            var organizer = Person.FromDictionary(dictionary.GetDictionary(GameSeries.OrganizerName));
 
-            var sides = dictionary.GetDictionaries(SidesName).Select(NamedBase.FromDictionary).ToArray();
-            var countries = dictionary.GetDictionaries(CountriesName).Select(Country.FromDictionary).ToArray();
-            var players = dictionary.GetDictionaries(PlayersName).Select(Person.FromDictionary).ToArray();
+            var sides = dictionary.GetDictionaries(GameSeries.SidesName).Select(NamedBase.FromDictionary).ToArray();
+            var countries = dictionary.GetDictionaries(GameSeries.CountriesName)
+                .Select(Country.FromDictionary)
+                .ToArray();
+            var players = dictionary.GetDictionaries(GameSeries.PlayersName).Select(Person.FromDictionary).ToArray();
 
             return new GameSeries(
                 id,

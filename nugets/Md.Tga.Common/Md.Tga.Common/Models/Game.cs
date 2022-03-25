@@ -42,13 +42,13 @@
         /// <summary>
         ///     Gets the internal game series id.
         /// </summary>
-        [JsonProperty(InternalGameSeriesIdName, Required = Required.Always, Order = 111)]
+        [JsonProperty(Game.InternalGameSeriesIdName, Required = Required.Always, Order = 111)]
         public string InternalGameSeriesId { get; }
 
         /// <summary>
         ///     Gets the id of the survey.
         /// </summary>
-        [JsonProperty(SurveyIdName, Required = Required.Always, Order = 112)]
+        [JsonProperty(Game.SurveyIdName, Required = Required.Always, Order = 112)]
         public string SurveyId { get; }
 
         /// <summary>
@@ -59,8 +59,8 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add(InternalGameSeriesIdName, this.InternalGameSeriesId);
-            dictionary.Add(SurveyIdName, this.SurveyId);
+            dictionary.Add(Game.InternalGameSeriesIdName, this.InternalGameSeriesId);
+            dictionary.Add(Game.SurveyIdName, this.SurveyId);
             return dictionary;
         }
 
@@ -71,10 +71,10 @@
         /// <returns>An instance of <see cref="Game" />.</returns>
         public new static Game FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(IdName);
-            var name = dictionary.GetString(NameName);
-            var internalGameSeriesId = dictionary.GetString(InternalGameSeriesIdName);
-            var surveyId = dictionary.GetString(SurveyIdName);
+            var id = dictionary.GetString(Base.IdName);
+            var name = dictionary.GetString(NamedBase.NameName);
+            var internalGameSeriesId = dictionary.GetString(Game.InternalGameSeriesIdName);
+            var surveyId = dictionary.GetString(Game.SurveyIdName);
 
             return new Game(
                 id,

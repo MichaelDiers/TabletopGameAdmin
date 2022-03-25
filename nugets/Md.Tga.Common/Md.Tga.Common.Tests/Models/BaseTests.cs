@@ -13,7 +13,7 @@
         [Fact]
         public void AddToDictionary()
         {
-            var obj = Init();
+            var obj = BaseTests.Init();
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
@@ -40,19 +40,19 @@
         [Fact]
         public void ExtendsBase()
         {
-            Assert.IsAssignableFrom<Base>(Init());
+            Assert.IsAssignableFrom<Base>(BaseTests.Init());
         }
 
         [Fact]
         public void ImplementsIBase()
         {
-            Assert.IsAssignableFrom<IBase>(Init());
+            Assert.IsAssignableFrom<IBase>(BaseTests.Init());
         }
 
         [Fact]
         public void ImplementsIToDictionary()
         {
-            Assert.IsAssignableFrom<IToDictionary>(Init());
+            Assert.IsAssignableFrom<IToDictionary>(BaseTests.Init());
         }
 
         [Fact]
@@ -60,7 +60,7 @@
         {
             var obj = new BaseImplementation(Guid.NewGuid().ToString());
             var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
+            Assert.Equal(BaseTests.SerializePlain(obj), actual);
         }
 
         public static string SerializePlain(IBase obj)
@@ -71,7 +71,7 @@
         [Fact]
         public void ToDictionary()
         {
-            var obj = Init();
+            var obj = BaseTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Single(dictionary);

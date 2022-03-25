@@ -32,13 +32,13 @@
         /// <summary>
         ///     Gets the id of the country.
         /// </summary>
-        [JsonProperty(CountryIdName, Required = Required.Always, Order = 2)]
+        [JsonProperty(PlayedCountry.CountryIdName, Required = Required.Always, Order = 2)]
         public string CountryId { get; }
 
         /// <summary>
         ///     Gets the id of the player.
         /// </summary>
-        [JsonProperty(PlayerIdName, Required = Required.Always, Order = 1)]
+        [JsonProperty(PlayedCountry.PlayerIdName, Required = Required.Always, Order = 1)]
         public string PlayerId { get; }
 
         /// <summary>
@@ -48,8 +48,8 @@
         /// <returns>The given <paramref name="dictionary" />.</returns>
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
-            dictionary.Add(PlayerIdName, this.PlayerId);
-            dictionary.Add(CountryIdName, this.CountryId);
+            dictionary.Add(PlayedCountry.PlayerIdName, this.PlayerId);
+            dictionary.Add(PlayedCountry.CountryIdName, this.CountryId);
             return dictionary;
         }
 
@@ -60,8 +60,8 @@
         /// <returns>An <see cref="IPlayedCountry" />.</returns>
         public static IPlayedCountry FromDictionary(IDictionary<string, object> dictionary)
         {
-            var playerId = dictionary.GetString(PlayerIdName);
-            var countryId = dictionary.GetString(CountryIdName);
+            var playerId = dictionary.GetString(PlayedCountry.PlayerIdName);
+            var countryId = dictionary.GetString(PlayedCountry.CountryIdName);
             return new PlayedCountry(playerId, countryId);
         }
     }

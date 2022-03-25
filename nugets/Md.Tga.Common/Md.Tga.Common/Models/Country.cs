@@ -30,7 +30,7 @@
         /// <summary>
         ///     Gets the id of the side that the country supports.
         /// </summary>
-        [JsonProperty(SideIdName, Required = Required.Always, Order = 111)]
+        [JsonProperty(Country.SideIdName, Required = Required.Always, Order = 111)]
         public string SideId { get; }
 
         /// <summary>
@@ -41,7 +41,7 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add(SideIdName, this.SideId);
+            dictionary.Add(Country.SideIdName, this.SideId);
             return dictionary;
         }
 
@@ -52,9 +52,9 @@
         /// <returns>An instance of <see cref="Country" />.</returns>
         public new static Country FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(IdName);
-            var name = dictionary.GetString(NameName);
-            var sideId = dictionary.GetString(SideIdName);
+            var id = dictionary.GetString(Base.IdName);
+            var name = dictionary.GetString(NamedBase.NameName);
+            var sideId = dictionary.GetString(Country.SideIdName);
             return new Country(id, name, sideId);
         }
     }

@@ -17,7 +17,7 @@
         [Fact]
         public void AddToDictionary()
         {
-            var obj = Init();
+            var obj = GameSeriesTests.Init();
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
@@ -28,25 +28,25 @@
 
         public static GameSeries Create()
         {
-            return Init(Guid.NewGuid().ToString());
+            return GameSeriesTests.Init(Guid.NewGuid().ToString());
         }
 
         [Fact]
         public void ExtendsBase()
         {
-            Assert.IsAssignableFrom<Base>(Init());
+            Assert.IsAssignableFrom<Base>(GameSeriesTests.Init());
         }
 
         [Fact]
         public void ExtendsNamedBase()
         {
-            Assert.IsAssignableFrom<NamedBase>(Init());
+            Assert.IsAssignableFrom<NamedBase>(GameSeriesTests.Init());
         }
 
         [Fact]
         public void FromDictionary()
         {
-            var expected = Init();
+            var expected = GameSeriesTests.Init();
             var dictionary = expected.ToDictionary();
             var actual = GameSeries.FromDictionary(dictionary);
             Assert.NotNull(expected);
@@ -56,25 +56,31 @@
 
             Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
             foreach (var expectedCountry in expected.Countries)
+            {
                 Assert.Contains(
                     actual.Countries,
                     country => expectedCountry.Id == country.Id &&
                                expectedCountry.Name == country.Name &&
                                expectedCountry.SideId == country.SideId);
+            }
 
             Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
             foreach (var expectedSide in expected.Sides)
+            {
                 Assert.Contains(
                     actual.Sides,
                     country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
+            }
 
             Assert.Equal(expected.Players.Count(), actual.Players.Count());
             foreach (var expectedPlayer in expected.Players)
+            {
                 Assert.Contains(
                     actual.Players,
                     person => expectedPlayer.Id == person.Id &&
                               expectedPlayer.Name == person.Name &&
                               expectedPlayer.Email == person.Email);
+            }
 
             Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
             Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
@@ -85,19 +91,19 @@
         [Fact]
         public void ImplementsIBase()
         {
-            Assert.IsAssignableFrom<IBase>(Init());
+            Assert.IsAssignableFrom<IBase>(GameSeriesTests.Init());
         }
 
         [Fact]
         public void ImplementsIToDictionary()
         {
-            Assert.IsAssignableFrom<IToDictionary>(Init());
+            Assert.IsAssignableFrom<IToDictionary>(GameSeriesTests.Init());
         }
 
         [Fact]
         public void Json()
         {
-            var expected = Init();
+            var expected = GameSeriesTests.Init();
             var actual = JsonConvert.DeserializeObject<GameSeries>(JsonConvert.SerializeObject(expected));
             Assert.NotNull(expected);
             Assert.NotNull(actual);
@@ -106,25 +112,31 @@
 
             Assert.Equal(expected.Countries.Count(), actual.Countries.Count());
             foreach (var expectedCountry in expected.Countries)
+            {
                 Assert.Contains(
                     actual.Countries,
                     country => expectedCountry.Id == country.Id &&
                                expectedCountry.Name == country.Name &&
                                expectedCountry.SideId == country.SideId);
+            }
 
             Assert.Equal(expected.Sides.Count(), actual.Sides.Count());
             foreach (var expectedSide in expected.Sides)
+            {
                 Assert.Contains(
                     actual.Sides,
                     country => expectedSide.Id == country.Id && expectedSide.Name == country.Name);
+            }
 
             Assert.Equal(expected.Players.Count(), actual.Players.Count());
             foreach (var expectedPlayer in expected.Players)
+            {
                 Assert.Contains(
                     actual.Players,
                     person => expectedPlayer.Id == person.Id &&
                               expectedPlayer.Name == person.Name &&
                               expectedPlayer.Email == person.Email);
+            }
 
             Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
             Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
@@ -134,9 +146,9 @@
         [Fact]
         public void Serialize()
         {
-            var obj = Init();
+            var obj = GameSeriesTests.Init();
             var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
+            Assert.Equal(GameSeriesTests.SerializePlain(obj), actual);
         }
 
         public static string SerializePlain(IGameSeries obj)
@@ -153,7 +165,7 @@
         [Fact]
         public void ToDictionary()
         {
-            var obj = Init();
+            var obj = GameSeriesTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(6, dictionary.Count);
@@ -163,7 +175,7 @@
 
         private static GameSeries Init()
         {
-            return Init(Guid.NewGuid().ToString());
+            return GameSeriesTests.Init(Guid.NewGuid().ToString());
         }
 
         private static GameSeries Init(string id)

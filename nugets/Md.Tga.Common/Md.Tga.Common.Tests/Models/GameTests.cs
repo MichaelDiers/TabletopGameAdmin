@@ -16,7 +16,7 @@
         [Fact]
         public void AddToDictionary()
         {
-            var obj = Init();
+            var obj = GameTests.Init();
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
@@ -105,19 +105,19 @@
         [Fact]
         public void ExtendsBase()
         {
-            Assert.IsAssignableFrom<Base>(Init());
+            Assert.IsAssignableFrom<Base>(GameTests.Init());
         }
 
         [Fact]
         public void ExtendsNamedBase()
         {
-            Assert.IsAssignableFrom<NamedBase>(Init());
+            Assert.IsAssignableFrom<NamedBase>(GameTests.Init());
         }
 
         [Fact]
         public void FromDictionary()
         {
-            var expected = Init();
+            var expected = GameTests.Init();
             var dictionary = expected.ToDictionary();
             var actual = Game.FromDictionary(dictionary);
             Assert.NotNull(expected);
@@ -132,19 +132,19 @@
         [Fact]
         public void ImplementsIBase()
         {
-            Assert.IsAssignableFrom<IBase>(Init());
+            Assert.IsAssignableFrom<IBase>(GameTests.Init());
         }
 
         [Fact]
         public void ImplementsIGame()
         {
-            Assert.IsAssignableFrom<IGame>(Init());
+            Assert.IsAssignableFrom<IGame>(GameTests.Init());
         }
 
         [Fact]
         public void ImplementsIToDictionary()
         {
-            Assert.IsAssignableFrom<IToDictionary>(Init());
+            Assert.IsAssignableFrom<IToDictionary>(GameTests.Init());
         }
 
         public static Game Init()
@@ -159,7 +159,7 @@
         [Fact]
         public void Json()
         {
-            var expected = Init();
+            var expected = GameTests.Init();
             var actual = JsonConvert.DeserializeObject<Game>(JsonConvert.SerializeObject(expected));
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -177,7 +177,7 @@
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString());
             var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
+            Assert.Equal(GameTests.SerializePlain(obj), actual);
         }
 
         public static string SerializePlain(IGame obj)
@@ -190,7 +190,7 @@
         [Fact]
         public void ToDictionary()
         {
-            var obj = Init();
+            var obj = GameTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(4, dictionary.Count);

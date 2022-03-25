@@ -29,7 +29,7 @@
         /// <summary>
         ///     Gets the name.
         /// </summary>
-        [JsonProperty(NameName, Required = Required.Always, Order = 11)]
+        [JsonProperty(NamedBase.NameName, Required = Required.Always, Order = 11)]
         public string Name { get; }
 
         /// <summary>
@@ -40,7 +40,7 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add(NameName, this.Name);
+            dictionary.Add(NamedBase.NameName, this.Name);
             return dictionary;
         }
 
@@ -51,8 +51,8 @@
         /// <returns>An instance of <see cref="NamedBase" />.</returns>
         public static NamedBase FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(IdName);
-            var name = dictionary.GetString(NameName);
+            var id = dictionary.GetString(Base.IdName);
+            var name = dictionary.GetString(NamedBase.NameName);
             return new NamedBase(id, name);
         }
     }

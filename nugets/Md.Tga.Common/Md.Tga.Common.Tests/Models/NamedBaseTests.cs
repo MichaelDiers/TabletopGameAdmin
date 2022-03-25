@@ -16,7 +16,7 @@
         [Fact]
         public void AddToDictionary()
         {
-            var obj = Init();
+            var obj = NamedBaseTests.Init();
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
@@ -54,13 +54,13 @@
         [Fact]
         public void ExtendsBase()
         {
-            Assert.IsAssignableFrom<Base>(Init());
+            Assert.IsAssignableFrom<Base>(NamedBaseTests.Init());
         }
 
         [Fact]
         public void FromDictionary()
         {
-            var expected = Init();
+            var expected = NamedBaseTests.Init();
             var dictionary = expected.ToDictionary();
             var actual = NamedBase.FromDictionary(dictionary);
             Assert.NotNull(expected);
@@ -73,19 +73,19 @@
         [Fact]
         public void ImplementsIBase()
         {
-            Assert.IsAssignableFrom<IBase>(Init());
+            Assert.IsAssignableFrom<IBase>(NamedBaseTests.Init());
         }
 
         [Fact]
         public void ImplementsIToDictionary()
         {
-            Assert.IsAssignableFrom<IToDictionary>(Init());
+            Assert.IsAssignableFrom<IToDictionary>(NamedBaseTests.Init());
         }
 
         [Fact]
         public void Json()
         {
-            var expected = Init();
+            var expected = NamedBaseTests.Init();
             var actual = JsonConvert.DeserializeObject<NamedBase>(JsonConvert.SerializeObject(expected));
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -97,7 +97,7 @@
         {
             var obj = new NamedBase(Guid.NewGuid().ToString(), "the name");
             var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
+            Assert.Equal(NamedBaseTests.SerializePlain(obj), actual);
         }
 
         public static string SerializePlain(INamedBase obj)
@@ -109,7 +109,7 @@
         [Fact]
         public void ToDictionary()
         {
-            var obj = Init();
+            var obj = NamedBaseTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(2, dictionary.Count);

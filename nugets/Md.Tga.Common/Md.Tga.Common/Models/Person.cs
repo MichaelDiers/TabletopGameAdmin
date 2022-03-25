@@ -30,7 +30,7 @@
         /// <summary>
         ///     Gets the email of the person.
         /// </summary>
-        [JsonProperty(EmailName, Required = Required.Always, Order = 111)]
+        [JsonProperty(Person.EmailName, Required = Required.Always, Order = 111)]
         public string Email { get; }
 
         /// <summary>
@@ -41,7 +41,7 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add(EmailName, this.Email);
+            dictionary.Add(Person.EmailName, this.Email);
             return dictionary;
         }
 
@@ -52,9 +52,9 @@
         /// <returns>An instance of <see cref="Person" />.</returns>
         public new static Person FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(IdName);
-            var name = dictionary.GetString(NameName);
-            var email = dictionary.GetString(EmailName);
+            var id = dictionary.GetString(Base.IdName);
+            var name = dictionary.GetString(NamedBase.NameName);
+            var email = dictionary.GetString(Person.EmailName);
 
             return new Person(id, name, email);
         }

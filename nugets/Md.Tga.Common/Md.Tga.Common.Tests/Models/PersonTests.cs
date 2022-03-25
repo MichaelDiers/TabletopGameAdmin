@@ -16,7 +16,7 @@
         [Fact]
         public void AddToDictionary()
         {
-            var obj = Init();
+            var obj = PersonTests.Init();
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
@@ -64,19 +64,19 @@
         [Fact]
         public void ExtendsBase()
         {
-            Assert.IsAssignableFrom<Base>(Init());
+            Assert.IsAssignableFrom<Base>(PersonTests.Init());
         }
 
         [Fact]
         public void ExtendsNamedBase()
         {
-            Assert.IsAssignableFrom<NamedBase>(Init());
+            Assert.IsAssignableFrom<NamedBase>(PersonTests.Init());
         }
 
         [Fact]
         public void FromDictionary()
         {
-            var expected = Init();
+            var expected = PersonTests.Init();
             var dictionary = expected.ToDictionary();
             var actual = Person.FromDictionary(dictionary);
             Assert.NotNull(expected);
@@ -90,19 +90,19 @@
         [Fact]
         public void ImplementsIBase()
         {
-            Assert.IsAssignableFrom<IBase>(Init());
+            Assert.IsAssignableFrom<IBase>(PersonTests.Init());
         }
 
         [Fact]
         public void ImplementsIToDictionary()
         {
-            Assert.IsAssignableFrom<IToDictionary>(Init());
+            Assert.IsAssignableFrom<IToDictionary>(PersonTests.Init());
         }
 
         [Fact]
         public void Json()
         {
-            var expected = Init();
+            var expected = PersonTests.Init();
             var actual = JsonConvert.DeserializeObject<Person>(JsonConvert.SerializeObject(expected));
             Assert.NotNull(actual);
             Assert.Equal(expected.Id, actual.Id);
@@ -115,7 +115,7 @@
         {
             var obj = new Person(Guid.NewGuid().ToString(), "the name", "email@foo.example");
             var actual = JsonConvert.SerializeObject(obj);
-            Assert.Equal(SerializePlain(obj), actual);
+            Assert.Equal(PersonTests.SerializePlain(obj), actual);
         }
 
         public static string SerializePlain(IPerson obj)
@@ -127,7 +127,7 @@
         [Fact]
         public void ToDictionary()
         {
-            var obj = Init();
+            var obj = PersonTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(3, dictionary.Count);
