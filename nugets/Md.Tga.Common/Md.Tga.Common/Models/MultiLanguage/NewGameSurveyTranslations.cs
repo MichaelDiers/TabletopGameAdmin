@@ -94,7 +94,7 @@
             return new NewGameSurveyTranslations(
                 dictionary.GetString(NewGameSurveyTranslations.AnswersDefaultName),
                 dictionary.GetString(NewGameSurveyTranslations.GameNameName),
-                dictionary.GetValue<IEnumerable<string>>(NewGameSurveyTranslations.QuestionsName).ToArray(),
+                dictionary.GetEnumerableOfString(NewGameSurveyTranslations.QuestionsName).ToArray(),
                 dictionary.GetString(NewGameSurveyTranslations.SurveyInfoName),
                 dictionary.GetString(NewGameSurveyTranslations.SurveyInfoLinkName));
         }
