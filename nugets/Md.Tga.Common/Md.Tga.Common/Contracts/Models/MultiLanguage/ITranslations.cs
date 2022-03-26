@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.Common.Contracts.Models.Translation
+﻿namespace Md.Tga.Common.Contracts.Models.MultiLanguage
 {
     /// <summary>
     ///     Translations for different languages.
