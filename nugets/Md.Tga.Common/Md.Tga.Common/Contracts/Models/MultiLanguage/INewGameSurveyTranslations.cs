@@ -1,11 +1,12 @@
 ﻿namespace Md.Tga.Common.Contracts.Models.MultiLanguage
 {
     using System.Collections.Generic;
+    using Md.GoogleCloud.Base.Contracts.Logic;
 
     /// <summary>
     ///     Specifies game translations.
     /// </summary>
-    public interface INewGameSurveyTranslations
+    public interface INewGameSurveyTranslations : IToDictionary
     {
         /// <summary>
         ///     Gets the default answer for survey questions.

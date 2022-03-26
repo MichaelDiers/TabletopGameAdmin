@@ -3,12 +3,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using Md.Common.Extensions;
+    using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Models.MultiLanguage;
 
     /// <summary>
     ///     Specifies game translations.
     /// </summary>
-    public class NewGameSurveyTranslations : INewGameSurveyTranslations
+    public class NewGameSurveyTranslations : ToDictionaryConverter, INewGameSurveyTranslations
     {
         /// <summary>
         ///     The database name for <see cref="AnswerDefault" />.
@@ -83,6 +84,21 @@
         ///     Gets an info link for the survey.
         /// </summary>
         public string SurveyInfoLink { get; }
+
+        /// <summary>
+        ///     Add object values to dictionary.
+        /// </summary>
+        /// <param name="dictionary">The data is added to this dictionary.</param>
+        /// <returns>The dictionary given as parameter.</returns>
+        public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
+        {
+            dictionary.Add(NewGameSurveyTranslations.AnswersDefaultName, this.AnswerDefault);
+            dictionary.Add(NewGameSurveyTranslations.GameNameName, this.GameName);
+            dictionary.Add(NewGameSurveyTranslations.QuestionsName, this.Questions.ToArray());
+            dictionary.Add(NewGameSurveyTranslations.SurveyInfoName, this.SurveyInfo);
+            dictionary.Add(NewGameSurveyTranslations.SurveyInfoLinkName, this.SurveyInfoLink);
+            return dictionary;
+        }
 
         /// <summary>
         ///     Creates a new <see cref="INewGameSurveyTranslations" /> from dictionary data.

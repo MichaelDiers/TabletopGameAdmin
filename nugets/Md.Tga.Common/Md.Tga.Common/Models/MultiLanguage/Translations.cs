@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
     using Md.Common.Extensions;
+    using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Models.MultiLanguage;
 
     /// <summary>
     ///     Describes available translations.
     /// </summary>
-    public class Translations : ITranslations
+    public class Translations : ToDictionaryConverter, ITranslations
     {
         /// <summary>
         ///     The database name for german translations.
@@ -21,6 +22,17 @@
         public Translations(ITranslation german)
         {
             this.German = german;
+        }
+
+        /// <summary>
+        ///     Add object values to dictionary.
+        /// </summary>
+        /// <param name="dictionary">The data is added to this dictionary.</param>
+        /// <returns>The dictionary given as parameter.</returns>
+        public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
+        {
+            dictionary.Add(Translations.GermanName, this.German.ToDictionary());
+            return dictionary;
         }
 
         /// <summary>

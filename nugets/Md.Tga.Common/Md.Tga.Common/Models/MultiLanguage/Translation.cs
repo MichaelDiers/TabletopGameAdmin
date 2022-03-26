@@ -2,12 +2,13 @@
 {
     using System.Collections.Generic;
     using Md.Common.Extensions;
+    using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Models.MultiLanguage;
 
     /// <summary>
     ///     Translations for a specific language.
     /// </summary>
-    public class Translation : ITranslation
+    public class Translation : ToDictionaryConverter, ITranslation
     {
         /// <summary>
         ///     Database name for <see cref="NewGameSurvey" />.
@@ -21,6 +22,17 @@
         public Translation(INewGameSurveyTranslations newGameSurveyTranslations)
         {
             this.NewGameSurvey = newGameSurveyTranslations;
+        }
+
+        /// <summary>
+        ///     Add object values to dictionary.
+        /// </summary>
+        /// <param name="dictionary">The data is added to this dictionary.</param>
+        /// <returns>The dictionary given as parameter.</returns>
+        public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
+        {
+            dictionary.Add(Translation.NewGameSurveyName, this.NewGameSurvey.ToDictionary());
+            return dictionary;
         }
 
         /// <summary>
