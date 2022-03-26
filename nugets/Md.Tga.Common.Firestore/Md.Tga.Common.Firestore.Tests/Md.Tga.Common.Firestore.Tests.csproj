@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
@@ -14,6 +14,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Md.GoogleCloud.Base" Version="1.1.27" />
+		<PackageReference Include="Md.Tga.Common" Version="1.1.25" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="xunit" Version="2.4.1" />
