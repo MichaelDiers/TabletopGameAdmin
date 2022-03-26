@@ -1,9 +1,12 @@
 namespace Md.Tga.StartGameSubscriber
 {
     using Google.Cloud.Functions.Hosting;
+    using Md.Common.Contracts;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.StartGameSubscriber.Contracts;
     using Md.Tga.StartGameSubscriber.Logic;
     using Md.Tga.StartGameSubscriber.Model;
@@ -28,16 +31,10 @@ namespace Md.Tga.StartGameSubscriber
 
             services.AddScoped<IFunctionConfiguration>(_ => configuration);
 
-            services.AddScoped<IGameSeriesReadOnlyDatabase>(
-                _ => new GameSeriesReadOnlyDatabase(
-                    new DatabaseConfiguration(configuration.ProjectId, configuration.GameSeriesCollectionName)));
-            services.AddScoped<IGamesReadOnlyDatabase>(
-                _ => new GamesReadOnlyDatabase(
-                    new DatabaseConfiguration(configuration.ProjectId, configuration.GamesCollectionName)));
-            services.AddScoped<ITranslationsReadOnlyDatabase>(
-                _ => new TranslationsReadOnlyDatabase(
-                    new DatabaseConfiguration(configuration.ProjectId, configuration.TranslationsCollectionName),
-                    configuration));
+            services.AddScoped<IRuntimeEnvironment>(_ => configuration);
+            services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
+            services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
+            services.AddScoped<ITranslationsReadOnlyDatabase, TranslationsReadOnlyDatabase>();
 
             services.AddScoped<IInitializeSurveyPubSubClient>(
                 _ => new InitializeSurveyPubSubClient(

@@ -19,10 +19,7 @@ env:
   NUGET_CONFIG: '.github/workflows/Generic-Nuget.config'
   CSPROJ_NUGET: 'backend/Md.Tga.StartGameSubscriber/Md.Tga.StartGameSubscriber/nuget.config'
   CSPROJ_TEST_NUGET: 'backend/Md.Tga.StartGameSubscriber/Md.Tga.StartGameSubscriber.Tests/nuget.config'
-  COLLECTION_NAME_GAME_SERIES: ${{ secrets.GLOBAL_COLLECTION_GAME_SERIES }}
-  COLLECTION_NAME_GAMES: ${{ secrets.GLOBAL_COLLECTION_GAMES }}
   TOPIC_INITIALIZE_SURVEY: ${{ secrets.GLOBAL_PUBSUB_TOPIC_INITIALIZE_SURVEY }}
-  COLLECTION_NAME_TRANSLATIONS: ${{ secrets.GLOBAL_COLLECTION_TRANSLATIONS }}
   DOCUMENT_TRANSLATIONS: ${{ secrets.GLOBAL_TRANSLATIONS_DOCUMENT }}
   TOPIC_SAVE_GAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME }}
 jobs:
@@ -31,6 +28,7 @@ jobs:
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
       PROJECT_ID: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      ENVIRONMENT: 'Test'
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -39,13 +37,11 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          GamesCollectionName: ${{ env.COLLECTION_NAME_GAMES }}
-          GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
           InitializeSurveyTopicName: ${{ env.TOPIC_INITIALIZE_SURVEY }}
           ProjectId: ${{ env.PROJECT_ID }}
           SaveGameTopicName: ${{ env.TOPIC_SAVE_GAME }}
-          TranslationsCollectionName: ${{ env.COLLECTION_NAME_TRANSLATIONS }}
           TranslationsDocument: ${{ env.DOCUMENT_TRANSLATIONS }}
+          Environment: ${{ env.ENVIRONMENT }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
@@ -78,6 +74,7 @@ jobs:
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
       PROJECT_ID: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
+      ENVIRONMENT: 'Stage'
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -86,13 +83,11 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          GamesCollectionName: ${{ env.COLLECTION_NAME_GAMES }}
-          GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
           InitializeSurveyTopicName: ${{ env.TOPIC_INITIALIZE_SURVEY }}
           ProjectId: ${{ env.PROJECT_ID }}
           SaveGameTopicName: ${{ env.TOPIC_SAVE_GAME }}
-          TranslationsCollectionName: ${{ env.COLLECTION_NAME_TRANSLATIONS }}
           TranslationsDocument: ${{ env.DOCUMENT_TRANSLATIONS }}
+          Environment: ${{ env.ENVIRONMENT }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
@@ -127,6 +122,7 @@ jobs:
     env:
       GCP_CREDENTIALS: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
       PROJECT_ID: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
+      ENVIRONMENT: 'Prod'
     steps:
       - name: checkout source
         uses: actions/checkout@v2
@@ -135,13 +131,11 @@ jobs:
         with:
           files: ${{ env.APP_SETTINGS_JSON }}
         env:
-          GamesCollectionName: ${{ env.COLLECTION_NAME_GAMES }}
-          GameSeriesCollectionName: ${{ env.COLLECTION_NAME_GAME_SERIES }}
           InitializeSurveyTopicName: ${{ env.TOPIC_INITIALIZE_SURVEY }}
           ProjectId: ${{ env.PROJECT_ID }}
           SaveGameTopicName: ${{ env.TOPIC_SAVE_GAME }}
-          TranslationsCollectionName: ${{ env.COLLECTION_NAME_TRANSLATIONS }}
           TranslationsDocument: ${{ env.DOCUMENT_TRANSLATIONS }}
+          Environment: ${{ env.ENVIRONMENT }}
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:

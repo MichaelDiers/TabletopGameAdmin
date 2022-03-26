@@ -8,6 +8,7 @@
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
     using Md.Tga.StartGameSubscriber.Contracts;
@@ -22,15 +23,17 @@
     /// </summary>
     public class FunctionProvider : PubSubProvider<IStartGameMessage, Function>
     {
+        private readonly IFunctionConfiguration configuration;
+
         /// <summary>
         ///     Access to the database collection games.
         /// </summary>
-        private readonly IReadOnlyDatabase gamesDatabase;
+        private readonly IGameReadOnlyDatabase gamesDatabase;
 
         /// <summary>
         ///     Access to the database collection game-series.
         /// </summary>
-        private readonly IReadOnlyDatabase gameSeriesDatabase;
+        private readonly IGameSeriesReadOnlyDatabase gameSeriesDatabase;
 
         /// <summary>
         ///     Access pub/sub.
@@ -56,13 +59,15 @@
         /// <param name="translationsDatabase">Access to the database collection translations.</param>
         /// <param name="initializeSurveyPubSubClient">Client for accessing pub/sub.</param>
         /// <param name="saveGamePubSubClient">Client for accessing pub/sub.</param>
+        /// <param name="configuration">The application configuration.</param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
-            IGamesReadOnlyDatabase gamesDatabase,
+            IGameReadOnlyDatabase gamesDatabase,
             ITranslationsReadOnlyDatabase translationsDatabase,
             IInitializeSurveyPubSubClient initializeSurveyPubSubClient,
-            ISaveGamePubSubClient saveGamePubSubClient
+            ISaveGamePubSubClient saveGamePubSubClient,
+            IFunctionConfiguration configuration
         )
             : base(logger)
         {
@@ -74,6 +79,7 @@
                                                 throw new ArgumentNullException(nameof(initializeSurveyPubSubClient));
             this.saveGamePubSubClient =
                 saveGamePubSubClient ?? throw new ArgumentNullException(nameof(saveGamePubSubClient));
+            this.configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         /// <summary>
@@ -85,61 +91,26 @@
         {
             var gameSeries = await this.ReadGameSeries(message);
 
-            var surveyName = string.Empty;
-            var surveyInfo = string.Empty;
-            var surveyInfoLink = string.Empty;
-            var answerDefault = string.Empty;
-            var questions = new[] {string.Empty, string.Empty, string.Empty};
-
-            var translations = await this.translationsDatabase.ReadGermanTranslations();
-            if (translations != null)
+            var translations =
+                await this.translationsDatabase.ReadByDocumentIdAsync(this.configuration.TranslationsDocument);
+            if (translations == null)
             {
-                if (translations.ContainsKey("game-name"))
-                {
-                    surveyName = translations["game-name"];
-                }
-
-                if (translations.ContainsKey("survey-info"))
-                {
-                    surveyInfo = translations["survey-info"];
-                }
-
-                if (translations.ContainsKey("survey-info-link"))
-                {
-                    surveyInfoLink = translations["survey-info-link"];
-                }
-
-                if (translations.ContainsKey("answer-default"))
-                {
-                    answerDefault = translations["answer-default"];
-                }
-
-                if (translations.ContainsKey("survey-question-0"))
-                {
-                    questions[0] = translations["survey-question-0"];
-                }
-
-                if (translations.ContainsKey("survey-question-1"))
-                {
-                    questions[1] = translations["survey-question-1"];
-                }
-
-                if (translations.ContainsKey("survey-question-2"))
-                {
-                    questions[2] = translations["survey-question-2"];
-                }
+                throw new ArgumentException($"Cannot read translations fir {this.configuration.TranslationsDocument}");
             }
 
-            var initializeSurveyMessage = BuildInitializeSurveyMessage(
+            var newGameSurvey = translations.German.NewGameSurvey;
+            var initializeSurveyMessage = FunctionProvider.BuildInitializeSurveyMessage(
                 message.ProcessId,
                 gameSeries,
-                surveyName,
-                surveyInfo,
-                surveyInfoLink,
-                answerDefault,
-                questions);
+                newGameSurvey.GameName,
+                newGameSurvey.SurveyInfo,
+                newGameSurvey.SurveyInfoLink,
+                newGameSurvey.AnswerDefault,
+                newGameSurvey.Questions.ToArray());
 
-            var saveGameMessage = BuildSaveGameMessage(message.InternalId, initializeSurveyMessage);
+            var saveGameMessage = FunctionProvider.BuildSaveGameMessage(
+                message.InternalGameSeriesId,
+                initializeSurveyMessage);
             await this.saveGamePubSubClient.PublishAsync(saveGameMessage);
 
             await this.initializeSurveyPubSubClient.PublishAsync(initializeSurveyMessage);
@@ -227,25 +198,20 @@
         }
 
         /// <summary>
-        ///     Returns the <see cref="IStartGameMessage.GameSeries" /> or reads the data from the database using
-        ///     <see cref="IStartGameMessage.InternalId" />.
+        ///     Reads the data from the database using
+        ///     <see cref="IStartGameMessage.InternalGameSeriesId" />.
         /// </summary>
         /// <param name="message">The incoming message of the pub/sub function.</param>
         /// <returns>The game series for that a new game will be started.</returns>
         private async Task<IGameSeries> ReadGameSeries(IStartGameMessage message)
         {
-            if (message.GameSeries != null)
+            var gameSeries = await this.gameSeriesDatabase.ReadByDocumentIdAsync(message.InternalGameSeriesId);
+            if (gameSeries == null)
             {
-                return message.GameSeries;
+                throw new InvalidOperationException($"Unknown game series internal id: {message.InternalGameSeriesId}");
             }
 
-            var dictionary = await this.gameSeriesDatabase.ReadByDocumentIdAsync(message.InternalId);
-            if (dictionary == null)
-            {
-                throw new InvalidOperationException($"Unknown game series internal id: {message.InternalId}");
-            }
-
-            return GameSeries.FromDictionary(dictionary);
+            return gameSeries;
         }
     }
 }

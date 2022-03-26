@@ -14,8 +14,8 @@
 
         public static StartGameMessage StartGameMessageWithoutGameSeries()
         {
-            var message = StartGameMessage();
-            return new StartGameMessage(message.ProcessId, message.InternalId);
+            var message = TestData.StartGameMessage();
+            return new StartGameMessage(message.ProcessId, message.InternalGameSeriesId);
         }
     }
 }
