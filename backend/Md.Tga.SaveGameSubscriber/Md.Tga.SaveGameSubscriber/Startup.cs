@@ -1,9 +1,11 @@
 namespace Md.Tga.SaveGameSubscriber
 {
     using Google.Cloud.Functions.Hosting;
+    using Md.Common.Contracts;
     using Md.GoogleCloud.Base.Contracts.Logic;
-    using Md.GoogleCloudFirestore.Logic;
     using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.SaveGameSubscriber.Contracts;
     using Md.Tga.SaveGameSubscriber.Logic;
     using Md.Tga.SaveGameSubscriber.Model;
@@ -25,10 +27,10 @@ namespace Md.Tga.SaveGameSubscriber
         {
             var configuration = new FunctionConfiguration();
             context.Configuration.Bind(configuration);
-
             services.AddScoped<IFunctionConfiguration>(_ => configuration);
-            services.AddScoped<IDatabaseConfiguration>(_ => configuration);
-            services.AddScoped<IDatabase, Database>();
+
+            services.AddScoped<IRuntimeEnvironment>(_ => configuration);
+            services.AddScoped<IGameDatabase, GameDatabase>();
 
             services.AddScoped<IPubSubProvider<ISaveGameMessage>, FunctionProvider>();
         }

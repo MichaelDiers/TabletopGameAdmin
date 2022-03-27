@@ -21,7 +21,7 @@
         public async void HandleAsync()
         {
             var message = TestData.SaveGameMessage();
-            await HandleAsyncForMessage(message);
+            await FunctionTests.HandleAsyncForMessage(message);
         }
 
         private static async Task HandleAsyncForMessage(ISaveGameMessage message)
