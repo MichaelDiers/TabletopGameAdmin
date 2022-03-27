@@ -24,6 +24,7 @@ message SaveGameSeries {
         repeated Countries countries = 4;
         Person organizer = 5;
         repeated Person players = 6;
+        string gameType = 7;
     };
        
     string processId = 1;
