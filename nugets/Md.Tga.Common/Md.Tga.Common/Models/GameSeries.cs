@@ -19,6 +19,11 @@
         private const string CountriesName = "countries";
 
         /// <summary>
+        ///     The name if the json entry gameType.
+        /// </summary>
+        private const string GameTypeName = "gameType";
+
+        /// <summary>
         ///     The name of json entry organizer.
         /// </summary>
         private const string OrganizerName = "organizer";
@@ -42,13 +47,15 @@
         /// <param name="countries">The countries of the game.</param>
         /// <param name="organizer">The game series organizer.</param>
         /// <param name="players">The players of the game series.</param>
+        /// <param name="gameType">The type of the game.</param>
         public GameSeries(
             string id,
             string name,
             IEnumerable<INamedBase> sides,
             IEnumerable<ICountry> countries,
             IPerson organizer,
-            IEnumerable<IPerson> players
+            IEnumerable<IPerson> players,
+            string gameType
         )
             : base(id, name)
         {
@@ -56,6 +63,7 @@
             this.Countries = countries ?? throw new ArgumentNullException(nameof(countries));
             this.Organizer = organizer ?? throw new ArgumentNullException(nameof(organizer));
             this.Players = players ?? throw new ArgumentNullException(nameof(players));
+            this.GameType = gameType.ValidateIsNotNullOrWhitespace(nameof(gameType));
         }
 
         /// <summary>
@@ -67,6 +75,7 @@
         /// <param name="countries">The countries of the game.</param>
         /// <param name="organizer">The game series organizer.</param>
         /// <param name="players">The players of the game series.</param>
+        /// <param name="gameType">The type of the game.</param>
         [JsonConstructor]
         public GameSeries(
             string id,
@@ -74,7 +83,8 @@
             IEnumerable<NamedBase> sides,
             IEnumerable<Country> countries,
             Person organizer,
-            IEnumerable<Person> players
+            IEnumerable<Person> players,
+            string gameType
         )
             : this(
                 id,
@@ -82,7 +92,8 @@
                 sides,
                 countries,
                 organizer,
-                players as IEnumerable<IPerson>)
+                players as IEnumerable<IPerson>,
+                gameType)
         {
         }
 
@@ -91,6 +102,12 @@
         /// </summary>
         [JsonProperty(GameSeries.CountriesName, Required = Required.Always, Order = 112)]
         public IEnumerable<ICountry> Countries { get; }
+
+        /// <summary>
+        ///     Gets the type of the game.
+        /// </summary>
+        [JsonProperty(GameSeries.GameTypeName, Required = Required.Always, Order = 115)]
+        public string GameType { get; }
 
         /// <summary>
         ///     Gets the organizer of the game series.
@@ -124,6 +141,7 @@
                 this.Countries.Select(country => country.ToDictionary()).ToArray());
             dictionary.Add(GameSeries.OrganizerName, this.Organizer.ToDictionary());
             dictionary.Add(GameSeries.PlayersName, this.Players.Select(player => player.ToDictionary()).ToArray());
+            dictionary.Add(GameSeries.GameTypeName, this.GameType);
             return dictionary;
         }
 
@@ -132,7 +150,7 @@
         /// </summary>
         /// <param name="dictionary">The object is initialized from the dictionary.</param>
         /// <returns>An instance of <see cref="GameSeries" />.</returns>
-        public new static GameSeries FromDictionary(IDictionary<string, object> dictionary)
+        public new static IGameSeries FromDictionary(IDictionary<string, object> dictionary)
         {
             var id = dictionary.GetString(Base.IdName);
             var name = dictionary.GetString(NamedBase.NameName);
@@ -143,14 +161,15 @@
                 .Select(Country.FromDictionary)
                 .ToArray();
             var players = dictionary.GetDictionaries(GameSeries.PlayersName).Select(Person.FromDictionary).ToArray();
-
+            var gameType = dictionary.GetString(GameSeries.GameTypeName);
             return new GameSeries(
                 id,
                 name,
                 sides,
                 countries,
                 organizer,
-                players);
+                players,
+                gameType);
         }
     }
 }

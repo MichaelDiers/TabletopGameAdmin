@@ -21,7 +21,7 @@
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
-            Assert.Equal(6, dictionary.Count);
+            Assert.Equal(7, dictionary.Count);
             Assert.Equal(obj.Id, dictionary[Base.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
         }
@@ -159,7 +159,7 @@
             var organizer = PersonTests.SerializePlain(obj.Organizer);
             var players = string.Join(",", obj.Players.Select(PersonTests.SerializePlain));
             return
-                $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}]}}";
+                $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}],\"gameType\":\"{obj.GameType}\"}}";
         }
 
         [Fact]
@@ -168,7 +168,7 @@
             var obj = GameSeriesTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
-            Assert.Equal(6, dictionary.Count);
+            Assert.Equal(7, dictionary.Count);
             Assert.Equal(obj.Id, dictionary[Base.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
         }
@@ -197,7 +197,8 @@
                 sides,
                 countries,
                 new Person(Guid.NewGuid().ToString(), "organizer", "organizer@foo.example"),
-                players);
+                players,
+                "Game Type");
         }
     }
 }

@@ -13,6 +13,11 @@
         IEnumerable<ICountry> Countries { get; }
 
         /// <summary>
+        ///     Gets the type of the game.
+        /// </summary>
+        string GameType { get; }
+
+        /// <summary>
         ///     Gets the organizer of the game series.
         /// </summary>
         IPerson Organizer { get; }
