@@ -1,7 +1,6 @@
 ﻿namespace Md.Tga.Common.Messages
 {
     using System;
-    using Md.Common.Extensions;
     using Md.GoogleCloud.Base.Messages;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
@@ -18,13 +17,11 @@
         /// </summary>
         /// <param name="processId">The id of the process.</param>
         /// <param name="gameSeries">The data of the new game series.</param>
-        /// <param name="internalId">The internal id.</param>
         /// <exception cref="ArgumentNullException">Is thrown if <paramref name="gameSeries" /> is null.</exception>
-        public SaveGameSeriesMessage(string processId, IGameSeries gameSeries, string internalId)
+        public SaveGameSeriesMessage(string processId, IGameSeries gameSeries)
             : base(processId)
         {
             this.GameSeries = gameSeries ?? throw new ArgumentNullException(nameof(gameSeries));
-            this.InternalId = internalId.ValidateIsAGuid(nameof(internalId));
         }
 
         /// <summary>
@@ -32,11 +29,10 @@
         /// </summary>
         /// <param name="processId">The id of the process.</param>
         /// <param name="gameSeries">The data of the new game series.</param>
-        /// <param name="internalId">The internal id.</param>
         /// <exception cref="ArgumentNullException">Is thrown if <paramref name="gameSeries" /> is null.</exception>
         [JsonConstructor]
-        public SaveGameSeriesMessage(string processId, GameSeries gameSeries, string internalId)
-            : this(processId, gameSeries as IGameSeries, internalId)
+        public SaveGameSeriesMessage(string processId, GameSeries gameSeries)
+            : this(processId, gameSeries as IGameSeries)
         {
         }
 
