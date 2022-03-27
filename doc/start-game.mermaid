@@ -8,8 +8,9 @@ sequenceDiagram
     participant ISS as InitializeSurveySubscriber<br>.net core
     C->>+PS: START_GAME
     PS-->>C: response
-    PS--)+SGS: START_GAME
+    PS--)SGS: START_GAME
     deactivate PS 
+    activate SGS
     SGS->>+FS: read game series
     FS-->>SGS: response
     deactivate FS
@@ -26,7 +27,7 @@ sequenceDiagram
     deactivate SaveGS
     SGS->>+PS: INITIALIZE_SURVEY
     PS-->>SGS: response
-    PS--)ISS: INITIALIZE_SURVEY
-    Note right of ISS: see surveys<br>repository
-    deactivate PS 
     deactivate SGS
+    PS--)ISS: INITIALIZE_SURVEY
+    deactivate PS
+    Note right of ISS: see surveys<br>repository
