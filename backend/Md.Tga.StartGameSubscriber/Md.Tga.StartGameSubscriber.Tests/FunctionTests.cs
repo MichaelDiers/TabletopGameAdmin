@@ -91,7 +91,6 @@
             var provider = new FunctionProvider(
                 logger,
                 new GameSeriesReadOnlyDatabase(runtime),
-                new GameReadOnlyDatabase(runtime),
                 new TranslationsReadOnlyDatabase(runtime),
                 new InitializeSurveyPubSubClient(
                     new PubSubClientConfiguration(projectId, configuration.InitializeSurveyTopicName)),

@@ -23,12 +23,10 @@
     /// </summary>
     public class FunctionProvider : PubSubProvider<IStartGameMessage, Function>
     {
-        private readonly IFunctionConfiguration configuration;
-
         /// <summary>
-        ///     Access to the database collection games.
+        ///     The application configuration.
         /// </summary>
-        private readonly IGameReadOnlyDatabase gamesDatabase;
+        private readonly IFunctionConfiguration configuration;
 
         /// <summary>
         ///     Access to the database collection game-series.
@@ -55,7 +53,6 @@
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="gameSeriesDatabase">Access to the database collection game-series.</param>
-        /// <param name="gamesDatabase">Access to the database collection games.</param>
         /// <param name="translationsDatabase">Access to the database collection translations.</param>
         /// <param name="initializeSurveyPubSubClient">Client for accessing pub/sub.</param>
         /// <param name="saveGamePubSubClient">Client for accessing pub/sub.</param>
@@ -63,7 +60,6 @@
         public FunctionProvider(
             ILogger<Function> logger,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
-            IGameReadOnlyDatabase gamesDatabase,
             ITranslationsReadOnlyDatabase translationsDatabase,
             IInitializeSurveyPubSubClient initializeSurveyPubSubClient,
             ISaveGamePubSubClient saveGamePubSubClient,
@@ -72,7 +68,6 @@
             : base(logger)
         {
             this.gameSeriesDatabase = gameSeriesDatabase ?? throw new ArgumentNullException(nameof(gameSeriesDatabase));
-            this.gamesDatabase = gamesDatabase ?? throw new ArgumentNullException(nameof(gamesDatabase));
             this.translationsDatabase =
                 translationsDatabase ?? throw new ArgumentNullException(nameof(translationsDatabase));
             this.initializeSurveyPubSubClient = initializeSurveyPubSubClient ??
