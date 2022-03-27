@@ -1,0 +1,32 @@
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant PS as Google Cloud<br>Pub/Sub
+    participant SaveGS as SaveGameSubscriber<br>.net core
+    participant FS as Google Cloud<br>Firestore
+    participant SGS as StartGameSubscriber<br>.net core
+    participant ISS as InitializeSurveySubscriber<br>.net core
+    C->>+PS: START_GAME
+    PS-->>C: response
+    PS--)+SGS: START_GAME
+    deactivate PS 
+    SGS->>+FS: read game series
+    FS-->>SGS: response
+    deactivate FS
+    SGS->>+FS: read translations
+    FS-->>SGS: response
+    deactivate FS
+    SGS->>+PS: SAVE_GAME
+    PS-->>SGS: response
+    PS--)+SaveGS: SAVE_GAME
+    deactivate PS 
+    SaveGS->>+FS: save game
+    FS-->>SaveGS: response
+    deactivate FS
+    deactivate SaveGS
+    SGS->>+PS: INITIALIZE_SURVEY
+    PS-->>SGS: response
+    PS--)ISS: INITIALIZE_SURVEY
+    Note right of ISS: see surveys<br>repository
+    deactivate PS 
+    deactivate SGS
