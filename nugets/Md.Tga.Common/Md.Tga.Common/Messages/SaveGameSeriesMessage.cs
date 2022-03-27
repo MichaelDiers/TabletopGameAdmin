@@ -45,11 +45,5 @@
         /// </summary>
         [JsonProperty("gameSeries", Required = Required.Always, Order = 11)]
         public IGameSeries GameSeries { get; }
-
-        /// <summary>
-        ///     Get the data the internal id.
-        /// </summary>
-        [JsonProperty("internalId", Required = Required.Always, Order = 12)]
-        public string InternalId { get; }
     }
 }
