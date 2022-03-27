@@ -45,8 +45,9 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISaveGameSeriesMessage message)
         {
-            await this.database.InsertAsync(message.InternalId, message.GameSeries);
-            await this.pubSubClient.PublishAsync(new StartGameMessage(message.ProcessId, message.InternalId));
+            var internalId = Guid.NewGuid().ToString();
+            await this.database.InsertAsync(internalId, message.GameSeries);
+            await this.pubSubClient.PublishAsync(new StartGameMessage(message.ProcessId, internalId));
         }
     }
 }
