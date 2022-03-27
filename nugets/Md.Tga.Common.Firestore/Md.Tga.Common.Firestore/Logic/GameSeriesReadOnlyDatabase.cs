@@ -2,13 +2,14 @@
 {
     using Md.Common.Contracts;
     using Md.GoogleCloudFirestore.Logic;
+    using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Models;
 
     /// <summary>
     ///     ReadOnly database for <see cref="GameSeries" /> collections,
     /// </summary>
-    public class GameSeriesReadOnlyDatabase : ReadonlyDatabase<GameSeries>, IGameSeriesReadOnlyDatabase
+    public class GameSeriesReadOnlyDatabase : ReadonlyDatabase<IGameSeries>, IGameSeriesReadOnlyDatabase
     {
         /// <summary>
         ///     Name of the database collection.
