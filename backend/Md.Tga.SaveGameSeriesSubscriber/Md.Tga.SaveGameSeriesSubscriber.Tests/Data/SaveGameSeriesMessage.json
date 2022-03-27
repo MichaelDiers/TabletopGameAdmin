@@ -51,7 +51,7 @@
         "name": "player_2",
         "email": "player_2@foo.example"
       }
-    ]
-  },
-  "internalId": "CD39CFBA-32D0-409B-A0CD-8167E0EE9008"
+    ],
+    "gameType": "game type" 
+  }
 }
