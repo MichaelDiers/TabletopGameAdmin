@@ -68,4 +68,4 @@ jobs:
           source_dir: ${{ inputs.solutionFolder }}/${{ inputs.projectName }}
           entry_point: ${{ inputs.projectName }}.Function
           event_trigger_type: google.pubsub.topic.publish
-          event_trigger_resource: projects/${{ inputs.projectId }}/topics/${{ inputs.subTopicName }}
+          event_trigger_resource: projects/${{ secrets.projectId }}/topics/${{ secrets.subTopicName }}
