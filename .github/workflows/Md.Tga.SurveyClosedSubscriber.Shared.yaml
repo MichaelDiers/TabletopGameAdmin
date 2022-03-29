@@ -23,6 +23,9 @@ on:
       solutionFolder:
         required: true
         type: string
+      appSettingsJson:
+        required: true
+        type: string
     secrets:
       gcpCredentials:
         required: true
@@ -37,12 +40,8 @@ jobs:
       - name: checkout source
         uses: actions/checkout@v2
       - name: configure appsettings.json
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/appsettings.json
-        env:
-          ProjectId: ${{ inputs.projectId }}
-          Environment: ${{ inputs.environmentName }}
+        run: |
+          echo ${{ inputs.appSettingsJson }} > ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/appsettings.json
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
