@@ -9,18 +9,4 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    steps:
-      - name: build and deploy
-        uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yml@v1
-  stage:
-    needs: test
-    steps:
-      - name: build and deploy
-        uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yml@v1
-  prod:
-    needs: stage
-    environment: 
-      - Md.Tga.SurveyClosedSubscriber-Prod
-    steps:
-    - name: build and deploy
-      uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yml@v1
+    uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yml@v1
