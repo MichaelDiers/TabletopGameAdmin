@@ -19,5 +19,5 @@ jobs:
     needs: stage
     runs-on: ubuntu-latest
     environment:
-      - Md.Tga.SurveyClosedSubscriber-Prod
+      name: Md.Tga.SurveyClosedSubscriber-Prod
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
