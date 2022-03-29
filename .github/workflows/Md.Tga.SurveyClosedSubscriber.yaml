@@ -9,15 +9,12 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    runs-on: ubuntu-latest
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
   stage:
     needs: test
-    runs-on: ubuntu-latest
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
   prod:
     needs: stage
-    runs-on: ubuntu-latest
-    environment:
-      name: Md.Tga.SurveyClosedSubscriber-Prod
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
+    with:
+      environmentName: Md.Tga.SurveyClosedSubscriber-Prod
