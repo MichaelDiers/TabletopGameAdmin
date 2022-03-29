@@ -27,8 +27,9 @@ jobs:
       nugetUserName: MichaelDiers
       projectName: Md.Tga.SurveyClosedSubscriber
       solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
-      appSettingsJson: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\"\}'
     secrets:
       gcpCredentials: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
       projectId: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
       subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
+      appSettingsJson: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\"\}'
+
