@@ -18,8 +18,10 @@ env:
   SUB_TOPIC_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
 jobs:
   Test:
-    - uses: MichaelDiers/shared-workflows/.github/workflows/pre-deploy.yaml@main
-    - uses: ./.github/workflows/Md.Tga.SurveyClosedSubscriber.Shared.yaml
+    foo:
+      uses: MichaelDiers/shared-workflows/.github/workflows/pre-deploy.yaml@main
+    bar:
+      uses: ./.github/workflows/Md.Tga.SurveyClosedSubscriber.Shared.yaml
       with:
         config: Release
         environmentName: Test
