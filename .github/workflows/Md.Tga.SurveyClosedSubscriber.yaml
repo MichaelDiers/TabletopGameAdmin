@@ -17,6 +17,7 @@ jobs:
     needs: stage
     environment:
       name: Md.Tga.SurveyClosedSubscriber-Prod
-    uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
+    steps:
+      - uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
 
       
