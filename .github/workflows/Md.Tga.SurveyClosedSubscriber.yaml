@@ -19,14 +19,14 @@ jobs:
   Test:
     uses: ./.github/workflows/Md.Tga.SurveyClosedSubscriber.Shared.yaml
     with:
-      config: ${{ env.CONFIG }}
+      config: Release
       environmentName: github.job
-      functionName: ${{ env.FUNCTION_NAME }} 
-      nugetConfig: ${{ env.NUGET_CONFIG }}
-      nugetUserName: ${{ env.NUGET_USERNAME }}
-      projectName: ${{ env.PROJECT_NAME }}
-      solutionFolder: ${{ env.SOLUTION_FOLDER }}
+      functionName: SurveyClosedSubscriber 
+      nugetConfig: '.github/workflows/Generic-Nuget.config'
+      nugetUserName: MichaelDiers
+      projectName: Md.Tga.SurveyClosedSubscriber
+      solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
     secrets:
       gcpCredentials: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
       projectId: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
-      subTopicName: ${{ env.SUB_TOPIC_NAME }}
+      subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
