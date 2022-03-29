@@ -40,8 +40,15 @@ jobs:
       - name: checkout source
         uses: actions/checkout@v2
       - name: configure appsettings.json
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/appsettings.json
+        env:
+          ProjectId: ${{ inputs.projectId }}
+          Environment: ${{ inputs.environmentName }}
+      - name: configure appsettings2.json
         run: |
-          echo ${{ inputs.appSettingsJson }} > ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/appsettings.json
+          echo ${{ inputs.appSettingsJson }} > ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/appsettings2.json
       - name: use .net core
         uses: actions/setup-dotnet@v1
         with:
