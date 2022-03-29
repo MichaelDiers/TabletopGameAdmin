@@ -9,4 +9,4 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@v1
+    uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
