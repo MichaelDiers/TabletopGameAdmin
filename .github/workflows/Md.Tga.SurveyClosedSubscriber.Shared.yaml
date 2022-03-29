@@ -49,7 +49,7 @@ jobs:
           dotnet-version: 3.1.x
       - name: nuget config
         run: |
-          echo $(sed -e "s/\${USERNAME}/${{ inputs.nugetUserName }}/" -e "s@\${TOKEN}@${{ secrets.GITHUB_TOKEN }}@" ${{ inputs.nugetComfig }}) > ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/nuget.config
+          echo $(sed -e "s/\${USERNAME}/${{ inputs.nugetUserName }}/" -e "s@\${TOKEN}@${{ secrets.GITHUB_TOKEN }}@" ${{ inputs.nugetConfig }}) > ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/nuget.config
           cp ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/nuget.config ${{ inputs.solutionFolder }}/${{ inputs.projectName }}.Tests/nuget.config
       - name: build
         run: dotnet build ${{ inputs.solutionFolder }}/${{ inputs.projectName }}.sln --configuration "${{ inputs.config }}"

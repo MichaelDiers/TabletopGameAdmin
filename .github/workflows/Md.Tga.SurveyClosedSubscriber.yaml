@@ -22,7 +22,7 @@ jobs:
       config: Release
       environmentName: github.job
       functionName: SurveyClosedSubscriber 
-      nugetConfig: '.github/workflows/Generic-Nuget.config'
+      nugetConfig: .github/workflows/Generic-Nuget.config
       nugetUserName: MichaelDiers
       projectName: Md.Tga.SurveyClosedSubscriber
       solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
