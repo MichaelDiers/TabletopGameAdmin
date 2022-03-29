@@ -39,13 +39,6 @@ jobs:
     steps:
       - name: checkout source
         uses: actions/checkout@v2
-      - name: configure appsettings.Development.json
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/appsettings.Development.json
-        env:
-          ProjectId: ${{ inputs.projectId }}
-          Environment: ${{ inputs.environmentName }}
       - name: configure appsettings.json
         run: |
           echo ${{ inputs.appSettingsJson }} > ${{ inputs.solutionFolder }}/${{ inputs.projectName }}/appsettings.json
