@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.InitializeGameSeriesSubscriber.Tests.Mocks
+﻿namespace Md.Tga.SurveyClosedSubscriber.Tests.Mocks
 {
     using System;
     using System.Threading.Tasks;

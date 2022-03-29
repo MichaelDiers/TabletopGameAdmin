@@ -1,10 +1,10 @@
-﻿namespace Md.Tga.InitializeGameSeriesSubscriber.Logic
+﻿namespace Md.Tga.SurveyClosedSubscriber.Logic
 {
     using System;
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Logic;
-    using Md.Tga.Common.Contracts.Models;
-    using Md.Tga.InitializeGameSeriesSubscriber.Contracts;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Models;
     using Md.Tga.SurveyClosedSubscriber.Contracts;
     using Microsoft.Extensions.Logging;
     using Surveys.Common.Contracts.Messages;
@@ -14,10 +14,8 @@
     /// </summary>
     public class FunctionProvider : PubSubProvider<ISurveyClosedMessage, Function>
     {
-        private readonly IGamesDatabase gamesDatabase;
-        private readonly IGameSeriesDatabase gameSeriesDatabase;
-        private readonly ISaveGameSeriesPubSubClient saveGameSeriesPubSubClient;
-        private readonly IStartGamePubSubClient startGamePubSubClient;
+        private readonly IGameReadOnlyDatabase gamesDatabase;
+        private readonly IGameSeriesReadOnlyDatabase gameSeriesDatabase;
         private readonly ISurveyEvaluator surveyEvaluator;
 
         /// <summary>
@@ -25,26 +23,19 @@
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="gamesDatabase"></param>
-        /// <param name="saveGameSeriesPubSubClient">Pub/sub client for saving a game series.</param>
-        /// <param name="startGamePubSubClient">Pub/sub client for starting a new game.</param>
         /// <param name="gameSeriesDatabase"></param>
         /// <param name="surveyEvaluator"></param>
         public FunctionProvider(
             ILogger<Function> logger,
-            IGameSeriesDatabase gameSeriesDatabase,
-            IGamesDatabase gamesDatabase,
-            ISaveGameSeriesPubSubClient saveGameSeriesPubSubClient,
-            IStartGamePubSubClient startGamePubSubClient,
+            IGameSeriesReadOnlyDatabase gameSeriesDatabase,
+            IGameReadOnlyDatabase gamesDatabase,
             ISurveyEvaluator surveyEvaluator
         )
             : base(logger)
         {
             this.gameSeriesDatabase = gameSeriesDatabase;
             this.gamesDatabase = gamesDatabase;
-            this.saveGameSeriesPubSubClient = saveGameSeriesPubSubClient ??
-                                              throw new ArgumentNullException(nameof(saveGameSeriesPubSubClient));
-            this.startGamePubSubClient =
-                startGamePubSubClient ?? throw new ArgumentNullException(nameof(startGamePubSubClient));
+
             this.surveyEvaluator = surveyEvaluator;
         }
 
@@ -55,17 +46,18 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISurveyClosedMessage message)
         {
-            var game = await this.gamesDatabase.ReadGameBySurveyId(message.Survey.Id);
-            var gameSeries = await this.gameSeriesDatabase.ReadById(game.InternalGameSeriesId);
+            var game = await this.gamesDatabase.ReadOneAsync(Game.SurveyIdName, message.Survey.Id);
+            if (game == null)
+            {
+                throw new ArgumentException($"No game found for survey id {message.Survey.Id}");
+            }
+
+            var gameSeries = await this.gameSeriesDatabase.ReadByDocumentIdAsync(game.InternalGameSeriesId);
 
             var solution = this.surveyEvaluator.Evaluate(gameSeries, message.Results);
 
             // save game
             // create mails
-        }
-
-        private void FindSolution(IGameSeries gameSeries, IGame game, ISurveyClosedMessage surveyClosedMessage)
-        {
         }
     }
 }

@@ -4,8 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using Md.Tga.Common.Contracts.Models;
-    using Md.Tga.InitializeGameSeriesSubscriber.Tests.Data;
     using Md.Tga.SurveyClosedSubscriber.Logic;
+    using Md.Tga.SurveyClosedSubscriber.Tests.Data;
     using Surveys.Common.Models;
     using Xunit;
 

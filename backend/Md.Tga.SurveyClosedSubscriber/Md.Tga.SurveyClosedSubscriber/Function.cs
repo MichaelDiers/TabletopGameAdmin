@@ -1,4 +1,4 @@
-namespace Md.Tga.InitializeGameSeriesSubscriber
+namespace Md.Tga.SurveyClosedSubscriber
 {
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloud.Base.Contracts.Logic;

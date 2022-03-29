@@ -1,9 +1,12 @@
-namespace Md.Tga.InitializeGameSeriesSubscriber
+namespace Md.Tga.SurveyClosedSubscriber
 {
     using Google.Cloud.Functions.Hosting;
-    using Md.Tga.InitializeGameSeriesSubscriber.Contracts;
-    using Md.Tga.InitializeGameSeriesSubscriber.Logic;
-    using Md.Tga.InitializeGameSeriesSubscriber.Model;
+    using Md.Common.Contracts;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Firestore.Logic;
+    using Md.Tga.SurveyClosedSubscriber.Contracts;
+    using Md.Tga.SurveyClosedSubscriber.Logic;
+    using Md.Tga.SurveyClosedSubscriber.Model;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -24,9 +27,13 @@ namespace Md.Tga.InitializeGameSeriesSubscriber
             context.Configuration.Bind(configuration);
 
             services.AddScoped<IFunctionConfiguration>(_ => configuration);
-            services.AddScoped<IStartGamePubSubClient, StartGamePubSubClient>();
-            services.AddScoped<ISaveGameSeriesPubSubClient, SaveGameSeriesPubSubClient>();
-            //services.AddScoped<IPubSubProvider<IInitializeGameSeriesMessage>, FunctionProvider>();
+
+            services.AddScoped<IRuntimeEnvironment>(_ => configuration);
+
+            services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
+            services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
+
+            services.AddScoped<ISurveyEvaluator, SurveyEvaluator>();
         }
     }
 }
