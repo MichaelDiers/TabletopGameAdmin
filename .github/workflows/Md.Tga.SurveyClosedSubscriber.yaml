@@ -18,17 +18,17 @@ env:
   SUB_TOPIC_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
 jobs:
   Test:
-    uses: MichaelDiers/shared-workflows/.github/workflows/pre-deploy.yaml@main
-    uses: ./.github/workflows/Md.Tga.SurveyClosedSubscriber.Shared.yaml
-    with:
-      config: Release
-      environmentName: Test
-      functionName: SurveyClosedSubscriber 
-      nugetConfig: .github/workflows/Generic-Nuget.config
-      nugetUserName: MichaelDiers
-      projectName: Md.Tga.SurveyClosedSubscriber
-      solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
-    secrets:
-      gcpCredentials: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
-      projectId: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
-      subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
+    - uses: MichaelDiers/shared-workflows/.github/workflows/pre-deploy.yaml@main
+    - uses: ./.github/workflows/Md.Tga.SurveyClosedSubscriber.Shared.yaml
+      with:
+        config: Release
+        environmentName: Test
+        functionName: SurveyClosedSubscriber 
+        nugetConfig: .github/workflows/Generic-Nuget.config
+        nugetUserName: MichaelDiers
+        projectName: Md.Tga.SurveyClosedSubscriber
+        solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
+      secrets:
+        gcpCredentials: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
+        projectId: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+        subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
