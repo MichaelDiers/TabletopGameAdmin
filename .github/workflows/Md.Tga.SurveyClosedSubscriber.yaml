@@ -7,8 +7,6 @@ on:
       - 'backend/Md.Tga.SurveyClosedSubscriber/**'
       - '.github/workflows/Md.Tga.SurveyClosedSubscriber.yaml'
   workflow_dispatch:
-env:
-  TRIGGER: pubsub
 jobs:
   Test:
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
@@ -16,10 +14,16 @@ jobs:
       functionName: SurveyClosedSubscriber 
       projectName: Md.Tga.SurveyClosedSubscriber
       solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
-      trigger: ${{ env.TRIGGER }}
+      trigger: pubsub
     secrets:
-      gcpCredentials: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
-      projectId: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      gcpCredentialsTest: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
+      gcpCredentialsStage: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
+      gcpCredentialsProd: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
+      projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
+      projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
       subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
-      appSettingsJson: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\"\}'
+      appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\"\}'
+      appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\"\}'
+      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\"\}'
 
