@@ -18,7 +18,7 @@ env:
   SUB_TOPIC_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
 jobs:
   Test:
-    uses: ./.github/workflows/Md.Tga.SurveyClosedSubscriber.Shared.yaml
+    uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml
     with:
       config: Release
       environmentName: Test
