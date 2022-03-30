@@ -6,6 +6,7 @@ on:
     paths:
       - 'schemas/StartGameSchema.proto'
       - '.github/workflows/Schema.StartGame.yaml'
+  workflow_dispatch:
 jobs:
   createSchemaAndTopic:
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-pubsub-schema-topic.yaml@main
