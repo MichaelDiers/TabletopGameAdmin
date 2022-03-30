@@ -6,25 +6,12 @@ on:
     paths:
       - 'backend/Md.Tga.SurveyClosedSubscriber/**'
       - '.github/workflows/Md.Tga.SurveyClosedSubscriber.yaml'
-      - '.github/workflows/Md.Tga.SurveyClosedSubscriber.Shared.yaml'
   workflow_dispatch:
-env:
-  CONFIG: Release
-  FUNCTION_NAME: SurveyClosedSubscriber
-  NUGET_CONFIG: '.github/workflows/Generic-Nuget.config'
-  NUGET_USERNAME: MichaelDiers
-  PROJECT_NAME: Md.Tga.SurveyClosedSubscriber
-  SOLUTION_FOLDER: backend/Md.Tga.SurveyClosedSubscriber
-  SUB_TOPIC_NAME: ${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEY_CLOSED }}
 jobs:
   Test:
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
     with:
-      config: Release
-      environmentName: Test
       functionName: SurveyClosedSubscriber 
-      nugetConfig: .github/workflows/Generic-Nuget.config
-      nugetUserName: MichaelDiers
       projectName: Md.Tga.SurveyClosedSubscriber
       solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
     secrets:
