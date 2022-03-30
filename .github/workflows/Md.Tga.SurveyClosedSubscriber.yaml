@@ -14,6 +14,7 @@ jobs:
       functionName: SurveyClosedSubscriber 
       projectName: Md.Tga.SurveyClosedSubscriber
       solutionFolder: backend/Md.Tga.SurveyClosedSubscriber
+      trigger: pubsub
     secrets:
       gcpCredentials: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
       projectId: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
