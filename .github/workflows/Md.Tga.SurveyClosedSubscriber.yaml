@@ -8,8 +8,8 @@ on:
       - '.github/workflows/Md.Tga.SurveyClosedSubscriber.yaml'
   workflow_dispatch:
 jobs:
-  Test:
-    uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-function.yaml@main
+  BuildAndDeploy:
+    uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-deploy-google-cloud-function.yaml@main
     with:
       functionName: SurveyClosedSubscriber 
       projectName: Md.Tga.SurveyClosedSubscriber
