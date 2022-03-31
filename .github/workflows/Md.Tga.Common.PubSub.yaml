@@ -1,0 +1,17 @@
+name: nugets/Md.Tga.Common.PubSub.yaml
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'nugets/Md.Tga.Common.PubSub/**'
+      - '.github/workflows/Md.Tga.Common.PubSub.yaml'
+  workflow_dispatch:
+jobs:
+  createSchemaAndTopic:
+    uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-nuget.yaml@main
+    with:
+      projectName: Md.Tga.Common.PubSub
+      solutionFolder: nugets/Md.Tga.Common.PubSub
+    secrets:
+      nugetAuthToken: ${{ secrets.NUGET_AUTH_TOKEN }}
