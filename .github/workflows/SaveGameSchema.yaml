@@ -1,18 +1,16 @@
-name: schemas/Schema.SaveGame.yaml
+name: SaveGameSchema
 on:
   push:
     branches:
       - main
     paths:
       - 'schemas/SaveGameSchema.proto'
-      - '.github/workflows/Schema.SaveGame.yaml'
   workflow_dispatch:
   workflow_run:
     workflows: [GoLive]
     types: [completed]
 jobs:
   createSchemaAndTopic:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-pubsub-schema-topic.yaml@main
     with:
       messageEnconding: json
