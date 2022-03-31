@@ -16,6 +16,6 @@
         /// <summary>
         ///     Gets the name of the topic of the pub/sub message.
         /// </summary>
-        public string PubSubTopic { get; set; } = "";
+        public string TopicName { get; set; } = "";
     }
 }

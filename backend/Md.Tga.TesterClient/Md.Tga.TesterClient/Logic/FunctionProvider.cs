@@ -2,9 +2,9 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.TesterClient.Contracts;
 
     /// <summary>
@@ -25,7 +25,7 @@
         /// <summary>
         ///     Client for sending a message to pub/sub.
         /// </summary>
-        private readonly IPubSubClient pubSubClient;
+        private readonly ISaveGameSeriesPubSubClient pubSubClient;
 
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
@@ -35,7 +35,7 @@
         /// <param name="configuration">The application configuration.</param>
         public FunctionProvider(
             IGameSeriesReadOnlyDatabase database,
-            IPubSubClient pubSubClient,
+            ISaveGameSeriesPubSubClient pubSubClient,
             IFunctionConfiguration configuration
         )
         {
