@@ -5,8 +5,10 @@ on:
       - main
     paths:
       - 'backend/Md.Tga.TesterClient/**'
-      - '.github/workflows/Md.Tga.TesterClient.yaml'
   workflow_dispatch:
+  workflow_run:
+    workflows: [GoLive]
+    types: [completed]
 jobs:
   BuildAndDeploy:
     uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-deploy-google-cloud-function.yaml@main
@@ -22,6 +24,6 @@ jobs:
       projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
       projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
       projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
-      appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\",\"DocumentId\": \"${{ secrets.GLOBAL_COLLECTION_GAME_SERIES_TEST_CASE }}\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}\"\}'
-      appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\",\"DocumentId\": \"${{ secrets.GLOBAL_COLLECTION_GAME_SERIES_TEST_CASE }}\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}\"\}'
-      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\",\"DocumentId\": \"${{ secrets.GLOBAL_COLLECTION_GAME_SERIES_TEST_CASE }}\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}\"\}'
+      appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}\"\}'
+      appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}\"\}'
+      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_GAME_SERIES }}\"\}'

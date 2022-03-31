@@ -5,10 +5,9 @@ on:
       - main
     paths:
       - 'nugets/Md.Tga.Common.Firestore/**'
-      - '.github/workflows/Md.Tga.Common.Firestore.yaml'
   workflow_dispatch:
 jobs:
-  createSchemaAndTopic:
+  buildAndPublishNuget:
     uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-nuget.yaml@main
     with:
       projectName: Md.Tga.Common.Firestore
