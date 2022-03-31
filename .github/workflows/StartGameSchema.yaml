@@ -1,12 +1,14 @@
-name: schemas/Schema.StartGame.yaml
+name: StartGameSchema
 on:
   push:
     branches:
       - main
     paths:
       - 'schemas/StartGameSchema.proto'
-      - '.github/workflows/Schema.StartGame.yaml'
   workflow_dispatch:
+  workflow_run:
+    workflows: [GoLive]
+    types: [completed]
 jobs:
   createSchemaAndTopic:
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-pubsub-schema-topic.yaml@main
