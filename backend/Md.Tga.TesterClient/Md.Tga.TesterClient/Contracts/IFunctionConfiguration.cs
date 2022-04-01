@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.TesterClient.Contracts
 {
     using Md.Common.Contracts;
-    using Md.Tga.Common.PubSub.Contracts.Logic;
+    using Md.GoogleCloudPubSub.Logic;
 
     /// <summary>
     ///     Access the application settings.

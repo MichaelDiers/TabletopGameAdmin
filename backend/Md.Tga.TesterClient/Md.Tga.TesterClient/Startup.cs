@@ -2,6 +2,7 @@ namespace Md.Tga.TesterClient
 {
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts;
+    using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.Common.PubSub.Contracts.Logic;

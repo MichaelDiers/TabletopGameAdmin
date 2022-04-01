@@ -9,6 +9,7 @@
 		<PackageReference Include="Google.Cloud.Functions.Hosting" Version="1.0.0" />
 		<PackageReference Include="Md.Common" Version="1.2.24" />
 		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.11" />
+		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.2.24" />
 		<PackageReference Include="Md.Tga.Common" Version="1.2.32" />
 		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.12" />
 		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.3" />
