@@ -11,7 +11,7 @@
 		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.11" />
 		<PackageReference Include="Md.Tga.Common" Version="1.2.32" />
 		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.12" />
-		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.1" />
+		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.3" />
 	</ItemGroup>
 
 	<ItemGroup>
