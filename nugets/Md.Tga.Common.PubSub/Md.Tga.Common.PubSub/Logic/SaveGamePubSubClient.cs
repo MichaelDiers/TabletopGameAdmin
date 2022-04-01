@@ -5,15 +5,15 @@
     using Md.Tga.Common.PubSub.Contracts.Logic;
 
     /// <summary>
-    ///     Google pub/sub client for publishing an <see cref="ISaveGameSeriesMessage" />.
+    ///     Google pub/sub client for publishing an <see cref="ISaveGameMessage" />.
     /// </summary>
-    public class SaveGameSeriesPubSubClient : AbstractPubSubClient<ISaveGameSeriesMessage>, ISaveGameSeriesPubSubClient
+    public class SaveGamePubSubClient : AbstractPubSubClient<ISaveGameMessage>, ISaveGamePubSubClient
     {
         /// <summary>
-        ///     Creates a new instance of <see cref="SaveGameSeriesPubSubClient" />.
+        ///     Creates a new instance of <see cref="SaveGamePubSubClient" />.
         /// </summary>
         /// <param name="environment"></param>
-        public SaveGameSeriesPubSubClient(IPubSubClientEnvironment environment)
+        public SaveGamePubSubClient(IPubSubClientEnvironment environment)
             : base(environment)
         {
         }
