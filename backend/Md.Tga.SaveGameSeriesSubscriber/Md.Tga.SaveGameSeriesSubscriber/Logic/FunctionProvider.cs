@@ -2,11 +2,11 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -23,7 +23,7 @@
         /// <summary>
         ///     Send messages to to pub/sub.
         /// </summary>
-        private readonly IPubSubClient pubSubClient;
+        private readonly IStartGamePubSubClient pubSubClient;
 
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
@@ -31,7 +31,11 @@
         /// <param name="logger">An error logger.</param>
         /// <param name="database">Access to the database.</param>
         /// <param name="pubSubClient">Access to pub/sub.</param>
-        public FunctionProvider(ILogger<Function> logger, IGameSeriesDatabase database, IPubSubClient pubSubClient)
+        public FunctionProvider(
+            ILogger<Function> logger,
+            IGameSeriesDatabase database,
+            IStartGamePubSubClient pubSubClient
+        )
             : base(logger)
         {
             this.database = database ?? throw new ArgumentNullException(nameof(database));
