@@ -8,14 +8,16 @@
     using Google.Cloud.Functions.Testing;
     using Google.Events.Protobuf.Cloud.PubSub.V1;
     using Md.Common.Model;
-    using Md.GoogleCloud.Base.Logic;
+    using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Logic;
+    using Md.Tga.Common.PubSub.Logic;
     using Md.Tga.StartGameSubscriber.Logic;
     using Md.Tga.StartGameSubscriber.Model;
     using Md.Tga.StartGameSubscriber.Tests.Data;
     using Md.Tga.StartGameSubscriber.Tests.Mocks;
     using Newtonsoft.Json;
+    using Surveys.Common.PubSub.Logic;
     using Xunit;
     using Environment = Md.Common.Contracts.Environment;
 
@@ -93,8 +95,9 @@
                 new GameSeriesReadOnlyDatabase(runtime),
                 new TranslationsReadOnlyDatabase(runtime),
                 new InitializeSurveyPubSubClient(
-                    new PubSubClientConfiguration(projectId, configuration.InitializeSurveyTopicName)),
-                new SaveGamePubSubClient(new PubSubClientConfiguration(projectId, configuration.SaveGameTopicName)),
+                    new PubSubClientEnvironment(Environment.Test, projectId, configuration.InitializeSurveyTopicName)),
+                new SaveGamePubSubClient(
+                    new PubSubClientEnvironment(Environment.Test, projectId, configuration.SaveGameTopicName)),
                 configuration);
 
             var function = new Function(logger, provider);

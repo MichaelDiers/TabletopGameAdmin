@@ -3,16 +3,20 @@ namespace Md.Tga.StartGameSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts;
     using Md.GoogleCloud.Base.Contracts.Logic;
-    using Md.GoogleCloud.Base.Logic;
+    using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
+    using Md.Tga.Common.PubSub.Logic;
     using Md.Tga.StartGameSubscriber.Contracts;
     using Md.Tga.StartGameSubscriber.Logic;
     using Md.Tga.StartGameSubscriber.Model;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Surveys.Common.PubSub.Contracts.Logic;
+    using Surveys.Common.PubSub.Logic;
 
     /// <summary>
     ///     Initialize the function.
@@ -36,12 +40,18 @@ namespace Md.Tga.StartGameSubscriber
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
             services.AddScoped<ITranslationsReadOnlyDatabase, TranslationsReadOnlyDatabase>();
 
-            services.AddScoped<IInitializeSurveyPubSubClient>(
-                _ => new InitializeSurveyPubSubClient(
-                    new PubSubClientConfiguration(configuration.ProjectId, configuration.InitializeSurveyTopicName)));
             services.AddScoped<ISaveGamePubSubClient>(
                 _ => new SaveGamePubSubClient(
-                    new PubSubClientConfiguration(configuration.ProjectId, configuration.SaveGameTopicName)));
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.SaveGameTopicName)));
+            services.AddScoped<IInitializeSurveyPubSubClient>(
+                _ => new InitializeSurveyPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.InitializeSurveyTopicName)));
 
             services.AddScoped<IPubSubProvider<IStartGameMessage>, FunctionProvider>();
         }

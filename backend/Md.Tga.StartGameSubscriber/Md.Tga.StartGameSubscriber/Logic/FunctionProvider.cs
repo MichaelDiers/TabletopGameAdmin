@@ -4,18 +4,19 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.StartGameSubscriber.Contracts;
     using Microsoft.Extensions.Logging;
     using Surveys.Common.Contracts;
     using Surveys.Common.Messages;
     using Surveys.Common.Models;
+    using Surveys.Common.PubSub.Contracts.Logic;
     using Person = Surveys.Common.Models.Person;
 
     /// <summary>
@@ -36,7 +37,7 @@
         /// <summary>
         ///     Access pub/sub.
         /// </summary>
-        private readonly IPubSubClient initializeSurveyPubSubClient;
+        private readonly IInitializeSurveyPubSubClient initializeSurveyPubSubClient;
 
         /// <summary>
         ///     Access pub/sub.
