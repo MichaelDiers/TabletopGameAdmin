@@ -1,4 +1,4 @@
-name: Md.Tga.TesterClient.yaml
+name: Md.Tga.TesterClient
 on:
   push:
     branches:
