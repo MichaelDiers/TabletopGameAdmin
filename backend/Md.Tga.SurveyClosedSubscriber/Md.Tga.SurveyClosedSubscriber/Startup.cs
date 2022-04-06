@@ -2,6 +2,7 @@ namespace Md.Tga.SurveyClosedSubscriber
 {
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts;
+    using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
@@ -13,6 +14,7 @@ namespace Md.Tga.SurveyClosedSubscriber
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Surveys.Common.Contracts.Messages;
 
     /// <summary>
     ///     Initialize the function.
@@ -44,6 +46,8 @@ namespace Md.Tga.SurveyClosedSubscriber
                         configuration.SavePlayerMappingsTopicName)));
 
             services.AddScoped<ISurveyEvaluator, SurveyEvaluator>();
+
+            services.AddScoped<IPubSubProvider<ISurveyClosedMessage>, FunctionProvider>();
         }
     }
 }
