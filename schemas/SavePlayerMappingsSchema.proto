@@ -1,0 +1,15 @@
+syntax = "proto3";
+message SavePlayerMappings {
+    message PlayerCountryMapping {
+        string playerId = 1;
+        string countryId = 2;
+    };
+
+    message PlayerMappings {
+        string internalGameId = 1;
+        repeated PlayerCountryMapping playerCountryMappings = 2;
+    };
+
+    string processId = 1;
+    PlayerMappings playerMappings = 2;
+};
