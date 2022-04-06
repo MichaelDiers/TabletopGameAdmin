@@ -27,6 +27,7 @@
         /// </summary>
         /// <param name="internalGameId">The internal game id.</param>
         /// <param name="playerCountryMappings">The player-country-mapping of the game.</param>
+        [JsonConstructor]
         public PlayerMappings(string internalGameId, IEnumerable<PlayerCountryMapping> playerCountryMappings)
             : this(internalGameId, playerCountryMappings.Select(pcm => pcm as IPlayerCountryMapping).ToArray())
         {
