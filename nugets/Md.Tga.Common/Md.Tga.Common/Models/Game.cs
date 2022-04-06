@@ -40,6 +40,27 @@
         }
 
         /// <summary>
+        ///     Creates a new instance of <see cref="Game" />.
+        /// </summary>
+        /// <param name="id">The id of the game.</param>
+        /// <param name="name">The name of the game.</param>
+        /// <param name="internalGameSeriesId">The internal game series id.</param>
+        /// <param name="surveyId">The id of the survey.</param>
+        /// <param name="internalDocumentId">The internal document id.</param>
+        protected Game(
+            string id,
+            string name,
+            string internalGameSeriesId,
+            string surveyId,
+            string internalDocumentId
+        )
+            : base(id, name, internalDocumentId)
+        {
+            this.InternalGameSeriesId = internalGameSeriesId.ValidateIsAGuid(nameof(internalGameSeriesId));
+            this.SurveyId = surveyId.ValidateIsAGuid(nameof(surveyId));
+        }
+
+        /// <summary>
         ///     Gets the internal game series id.
         /// </summary>
         [JsonProperty(Game.InternalGameSeriesIdName, Required = Required.Always, Order = 111)]
@@ -75,12 +96,13 @@
             var name = dictionary.GetString(NamedBase.NameName);
             var internalGameSeriesId = dictionary.GetString(Game.InternalGameSeriesIdName);
             var surveyId = dictionary.GetString(Game.SurveyIdName);
-
+            var internalDocumentId = dictionary.GetString(Base.InternalDocumentIdName, string.Empty);
             return new Game(
                 id,
                 name,
                 internalGameSeriesId,
-                surveyId);
+                surveyId,
+                internalDocumentId);
         }
     }
 }

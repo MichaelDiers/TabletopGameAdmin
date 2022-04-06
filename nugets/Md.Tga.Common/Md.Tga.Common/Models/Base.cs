@@ -16,12 +16,28 @@
         public const string IdName = "id";
 
         /// <summary>
+        ///     The name of the json entry internal id.
+        /// </summary>
+        public const string InternalDocumentIdName = "internalId";
+
+        /// <summary>
         ///     Create a new instance of <see cref="Base" />.
         /// </summary>
         /// <param name="id">The id of the object. Has to be a guid.</param>
         protected Base(string id)
+            : this(id, string.Empty)
+        {
+        }
+
+        /// <summary>
+        ///     Create a new instance of <see cref="Base" />.
+        /// </summary>
+        /// <param name="id">The id of the object. Has to be a guid.</param>
+        /// <param name="internalDocumentId">The internal document id.</param>
+        protected Base(string id, string internalDocumentId)
         {
             this.Id = id.ValidateIsAGuid(nameof(id));
+            this.InternalDocumentId = internalDocumentId;
         }
 
         /// <summary>
@@ -29,6 +45,12 @@
         /// </summary>
         [JsonProperty(Base.IdName, Required = Required.Always, Order = 1)]
         public string Id { get; }
+
+        /// <summary>
+        ///     Gets the internal document id.
+        /// </summary>
+        [JsonIgnore]
+        public string InternalDocumentId { get; }
 
         /// <summary>
         ///     Add the property values to a dictionary.

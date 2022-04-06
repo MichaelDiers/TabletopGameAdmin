@@ -11,5 +11,10 @@
         ///     Gets the id.
         /// </summary>
         string Id { get; }
+
+        /// <summary>
+        ///     Gets the internal document id.
+        /// </summary>
+        string InternalDocumentId { get; }
     }
 }

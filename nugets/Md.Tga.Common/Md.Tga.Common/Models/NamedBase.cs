@@ -21,7 +21,18 @@
         /// <param name="id">The id of the object. Has to be a guid.</param>
         /// <param name="name">The name of the object.</param>
         public NamedBase(string id, string name)
-            : base(id)
+            : this(id, name, string.Empty)
+        {
+        }
+
+        /// <summary>
+        ///     Create a new instance of <see cref="NamedBase" />.
+        /// </summary>
+        /// <param name="id">The id of the object. Has to be a guid.</param>
+        /// <param name="name">The name of the object.</param>
+        /// <param name="internalDocumentId">The internal document id.</param>
+        protected NamedBase(string id, string name, string internalDocumentId)
+            : base(id, internalDocumentId)
         {
             this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
         }
@@ -53,7 +64,8 @@
         {
             var id = dictionary.GetString(Base.IdName);
             var name = dictionary.GetString(NamedBase.NameName);
-            return new NamedBase(id, name);
+            var internalDocumentId = dictionary.GetString(Base.InternalDocumentIdName, string.Empty);
+            return new NamedBase(id, name, internalDocumentId);
         }
     }
 }
