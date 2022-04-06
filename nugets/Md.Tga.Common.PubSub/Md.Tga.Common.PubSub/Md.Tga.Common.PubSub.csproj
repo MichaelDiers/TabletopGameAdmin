@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Md.Common" Version="1.2.24" />
     <PackageReference Include="Md.GoogleCloudPubSub" Version="1.2.26" />
-    <PackageReference Include="Md.Tga.Common" Version="1.2.33" />
+    <PackageReference Include="Md.Tga.Common" Version="1.2.35" />
   </ItemGroup>
 
 </Project>
