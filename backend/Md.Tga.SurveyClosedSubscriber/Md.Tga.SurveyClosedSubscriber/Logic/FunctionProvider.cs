@@ -4,7 +4,9 @@
     using System.Threading.Tasks;
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.SurveyClosedSubscriber.Contracts;
     using Microsoft.Extensions.Logging;
     using Surveys.Common.Contracts.Messages;
@@ -16,6 +18,7 @@
     {
         private readonly IGameReadOnlyDatabase gamesDatabase;
         private readonly IGameSeriesReadOnlyDatabase gameSeriesDatabase;
+        private readonly ISavePlayerMappingsPubSubClient savePlayerMappingsPubSubClient;
         private readonly ISurveyEvaluator surveyEvaluator;
 
         /// <summary>
@@ -25,11 +28,13 @@
         /// <param name="gamesDatabase"></param>
         /// <param name="gameSeriesDatabase"></param>
         /// <param name="surveyEvaluator"></param>
+        /// <param name="savePlayerMappingsPubSubClient">Client for publishing save player mappings.</param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
             IGameReadOnlyDatabase gamesDatabase,
-            ISurveyEvaluator surveyEvaluator
+            ISurveyEvaluator surveyEvaluator,
+            ISavePlayerMappingsPubSubClient savePlayerMappingsPubSubClient
         )
             : base(logger)
         {
@@ -37,6 +42,7 @@
             this.gamesDatabase = gamesDatabase;
 
             this.surveyEvaluator = surveyEvaluator;
+            this.savePlayerMappingsPubSubClient = savePlayerMappingsPubSubClient;
         }
 
         /// <summary>
@@ -56,7 +62,10 @@
 
             var solution = this.surveyEvaluator.Evaluate(gameSeries, message.Results);
 
-            // save game
+            await this.savePlayerMappingsPubSubClient.PublishAsync(
+                new SavePlayerMappingsMessage(
+                    message.ProcessId,
+                    new PlayerMappings(game.InternalDocumentId, solution)));
             // create mails
         }
     }

@@ -1,5 +1,6 @@
 ﻿namespace Md.Tga.SurveyClosedSubscriber.Tests.Data
 {
+    using System;
     using System.IO;
     using Md.Tga.Common.Models;
     using Newtonsoft.Json;
@@ -11,7 +12,9 @@
         public static Game CreateGame()
         {
             var json = File.ReadAllText("Data/game.json");
-            return JsonConvert.DeserializeObject<Game>(json);
+            var dictionary = JsonConvert.DeserializeObject<Game>(json).ToDictionary();
+            dictionary.Add(Base.InternalDocumentIdName, Guid.NewGuid().ToString());
+            return Game.FromDictionary(dictionary);
         }
 
         public static GameSeries CreateGameSeries()

@@ -7,5 +7,9 @@
     /// </summary>
     public interface IFunctionConfiguration : IRuntimeEnvironment
     {
+        /// <summary>
+        ///     Gets the topic name for saving player mappings.
+        /// </summary>
+        string SavePlayerMappingsTopicName { get; }
     }
 }

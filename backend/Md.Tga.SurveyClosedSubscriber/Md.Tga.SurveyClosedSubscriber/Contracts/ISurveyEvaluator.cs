@@ -6,6 +6,6 @@
 
     public interface ISurveyEvaluator
     {
-        IEnumerable<IPlayedCountry> Evaluate(IGameSeries gameSeries, IEnumerable<ISurveyResult> results);
+        IEnumerable<IPlayerCountryMapping> Evaluate(IGameSeries gameSeries, IEnumerable<ISurveyResult> results);
     }
 }

@@ -10,7 +10,7 @@
 
     public class SurveyEvaluator : ISurveyEvaluator
     {
-        public IEnumerable<IPlayedCountry> Evaluate(IGameSeries gameSeries, IEnumerable<ISurveyResult> results)
+        public IEnumerable<IPlayerCountryMapping> Evaluate(IGameSeries gameSeries, IEnumerable<ISurveyResult> results)
         {
             var countries = gameSeries.Countries.Select(x => x.Id).ToArray();
             var players = gameSeries.Players.Select(x => x.Id).ToArray();
@@ -19,7 +19,7 @@
                 .ToArray();
             var solutions = this.Evaluate(countries, selected);
             var solution = solutions.Count == 1 ? solutions.First() : solutions[new Random().Next(0, solutions.Count)];
-            return players.Select((playerId, index) => new PlayedCountry(playerId, solution[index]));
+            return players.Select((playerId, index) => new PlayerCountryMapping(playerId, solution[index]));
         }
 
         private List<string[]> Evaluate(string[] countries, string[][] selected)
