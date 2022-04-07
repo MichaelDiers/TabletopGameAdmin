@@ -1,7 +1,10 @@
 ﻿namespace Md.Tga.SurveyClosedSubscriber.Logic
 {
     using System;
+    using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
     using System.Xml.Linq;
     using Md.GoogleCloud.Base.Logic;
@@ -69,43 +72,79 @@
 
             var gameSeries = await this.gameSeriesDatabase.ReadByDocumentIdAsync(game.InternalGameSeriesId);
 
-            var solution = this.surveyEvaluator.Evaluate(gameSeries, message.Results);
+            var solution = this.surveyEvaluator.Evaluate(gameSeries, message.Results).ToArray();
 
             await this.savePlayerMappingsPubSubClient.PublishAsync(
                 new SavePlayerMappingsMessage(
                     message.ProcessId,
                     new PlayerMappings(game.InternalDocumentId, solution)));
 
-            await this.SendMail(message, gameSeries, game);
+            await this.SendMail(
+                message,
+                gameSeries,
+                game,
+                solution);
         }
 
-        private string CreateHtmlBody(IGameSeries gameSeries, IGame game, IPerson participant)
+        private Body CreateBody(
+            IGameSeries gameSeries,
+            IPerson person,
+            XElement htmlSolution,
+            string plainSolution
+        )
         {
-            var html = new XElement(
-                "html",
-                new XElement(
-                    "body",
-                    new XElement("h1", $"Hej {participant.Name}!"),
-                    new XElement("p", $"Das neue Spiel {game.Name} kann starten:"),
-                    new XElement("ul", gameSeries.Players.Select(p => new XElement("li", p.Name))),
-                    new XElement(
-                        "p",
-                        "Viele Grüße,",
-                        new XElement("br", "REMOVE"),
-                        new XElement("br", "REMOVE"),
-                        gameSeries.Organizer.Name)));
-            return html.ToString().Replace("REMOVE</br>", string.Empty, StringComparison.CurrentCultureIgnoreCase);
+            var htmlTemplate = File.ReadAllText("./Data/template.html");
+            var textTemplate = File.ReadAllText("./Data/template.txt");
+
+            return new Body(
+                string.Format(
+                    htmlTemplate,
+                    person.Name,
+                    htmlSolution,
+                    gameSeries.Organizer.Name),
+                string.Format(
+                    textTemplate,
+                    person.Name,
+                    plainSolution,
+                    gameSeries.Organizer.Name));
         }
 
-        private string CreateTextBody(IGameSeries gameSeries, IGame game, IPerson participant)
+
+        private (XElement html, string plain) CreateSolutionForBody(
+            IGameSeries gameSeries,
+            IEnumerable<IPlayerCountryMapping> playerCountryMappings
+        )
         {
-            var playerList = string.Join(string.Empty, gameSeries.Players.Select(p => $"\t-{p.Name}"));
-            return
-                $"Hej {participant.Name}!\n\nDas Spiel {game.Name} kann starten:\n\n{playerList}\n\nViele Grüße,\n\n{gameSeries.Organizer.Name}\n";
+            var mapping = playerCountryMappings.ToArray();
+
+            var builder = new StringBuilder();
+            builder.AppendLine("Wer spielt was?");
+
+            var html = new XElement("h2", "Wer spielt was?");
+            var ul = new XElement("ul");
+            html.Add(ul);
+
+            foreach (var gameSeriesCountry in gameSeries.Countries)
+            {
+                var countryName = gameSeriesCountry.Name;
+                var playerId = mapping.First(m => m.CountryId == gameSeriesCountry.Id).PlayerId;
+                var playerName = gameSeries.Players.First(p => p.Id == playerId).Name;
+                ul.Add(new XElement("li", $"{countryName}: {playerName}"));
+                builder.AppendLine($"\t- {countryName}: {playerName}");
+            }
+
+            return (html, builder.ToString());
         }
 
-        private async Task SendMail(ISurveyClosedMessage message, IGameSeries gameSeries, IGame game)
+        private async Task SendMail(
+            ISurveyClosedMessage message,
+            IGameSeries gameSeries,
+            IGame game,
+            IEnumerable<IPlayerCountryMapping> playerCountryMappings
+        )
         {
+            var (html, plain) = this.CreateSolutionForBody(gameSeries, playerCountryMappings);
+
             foreach (var gameSeriesPlayer in gameSeries.Players)
             {
                 var sendMailMessage = new SendMailMessage(
@@ -113,9 +152,11 @@
                     new[] {new Recipient(gameSeriesPlayer.Email, gameSeriesPlayer.Name)},
                     new Recipient(gameSeries.Organizer.Email, gameSeries.Organizer.Name),
                     $"Spiel {game.Name} kann starten!",
-                    new Body(
-                        this.CreateHtmlBody(gameSeries, game, gameSeriesPlayer),
-                        this.CreateTextBody(gameSeries, game, gameSeriesPlayer)));
+                    this.CreateBody(
+                        gameSeries,
+                        gameSeriesPlayer,
+                        html,
+                        plain));
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }
