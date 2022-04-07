@@ -12,11 +12,9 @@
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.SurveyClosedSubscriber.Contracts;
     using Microsoft.Extensions.Logging;
-    using Surveys.Common.Contracts;
     using Surveys.Common.Contracts.Messages;
     using Surveys.Common.Messages;
     using Surveys.Common.PubSub.Contracts.Logic;
-    using IPerson = Md.Tga.Common.Contracts.Models.IPerson;
 
     /// <summary>
     ///     Provider that handles the business logic of the cloud function.
@@ -93,10 +91,10 @@
                     new XElement(
                         "p",
                         "Viele Grüße,",
-                        new XElement("br"),
-                        new XElement("br"),
+                        new XElement("br", "REMOVE"),
+                        new XElement("br", "REMOVE"),
                         gameSeries.Organizer.Name)));
-            return html.ToString().Replace("</br>", string.Empty, StringComparison.CurrentCultureIgnoreCase);
+            return html.ToString().Replace("REMOVE</br>", string.Empty, StringComparison.CurrentCultureIgnoreCase);
         }
 
         private string CreateTextBody(IGameSeries gameSeries, IGame game, IPerson participant)
@@ -117,11 +115,7 @@
                     $"Spiel {game.Name} kann starten!",
                     new Body(
                         this.CreateHtmlBody(gameSeries, game, gameSeriesPlayer),
-                        this.CreateTextBody(gameSeries, game, gameSeriesPlayer)),
-                    game.SurveyId,
-                    gameSeries.Players.Select(p => p.Id),
-                    Status.InvitationMailSentOk,
-                    Status.InvitationMailSentFailed);
+                        this.CreateTextBody(gameSeries, game, gameSeriesPlayer)));
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }
