@@ -15,6 +15,8 @@ namespace Md.Tga.SurveyClosedSubscriber
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Surveys.Common.Contracts.Messages;
+    using Surveys.Common.PubSub.Contracts.Logic;
+    using Surveys.Common.PubSub.Logic;
 
     /// <summary>
     ///     Initialize the function.
@@ -44,6 +46,12 @@ namespace Md.Tga.SurveyClosedSubscriber
                         configuration.Environment,
                         configuration.ProjectId,
                         configuration.SavePlayerMappingsTopicName)));
+            services.AddScoped<ISendMailPubSubClient>(
+                _ => new SendMailPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.SendMailTopicName)));
 
             services.AddScoped<ISurveyEvaluator, SurveyEvaluator>();
 

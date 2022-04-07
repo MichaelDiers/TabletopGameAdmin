@@ -141,7 +141,8 @@
                 new GameSeriesDatabaseMock(),
                 new GamesDatabaseMock(),
                 new SurveyEvaluator(),
-                new SavePlayerMappingsPubSubClientMock());
+                new PubSubClientMock(),
+                new PubSubClientMock());
             var function = new Function(logger, provider);
             await function.HandleAsync(cloudEvent, data, CancellationToken.None);
 

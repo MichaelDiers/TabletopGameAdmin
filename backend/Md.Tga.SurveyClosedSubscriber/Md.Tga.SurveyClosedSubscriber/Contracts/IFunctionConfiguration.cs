@@ -11,5 +11,11 @@
         ///     Gets the topic name for saving player mappings.
         /// </summary>
         string SavePlayerMappingsTopicName { get; }
+
+
+        /// <summary>
+        ///     Gets the topic name for sending emails.
+        /// </summary>
+        string SendMailTopicName { get; }
     }
 }
