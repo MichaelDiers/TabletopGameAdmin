@@ -4,6 +4,12 @@
     "id": "AA269B73-7F87-4681-B64C-3C24120EA104",
     "name": "new game series",
     "internalGameSeriesId": "514BF2EC-1B49-4749-9F84-05379B18416A",
-    "surveyId": "8617FCEB-7176-413A-AAE0-8328E5166151"
+    "surveyId": "8617FCEB-7176-413A-AAE0-8328E5166151",
+    "gameTerminations": [
+      {
+        "playerId": "CD39CFBA-32D0-409B-A0CD-8167E0EE9008",
+        "terminationId": "CD39CFBA-32D0-409B-A0CD-8167E0EE9007"
+      }
+    ] 
   }
 }
