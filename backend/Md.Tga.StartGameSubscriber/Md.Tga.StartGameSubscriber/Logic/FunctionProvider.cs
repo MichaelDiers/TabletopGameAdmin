@@ -106,7 +106,8 @@
 
             var saveGameMessage = FunctionProvider.BuildSaveGameMessage(
                 message.InternalGameSeriesId,
-                initializeSurveyMessage);
+                initializeSurveyMessage,
+                gameSeries.Players.Select(p => new GameTermination(p.Id, Guid.NewGuid().ToString())).ToArray());
             await this.saveGamePubSubClient.PublishAsync(saveGameMessage);
 
             await this.initializeSurveyPubSubClient.PublishAsync(initializeSurveyMessage);
@@ -181,7 +182,8 @@
 
         private static ISaveGameMessage BuildSaveGameMessage(
             string internalGameSeriesId,
-            IInitializeSurveyMessage message
+            IInitializeSurveyMessage message,
+            IEnumerable<IGameTermination> gameTerminations
         )
         {
             return new SaveGameMessage(
@@ -190,7 +192,8 @@
                     Guid.NewGuid().ToString(),
                     message.Survey.Name,
                     internalGameSeriesId,
-                    message.Survey.Id));
+                    message.Survey.Id,
+                    gameTerminations.ToArray()));
         }
 
         /// <summary>
