@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
     using Md.GoogleCloud.Base.Logic;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
@@ -15,6 +16,7 @@
     using Surveys.Common.Contracts.Messages;
     using Surveys.Common.Messages;
     using Surveys.Common.PubSub.Contracts.Logic;
+    using IPerson = Md.Tga.Common.Contracts.Models.IPerson;
 
     /// <summary>
     ///     Provider that handles the business logic of the cloud function.
@@ -79,19 +81,41 @@
             await this.SendMail(message, gameSeries, game);
         }
 
+        private string CreateHtmlBody(IGameSeries gameSeries, IGame game, IPerson participant)
+        {
+            var html = new XElement(
+                "html",
+                new XElement(
+                    "body",
+                    new XElement("h1", $"Hej {participant.Name}!"),
+                    new XElement("p", $"Das Spiel {game.Name} kann starten:"),
+                    new XElement("ul", gameSeries.Players.Select(p => new XElement("li", p.Name)))));
+            return html.Value;
+        }
+
+        private string CreateTextBody(IGameSeries gameSeries, IGame game, IPerson participant)
+        {
+            var playerList = string.Join(string.Empty, gameSeries.Players.Select(p => $"\t-{p.Name}"));
+            return
+                $"Hej {participant.Name}!\n\nDas Spiel {game.Name} kann starten:\n\n{playerList}\n\nViele Grüße,\n\n{gameSeries.Organizer.Name}\n";
+        }
+
         private async Task SendMail(ISurveyClosedMessage message, IGameSeries gameSeries, IGame game)
         {
-            var sendMailMessage = new SendMailMessage(
-                message.ProcessId,
-                gameSeries.Players.Select(p => new Recipient(p.Email, p.Name)).ToArray(),
-                new Recipient(gameSeries.Organizer.Email, gameSeries.Organizer.Name),
-                "subject",
-                new Body("html", "text"),
-                game.SurveyId,
-                gameSeries.Players.Select(p => p.Id),
-                Status.InvitationMailSentOk,
-                Status.InvitationMailSentFailed);
-            await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
+            foreach (var gameSeriesPlayer in gameSeries.Players)
+            {
+                var sendMailMessage = new SendMailMessage(
+                    message.ProcessId,
+                    new[] {new Recipient(gameSeriesPlayer.Email, gameSeriesPlayer.Name)},
+                    new Recipient(gameSeries.Organizer.Email, gameSeries.Organizer.Name),
+                    $"Spiel {game.Name} kann starten!",
+                    new Body(this.CreateHtmlBody(gameSeries, game, gameSeriesPlayer), "text"),
+                    game.SurveyId,
+                    gameSeries.Players.Select(p => p.Id),
+                    Status.InvitationMailSentOk,
+                    Status.InvitationMailSentFailed);
+                await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
+            }
         }
     }
 }
