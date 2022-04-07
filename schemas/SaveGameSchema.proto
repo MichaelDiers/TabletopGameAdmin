@@ -1,10 +1,16 @@
 syntax = "proto3";
 message SaveGame {
+    message GameTermination {
+        string playerId = 1;
+        string terminationdId = 2;
+    };
+
     message Game {
         string id = 1;
         string name = 2;
 	string internalGameSeriesId = 3;
 	string surveyId = 4;
+        repeated GameTermination gameTerminations = 5;
     };
 
     string processId = 1;

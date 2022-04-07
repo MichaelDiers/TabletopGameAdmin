@@ -1,1 +1,20 @@
-{"id":"8bd3dc03-af8f-4e3c-8a6c-b6209505d038","name":"Axis and Allies Global","internalGameSeriesId":"d9487d93-2f2c-461b-a6f2-f559efa1bbd0","surveyId":"648a37b6-e1fc-47a2-bcd8-f0dbe0c172a0"}
+{
+  "id": "8bd3dc03-af8f-4e3c-8a6c-b6209505d038",
+  "name": "Axis and Allies Global",
+  "internalGameSeriesId": "d9487d93-2f2c-461b-a6f2-f559efa1bbd0",
+  "surveyId": "648a37b6-e1fc-47a2-bcd8-f0dbe0c172a0",
+  "gameTerminations": [
+    {
+      "playerId": "2AE3103C-E722-4524-B603-CD1C3B590007",
+      "terminationId": "2AE3103C-E722-4524-B603-CD1C3B590008"
+    },
+    {
+      "playerId": "74B96230-F936-4970-8643-8F4AC228DA7E",
+      "terminationId": "74B96230-F936-4970-8643-8F4AC228DA7A"
+    },
+    {
+      "playerId": "0D298330-6F05-4D70-9851-56B2D8D319F9",
+      "terminationId": "0D298330-6F05-4D70-9851-56B2D8D319F1"
+    }
+  ] 
+}
