@@ -1,11 +1,10 @@
-name: BE/Md.Tga.SurveyClosedSubscriber.yaml
+name: Md.Tga.SurveyClosedSubscriber.yaml
 on:
   push:
     branches:
       - main
     paths:
       - 'backend/Md.Tga.SurveyClosedSubscriber/**'
-      - '.github/workflows/Md.Tga.SurveyClosedSubscriber.yaml'
   workflow_dispatch:
 jobs:
   BuildAndDeploy:
