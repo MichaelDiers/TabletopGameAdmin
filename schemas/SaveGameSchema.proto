@@ -2,7 +2,7 @@ syntax = "proto3";
 message SaveGame {
     message GameTermination {
         string playerId = 1;
-        string terminationdId = 2;
+        string terminationId = 2;
     };
 
     message Game {
