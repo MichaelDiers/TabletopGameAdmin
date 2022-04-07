@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Md.GoogleCloud.Base.Contracts.Logic;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Models;
@@ -20,11 +21,12 @@
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
-            Assert.Equal(4, dictionary.Count);
+            Assert.Equal(5, dictionary.Count);
             Assert.Equal(obj.Id, dictionary[Base.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
             Assert.Equal(obj.InternalGameSeriesId, dictionary[Game.InternalGameSeriesIdName]);
             Assert.Equal(obj.SurveyId, dictionary[Game.SurveyIdName]);
+            Assert.NotEmpty(obj.GameTerminations);
         }
 
         [Fact]
@@ -39,7 +41,8 @@
                 id,
                 name,
                 internalGameSeriesId,
-                surveyId);
+                surveyId,
+                new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
 
             Assert.Equal(id, obj.Id);
             Assert.Equal(name, obj.Name);
@@ -59,7 +62,8 @@
                     id,
                     "name of the game",
                     Guid.NewGuid().ToString(),
-                    Guid.NewGuid().ToString()));
+                    Guid.NewGuid().ToString(),
+                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
         }
 
         [Theory]
@@ -73,7 +77,8 @@
                     Guid.NewGuid().ToString(),
                     "name of the game",
                     id,
-                    Guid.NewGuid().ToString()));
+                    Guid.NewGuid().ToString(),
+                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
         }
 
         [Theory]
@@ -85,7 +90,8 @@
                     Guid.NewGuid().ToString(),
                     name,
                     Guid.NewGuid().ToString(),
-                    Guid.NewGuid().ToString()));
+                    Guid.NewGuid().ToString(),
+                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
         }
 
         [Theory]
@@ -99,7 +105,8 @@
                     Guid.NewGuid().ToString(),
                     "name of the game",
                     Guid.NewGuid().ToString(),
-                    id));
+                    id,
+                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
         }
 
         [Fact]
@@ -153,7 +160,8 @@
                 Guid.NewGuid().ToString(),
                 "name of the game",
                 Guid.NewGuid().ToString(),
-                Guid.NewGuid().ToString());
+                Guid.NewGuid().ToString(),
+                new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
         }
 
         [Fact]
@@ -175,7 +183,9 @@
                 Guid.NewGuid().ToString(),
                 "game name",
                 Guid.NewGuid().ToString(),
-                Guid.NewGuid().ToString());
+                Guid.NewGuid().ToString(),
+                new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
+
             var actual = JsonConvert.SerializeObject(obj);
             Assert.Equal(GameTests.SerializePlain(obj), actual);
         }
@@ -183,8 +193,12 @@
         public static string SerializePlain(IGame obj)
         {
             var baseJson = NamedBaseTests.SerializePlain(obj);
+            var gameTerminations = string.Join(
+                ",",
+                obj.GameTerminations.Select(
+                    gt => $"{{\"playerId\":\"{gt.PlayerId}\",\"terminationId\":\"{gt.TerminationId}\"}}"));
             return
-                $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"internalGameSeriesId\":\"{obj.InternalGameSeriesId}\",\"surveyId\":\"{obj.SurveyId}\"}}";
+                $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"internalGameSeriesId\":\"{obj.InternalGameSeriesId}\",\"surveyId\":\"{obj.SurveyId}\",\"gameTerminations\":[{gameTerminations}]}}";
         }
 
         [Fact]
@@ -193,11 +207,12 @@
             var obj = GameTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
-            Assert.Equal(4, dictionary.Count);
+            Assert.Equal(5, dictionary.Count);
             Assert.Equal(obj.Id, dictionary[Base.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
             Assert.Equal(obj.InternalGameSeriesId, dictionary[Game.InternalGameSeriesIdName]);
             Assert.Equal(obj.SurveyId, dictionary[Game.SurveyIdName]);
+            Assert.NotEmpty(obj.GameTerminations);
         }
     }
 }
