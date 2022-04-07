@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Functions.Testing" Version="1.0.0" />
-    <PackageReference Include="Md.Tga.Common" Version="1.2.37" />
+    <PackageReference Include="Md.Tga.Common" Version="1.2.38" />
     <PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.15" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
