@@ -89,8 +89,9 @@
                     "body",
                     new XElement("h1", $"Hej {participant.Name}!"),
                     new XElement("p", $"Das Spiel {game.Name} kann starten:"),
-                    new XElement("ul", gameSeries.Players.Select(p => new XElement("li", p.Name)))));
-            return html.Value;
+                    new XElement("ul", gameSeries.Players.Select(p => new XElement("li", p.Name))),
+                    new XElement("p", $"Viele Grüße,<br><br>{gameSeries.Organizer.Name}")));
+            return html.ToString();
         }
 
         private string CreateTextBody(IGameSeries gameSeries, IGame game, IPerson participant)
@@ -109,7 +110,9 @@
                     new[] {new Recipient(gameSeriesPlayer.Email, gameSeriesPlayer.Name)},
                     new Recipient(gameSeries.Organizer.Email, gameSeries.Organizer.Name),
                     $"Spiel {game.Name} kann starten!",
-                    new Body(this.CreateHtmlBody(gameSeries, game, gameSeriesPlayer), "text"),
+                    new Body(
+                        this.CreateHtmlBody(gameSeries, game, gameSeriesPlayer),
+                        this.CreateTextBody(gameSeries, game, gameSeriesPlayer)),
                     game.SurveyId,
                     gameSeries.Players.Select(p => p.Id),
                     Status.InvitationMailSentOk,
