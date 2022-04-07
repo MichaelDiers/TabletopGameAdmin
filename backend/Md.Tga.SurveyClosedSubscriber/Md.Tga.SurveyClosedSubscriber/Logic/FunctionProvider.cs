@@ -118,18 +118,15 @@
             var mapping = playerCountryMappings.ToArray();
 
             var builder = new StringBuilder();
-            builder.AppendLine("Wer spielt was?");
 
-            var html = new XElement("h2", "Wer spielt was?");
-            var ul = new XElement("ul");
-            html.Add(ul);
+            var html = new XElement("ul");
 
             foreach (var gameSeriesCountry in gameSeries.Countries)
             {
                 var countryName = gameSeriesCountry.Name;
                 var playerId = mapping.First(m => m.CountryId == gameSeriesCountry.Id).PlayerId;
                 var playerName = gameSeries.Players.First(p => p.Id == playerId).Name;
-                ul.Add(new XElement("li", $"{countryName}: {playerName}"));
+                html.Add(new XElement("li", $"{countryName}: {playerName}"));
                 builder.AppendLine($"\t- {countryName}: {playerName}");
             }
 
