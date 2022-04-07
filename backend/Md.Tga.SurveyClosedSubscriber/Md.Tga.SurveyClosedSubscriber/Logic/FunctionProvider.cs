@@ -88,10 +88,15 @@
                 new XElement(
                     "body",
                     new XElement("h1", $"Hej {participant.Name}!"),
-                    new XElement("p", $"Das Spiel {game.Name} kann starten:"),
+                    new XElement("p", $"Das neue Spiel {game.Name} kann starten:"),
                     new XElement("ul", gameSeries.Players.Select(p => new XElement("li", p.Name))),
-                    new XElement("p", $"Viele Grüße,<br><br>{gameSeries.Organizer.Name}")));
-            return html.ToString();
+                    new XElement(
+                        "p",
+                        "Viele Grüße,",
+                        new XElement("br"),
+                        new XElement("br"),
+                        gameSeries.Organizer.Name)));
+            return html.ToString().Replace("</br>", string.Empty, StringComparison.CurrentCultureIgnoreCase);
         }
 
         private string CreateTextBody(IGameSeries gameSeries, IGame game, IPerson participant)
