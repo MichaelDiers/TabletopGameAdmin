@@ -27,11 +27,6 @@
         {
         }
 
-        public override async Task<IEnumerable<ISurveyResult>> ReadManyAsync(string fieldPath, object value)
-        {
-            return await this.ReadManyAsync(fieldPath, value, OrderType.Unsorted);
-        }
-
         public override async Task<IEnumerable<ISurveyResult>> ReadManyAsync(
             string fieldPath,
             object value,
@@ -39,7 +34,7 @@
         )
         {
             await Task.CompletedTask;
-            if (fieldPath == SurveyStatus.InternalSurveyIdName)
+            if (fieldPath == SurveyResult.InternalSurveyIdName)
             {
                 var results = this.Values.Where(result => result.InternalSurveyId == (string) value);
                 if (orderType == OrderType.Desc)

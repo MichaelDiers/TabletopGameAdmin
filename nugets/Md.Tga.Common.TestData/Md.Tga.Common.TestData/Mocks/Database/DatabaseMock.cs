@@ -53,9 +53,9 @@
         }
 
 
-        public virtual Task<IEnumerable<T>> ReadManyAsync(string fieldPath, object value)
+        public async Task<IEnumerable<T>> ReadManyAsync(string fieldPath, object value)
         {
-            throw new NotImplementedException();
+            return await this.ReadManyAsync(fieldPath, value, OrderType.Unsorted);
         }
 
         public virtual Task<IEnumerable<T>> ReadManyAsync(string fieldPath, object value, OrderType orderType)
