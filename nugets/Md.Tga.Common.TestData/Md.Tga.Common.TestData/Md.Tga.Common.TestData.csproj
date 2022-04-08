@@ -15,7 +15,7 @@
 		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.5" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Surveys.Common" Version="1.2.66" />
-		<PackageReference Include="Surveys.Common.Firestore" Version="1.2.12" />
+		<PackageReference Include="Surveys.Common.Firestore" Version="1.2.13" />
 		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.9" />
 	</ItemGroup>
 
