@@ -17,6 +17,8 @@
             this.factory = factory;
         }
 
+        protected IEnumerable<T> Values => this.dictionary.Values;
+
         public async Task<string> InsertAsync(string documentId, IToDictionary data)
         {
             await Task.CompletedTask;

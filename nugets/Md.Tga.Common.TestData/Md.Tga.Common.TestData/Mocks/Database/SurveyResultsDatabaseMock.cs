@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
+    using Md.GoogleCloud.Base.Contracts.Logic;
     using Surveys.Common.Contracts;
     using Surveys.Common.Firestore.Contracts;
     using Surveys.Common.Models;
@@ -23,6 +25,21 @@
                     Guid.NewGuid().ToString(),
                     SurveyResult.FromDictionary(x.ToDictionary())))
         {
+        }
+
+        public override async Task<IEnumerable<ISurveyResult>> ReadManyAsync(
+            string fieldPath,
+            object value,
+            OrderType orderType
+        )
+        {
+            await Task.CompletedTask;
+            if (fieldPath == SurveyStatus.InternalSurveyIdName)
+            {
+                return this.Values.Where(result => result.InternalSurveyId == (string) value);
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
