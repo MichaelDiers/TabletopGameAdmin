@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.Common.TestData.Mocks
+﻿namespace Md.Tga.Common.TestData.Mocks.Database
 {
     using System;
     using System.Collections.Generic;
