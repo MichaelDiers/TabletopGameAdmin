@@ -8,6 +8,11 @@
 
     public static class SurveyGenerator
     {
+        public static ISurvey Generate()
+        {
+            return SurveyGenerator.Generate(new SurveyGeneratorConfiguration());
+        }
+
         public static ISurvey Generate(SurveyGeneratorConfiguration configuration)
         {
             return SurveyGenerator.Generate(
