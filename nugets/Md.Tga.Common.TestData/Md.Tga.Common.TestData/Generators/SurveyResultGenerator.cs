@@ -6,9 +6,9 @@
     using Surveys.Common.Contracts;
     using Surveys.Common.Models;
 
-    public class SurveyResultGenerator
+    public static class SurveyResultGenerator
     {
-        public IEnumerable<ISurveyResult> Generate(
+        public static IEnumerable<ISurveyResult> Generate(
             SurveyResultGeneratorConfiguration configuration,
             IGame game,
             ISurvey survey
