@@ -45,10 +45,10 @@
                     "Count mismatch: SurveyGeneratorConfiguration.ParticipantCount and GameSeries.Players.Count()");
             }
 
-            if (gameSeries.Countries.Count() != configuration.QuestionCount)
+            if (gameSeries.Countries.Count() != configuration.ChoiceCount)
             {
                 throw new ArgumentException(
-                    "Count mismatch: SurveyGeneratorConfiguration.QuestionCount and GameSeries.Countries.Count()");
+                    "Count mismatch: SurveyGeneratorConfiguration.ChoicesCount and GameSeries.Countries.Count()");
             }
 
             var choices = gameSeries.Countries.Select(
