@@ -1,0 +1,16 @@
+name: nugets/Md.Tga.Common.TestData.yaml
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'nugets/Md.Tga.Common.TestData/**'
+  workflow_dispatch:
+jobs:
+  buildAndPublishNuget:
+    uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-nuget.yaml@main
+    with:
+      projectName: Md.Tga.Common.TestData
+      solutionFolder: nugets/Md.Tga.Common.TestData
+    secrets:
+      nugetAuthToken: ${{ secrets.NUGET_AUTH_TOKEN }}
