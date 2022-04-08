@@ -34,9 +34,9 @@
 
         public static ISurvey Generate(SurveyGeneratorConfiguration configuration, IGameSeries gameSeries, IGame game)
         {
-            if (configuration.Id != game.SurveyId)
+            if (configuration.Id == game.SurveyId)
             {
-                throw new ArgumentException("Id mismatch: SurveyGeneratorConfiguration.Id and Game.SurveyId");
+                throw new ArgumentException("Id match: SurveyGeneratorConfiguration.Id and Game.SurveyId");
             }
 
             if (gameSeries.Players.Count() != configuration.ParticipantCount)
