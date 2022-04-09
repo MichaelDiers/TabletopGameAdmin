@@ -9,15 +9,26 @@
 
     public class GameSeriesDatabaseMock : DatabaseMock<IGameSeries>, IGameSeriesDatabase
     {
+        public GameSeriesDatabaseMock(IGameSeries gameSeries, IGame game)
+            : this(new Dictionary<string, IGameSeries> {{game.InternalGameSeriesId, gameSeries}})
+        {
+        }
+
         public GameSeriesDatabaseMock()
-            : this(Enumerable.Empty<IGameSeries>())
+            : this(new Dictionary<string, IGameSeries>())
         {
         }
 
         public GameSeriesDatabaseMock(IEnumerable<IGameSeries> gameSeries)
-            : base(
+            : this(
                 new Dictionary<string, IGameSeries>(
-                    gameSeries.Select(g => new KeyValuePair<string, IGameSeries>(g.Id, g))),
+                    gameSeries.Select(g => new KeyValuePair<string, IGameSeries>(g.Id, g))))
+        {
+        }
+
+        public GameSeriesDatabaseMock(IDictionary<string, IGameSeries> dictionary)
+            : base(
+                dictionary,
                 x => new KeyValuePair<string, IGameSeries>(
                     Guid.NewGuid().ToString(),
                     GameSeries.FromDictionary(x.ToDictionary())))

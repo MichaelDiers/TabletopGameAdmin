@@ -13,6 +13,11 @@
         {
         }
 
+        public GamesDatabaseMock(Game game)
+            : this(new[] {game})
+        {
+        }
+
         public GamesDatabaseMock(IEnumerable<Game> games)
             : base(
                 new Dictionary<string, Game>(games.Select(g => new KeyValuePair<string, Game>(g.Id, g))),
