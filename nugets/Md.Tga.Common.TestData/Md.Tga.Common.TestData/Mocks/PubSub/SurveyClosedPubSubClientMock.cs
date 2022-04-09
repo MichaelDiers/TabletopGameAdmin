@@ -1,35 +1,24 @@
 ﻿namespace Md.Tga.Common.TestData.Mocks.PubSub
 {
-    using System;
     using System.Threading.Tasks;
     using Surveys.Common.Contracts.Messages;
     using Surveys.Common.PubSub.Contracts.Logic;
 
-    public class SurveyClosedPubSubClientMock : ISurveyClosedPubSubClient
+    public class SurveyClosedPubSubClientMock : PubSubClientMock<ISurveyClosedMessage>, ISurveyClosedPubSubClient
     {
-        private readonly ISurveyClosedMessage? expected;
-
         public SurveyClosedPubSubClientMock()
-            : this(null)
         {
         }
 
         public SurveyClosedPubSubClientMock(ISurveyClosedMessage? expected)
+            : base(expected)
         {
-            this.expected = expected;
         }
 
-        public int CallCounter { get; private set; }
-
-        public async Task PublishAsync(ISurveyClosedMessage message)
+        protected override async Task<bool> CheckMessage(ISurveyClosedMessage expected, ISurveyClosedMessage actual)
         {
-            this.CallCounter += 1;
-            if (this.expected != null && !this.expected.CheckEqual(message))
-            {
-                throw new ArgumentException("message mismatch");
-            }
-
             await Task.CompletedTask;
+            return expected.CheckEqual(actual);
         }
     }
 }

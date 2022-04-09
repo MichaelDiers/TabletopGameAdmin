@@ -2,8 +2,11 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Models;
     using Surveys.Common.Contracts;
     using Surveys.Common.Contracts.Messages;
+    using IPerson = Surveys.Common.Contracts.IPerson;
 
     public static class EqualsExtensions
     {
@@ -207,6 +210,104 @@
             return expected.Name.CheckEqual(actual.Name) &&
                    expected.Email.CheckEqual(actual.Email) &&
                    expected.Id.CheckEqual(actual.Id);
+        }
+
+        public static bool CheckEqual(this ISavePlayerMappingsMessage expected, ISavePlayerMappingsMessage actual)
+        {
+            return expected.PlayerMappings.CheckEqual(actual.PlayerMappings) &&
+                   expected.ProcessId.CheckEqual(actual.ProcessId);
+        }
+
+        public static bool CheckEqual(this IPlayerMappings expected, IPlayerMappings actual)
+        {
+            return expected.InternalGameId.CheckEqual(actual.InternalGameId) &&
+                   expected.PlayerCountryMappings.CheckEqual(actual.PlayerCountryMappings, false);
+        }
+
+        public static bool CheckEqual(
+            this IEnumerable<IPlayerCountryMapping> expected,
+            IEnumerable<IPlayerCountryMapping> actual,
+            bool ordered
+        )
+        {
+            var expectedArray = expected.ToArray();
+            var actualArray = actual.ToArray();
+
+            if (expectedArray.Length != actualArray.Length)
+            {
+                return false;
+            }
+
+            if (ordered)
+            {
+                return expectedArray.Zip(actualArray).All(results => results.First.CheckEqual(results.Second));
+            }
+
+            return expectedArray.All(expectedResult => actualArray.Any(expectedResult.CheckEqual));
+        }
+
+        public static bool CheckEqual(this IPlayerCountryMapping expected, IPlayerCountryMapping actual)
+        {
+            return expected.CountryId.CheckEqual(actual.CountryId) && expected.PlayerId.CheckEqual(actual.PlayerId);
+        }
+
+        public static bool CheckEqual(this ISendMailMessage expected, ISendMailMessage actual)
+        {
+            return expected.Body.CheckEqual(actual.Body) &&
+                   expected.Recipients.CheckEqual(actual.Recipients, false) &&
+                   expected.ReplyTo.CheckEqual(actual.ReplyTo) &&
+                   expected.Subject.CheckEqual(actual.Subject) &&
+                   expected.ProcessId.CheckEqual(actual.ProcessId);
+        }
+
+        public static bool CheckEqual(this IBody expected, IBody actual)
+        {
+            return expected.Html.CheckEqual(actual.Html) && expected.Plain.CheckEqual(actual.Html);
+        }
+
+        public static bool CheckEqual(
+            this IEnumerable<IRecipient> expected,
+            IEnumerable<IRecipient> actual,
+            bool ordered
+        )
+        {
+            var expectedArray = expected.ToArray();
+            var actualArray = actual.ToArray();
+
+            if (expectedArray.Length != actualArray.Length)
+            {
+                return false;
+            }
+
+            if (ordered)
+            {
+                return expectedArray.Zip(actualArray).All(results => results.First.CheckEqual(results.Second));
+            }
+
+            return expectedArray.All(expectedResult => actualArray.Any(expectedResult.CheckEqual));
+        }
+
+        public static bool CheckEqual(this IRecipient expected, IRecipient actual)
+        {
+            return expected.Name.CheckEqual(actual.Name) && expected.Email.CheckEqual(actual.Email);
+        }
+
+        public static bool CheckEqual(this ISaveSurveyStatusMessage expected, ISaveSurveyStatusMessage actual)
+        {
+            return expected.SurveyStatus.CheckEqual(actual.SurveyStatus) &&
+                   expected.ProcessId.CheckEqual(actual.ProcessId);
+        }
+
+        public static bool CheckEqual(this ISurveyStatus expected, ISurveyStatus actual)
+        {
+            return expected.InternalSurveyId.CheckEqual(actual.InternalSurveyId) &&
+                   expected.ParticipantId.CheckEqual(actual.ParticipantId) &&
+                   expected.Status.CheckEqual(actual.Status);
+        }
+
+        public static bool CheckEqual(this Status expected, Status actual)
+        {
+            return expected == actual;
         }
     }
 }
