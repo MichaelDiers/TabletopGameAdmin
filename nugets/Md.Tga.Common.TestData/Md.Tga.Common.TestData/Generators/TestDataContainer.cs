@@ -7,6 +7,8 @@
     using Md.Tga.Common.Models;
     using Md.Tga.Common.TestData.Mocks.Database;
     using Surveys.Common.Contracts;
+    using Surveys.Common.Contracts.Messages;
+    using Surveys.Common.Messages;
 
     public class TestDataContainer
     {
@@ -59,5 +61,24 @@
         public IList<ISurveyStatus> SurveyStatus { get; }
 
         public SurveyStatusDatabaseMock SurveyStatusDatabaseMock { get; set; }
+
+        public ISurveyClosedMessage SurveyClosedMessage()
+        {
+            return this.SurveyClosedMessage(Guid.NewGuid().ToString());
+        }
+
+        public ISurveyClosedMessage SurveyClosedMessage(string processId)
+        {
+            var results = new Dictionary<string, ISurveyResult>();
+            foreach (var surveyResult in this.SurveyResults.Where(sr => !sr.IsSuggested))
+            {
+                if (!results.TryAdd(surveyResult.ParticipantId, surveyResult))
+                {
+                    results[surveyResult.ParticipantId] = surveyResult;
+                }
+            }
+
+            return new SurveyClosedMessage(processId, this.Survey, results.Values);
+        }
     }
 }
