@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Models;
 
@@ -23,6 +24,17 @@
                 new Dictionary<string, Game>(games.Select(g => new KeyValuePair<string, Game>(g.Id, g))),
                 x => new KeyValuePair<string, Game>(Guid.NewGuid().ToString(), Game.FromDictionary(x.ToDictionary())))
         {
+        }
+
+        public override async Task<Game?> ReadOneAsync(string fieldPath, object value)
+        {
+            await Task.CompletedTask;
+            if (fieldPath == Game.SurveyIdName)
+            {
+                return this.Values.FirstOrDefault(game => game.SurveyId == (string) value);
+            }
+
+            throw new NotImplementedException();
         }
     }
 }
