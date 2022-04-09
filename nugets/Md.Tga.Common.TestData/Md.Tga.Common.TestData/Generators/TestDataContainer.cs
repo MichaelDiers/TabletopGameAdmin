@@ -78,6 +78,11 @@
                 }
             }
 
+            if (results.Count != this.Survey.Participants.Count())
+            {
+                throw new ArgumentException("results and participants do not match!");
+            }
+
             return new SurveyClosedMessage(processId, this.Survey, results.Values);
         }
     }

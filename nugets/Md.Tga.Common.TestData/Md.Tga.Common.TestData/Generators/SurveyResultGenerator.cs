@@ -33,7 +33,7 @@
                     yield return new SurveyResult(
                         game.SurveyId,
                         surveyParticipant.Id,
-                        true,
+                        false,
                         questionReferences);
                 }
             }
