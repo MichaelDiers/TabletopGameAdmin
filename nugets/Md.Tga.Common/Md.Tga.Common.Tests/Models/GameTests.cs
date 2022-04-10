@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Models;
     using Newtonsoft.Json;

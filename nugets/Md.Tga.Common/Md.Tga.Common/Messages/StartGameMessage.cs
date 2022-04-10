@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.Common.Messages
 {
     using Md.Common.Extensions;
-    using Md.GoogleCloud.Base.Messages;
+    using Md.Common.Messages;
     using Md.Tga.Common.Contracts.Messages;
     using Newtonsoft.Json;
 
@@ -19,7 +19,6 @@
             : base(processId)
         {
             this.InternalGameSeriesId = internalGameSeriesId.ValidateIsAGuid(nameof(internalGameSeriesId));
-            ;
         }
 
         /// <summary>

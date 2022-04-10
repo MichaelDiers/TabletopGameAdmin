@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.Common.Contracts.Models
 {
     using System.Collections.Generic;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
 
     /// <summary>
     ///     Describes all player-mappings for a game.

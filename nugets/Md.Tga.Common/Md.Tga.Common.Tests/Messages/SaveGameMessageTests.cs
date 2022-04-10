@@ -1,7 +1,7 @@
 ﻿namespace Md.Tga.Common.Tests.Messages
 {
     using System;
-    using Md.GoogleCloud.Base.Contracts.Messages;
+    using Md.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Messages;
     using Md.Tga.Common.Tests.Models;

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using Md.Common.Extensions;
-    using Md.GoogleCloud.Base.Logic;
+    using Md.Common.Model;
     using Md.Tga.Common.Contracts.Models;
     using Newtonsoft.Json;
 

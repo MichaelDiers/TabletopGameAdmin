@@ -1,6 +1,6 @@
 ﻿namespace Md.Tga.Common.Contracts.Models
 {
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
 
     /// <summary>
     ///     Player and termination link mapping.

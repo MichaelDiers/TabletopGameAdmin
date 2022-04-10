@@ -1,6 +1,6 @@
 ﻿namespace Md.Tga.Common.Contracts.Messages
 {
-    using Md.GoogleCloud.Base.Contracts.Messages;
+    using Md.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
 
     /// <summary>

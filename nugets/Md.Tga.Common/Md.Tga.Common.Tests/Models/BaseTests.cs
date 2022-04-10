@@ -2,7 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Models;
     using Newtonsoft.Json;
@@ -25,7 +25,9 @@
         public void Ctor()
         {
             var id = Guid.NewGuid().ToString();
-            Assert.Equal(id, new BaseImplementation(id).Id);
+            var obj = new BaseImplementation(id) as IBase;
+            Assert.Equal(id, obj.Id);
+            Assert.Equal(string.Empty, obj.InternalDocumentId);
         }
 
         [Theory]

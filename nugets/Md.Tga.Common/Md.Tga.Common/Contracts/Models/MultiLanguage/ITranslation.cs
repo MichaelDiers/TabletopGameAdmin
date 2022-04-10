@@ -1,6 +1,6 @@
 ﻿namespace Md.Tga.Common.Contracts.Models.MultiLanguage
 {
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
 
     /// <summary>
     ///     Describes the translations for a specific language.
