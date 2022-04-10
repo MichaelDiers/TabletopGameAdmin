@@ -1,5 +1,6 @@
 ﻿namespace Md.Tga.Common.PubSub.Logic
 {
+    using Md.GoogleCloudPubSub.Contracts.Model;
     using Md.GoogleCloudPubSub.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.PubSub.Contracts.Logic;
