@@ -15,7 +15,7 @@
         public static IGameSeries Generate(GameSeriesGeneratorConfiguration configuration)
         {
             var sides = Enumerable.Range(0, configuration.SideCount)
-                .Select(i => new NamedBase(Guid.NewGuid().ToString(), $"Side-{i}"))
+                .Select(i => new Side(Guid.NewGuid().ToString(), $"Side-{i}"))
                 .ToArray();
             var countries = Enumerable.Range(0, configuration.CountryCount)
                 .Select(
@@ -25,7 +25,8 @@
                 .Select(i => new Person(Guid.NewGuid().ToString(), $"Player-{i}", $"player-{i}@example.example"))
                 .ToArray();
             return new GameSeries(
-                configuration.Id,
+                configuration.DocumentId,
+                DateTime.Now,
                 configuration.Name,
                 sides,
                 countries,

@@ -220,7 +220,7 @@
 
         public static bool CheckEqual(this IPlayerMappings expected, IPlayerMappings actual)
         {
-            return expected.InternalGameId.CheckEqual(actual.InternalGameId) &&
+            return expected.ParentDocumentId.CheckEqual(actual.ParentDocumentId) &&
                    expected.PlayerCountryMappings.CheckEqual(actual.PlayerCountryMappings, false);
         }
 

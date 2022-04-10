@@ -19,17 +19,12 @@
 
         public static IGame Generate(GameGeneratorConfiguration configuration, IGameSeries gameSeries)
         {
-            if (gameSeries.Id == configuration.InternalGameSeriesId)
-            {
-                throw new ArgumentException(
-                    "Identical GameSeries.Id and GameGeneratorConfiguration.InternalGameSeriesId");
-            }
-
             return new Game(
-                configuration.Id,
+                configuration.DocumentId,
+                DateTime.Now,
+                configuration.ParentDocumentId,
                 configuration.Name,
-                configuration.InternalGameSeriesId,
-                configuration.SurveyId,
+                configuration.SurveyDocumentId,
                 gameSeries.Players.Select(player => new GameTermination(player.Id, Guid.NewGuid().ToString()))
                     .ToArray());
         }

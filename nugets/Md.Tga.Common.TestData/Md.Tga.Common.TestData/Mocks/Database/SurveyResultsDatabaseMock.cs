@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.GoogleCloudFirestore.Contracts.Logic;
     using Surveys.Common.Contracts;
     using Surveys.Common.Firestore.Contracts;
     using Surveys.Common.Models;

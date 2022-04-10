@@ -17,7 +17,7 @@
             foreach (var surveyParticipant in survey.Participants)
             {
                 yield return new SurveyResult(
-                    game.SurveyId,
+                    game.SurveyDocumentId,
                     surveyParticipant.Id,
                     true,
                     surveyParticipant.QuestionReferences);
@@ -31,7 +31,7 @@
                 foreach (var surveyParticipant in survey.Participants)
                 {
                     yield return new SurveyResult(
-                        game.SurveyId,
+                        game.SurveyDocumentId,
                         surveyParticipant.Id,
                         false,
                         questionReferences);
@@ -46,7 +46,7 @@
                             q => new QuestionReference(q.Id, q.Choices.Where(c => c.Selectable).Skip(i).First().Id))
                         .ToArray();
                     yield return new SurveyResult(
-                        game.SurveyId,
+                        game.SurveyDocumentId,
                         surveyParticipant.Id,
                         true,
                         questionReferences);
@@ -61,7 +61,7 @@
                 foreach (var surveyParticipant in survey.Participants.Skip(1))
                 {
                     yield return new SurveyResult(
-                        game.SurveyId,
+                        game.SurveyDocumentId,
                         surveyParticipant.Id,
                         true,
                         questionReferences);

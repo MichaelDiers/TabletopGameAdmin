@@ -4,34 +4,35 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Models;
 
-    public class GamesDatabaseMock : DatabaseMock<Game>, IGameDatabase
+    public class GamesDatabaseMock : DatabaseMock<IGame>, IGameDatabase
     {
         public GamesDatabaseMock()
-            : this(Enumerable.Empty<Game>())
+            : this(Enumerable.Empty<IGame>())
         {
         }
 
-        public GamesDatabaseMock(Game game)
+        public GamesDatabaseMock(IGame game)
             : this(new[] {game})
         {
         }
 
-        public GamesDatabaseMock(IEnumerable<Game> games)
+        public GamesDatabaseMock(IEnumerable<IGame> games)
             : base(
-                new Dictionary<string, Game>(games.Select(g => new KeyValuePair<string, Game>(g.Id, g))),
-                x => new KeyValuePair<string, Game>(Guid.NewGuid().ToString(), Game.FromDictionary(x.ToDictionary())))
+                new Dictionary<string, IGame>(games.Select(g => new KeyValuePair<string, IGame>(g.DocumentId, g))),
+                x => new KeyValuePair<string, IGame>(Guid.NewGuid().ToString(), Game.FromDictionary(x.ToDictionary())))
         {
         }
 
-        public override async Task<Game?> ReadOneAsync(string fieldPath, object value)
+        public override async Task<IGame?> ReadOneAsync(string fieldPath, object value)
         {
             await Task.CompletedTask;
-            if (fieldPath == Game.SurveyIdName)
+            if (fieldPath == Game.SurveyDocumentIdName)
             {
-                return this.Values.FirstOrDefault(game => game.SurveyId == (string) value);
+                return this.Values.FirstOrDefault(game => game.SurveyDocumentId == (string) value);
             }
 
             throw new NotImplementedException();

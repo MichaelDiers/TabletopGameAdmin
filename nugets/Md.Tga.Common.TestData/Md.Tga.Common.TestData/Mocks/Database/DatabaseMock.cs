@@ -3,7 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
+    using Md.GoogleCloudFirestore.Contracts.Logic;
 
     public abstract class DatabaseMock<T> where T : class
 
@@ -52,7 +53,6 @@
             return this.dictionary.Values;
         }
 
-
         public async Task<IEnumerable<T>> ReadManyAsync(string fieldPath, object value)
         {
             return await this.ReadManyAsync(fieldPath, value, OrderType.Unsorted);
@@ -64,16 +64,6 @@
         }
 
         public virtual Task<T?> ReadOneAsync(string fieldPath, object value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateByDocumentIdAsync(string documentId, IDictionary<string, object> updates)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateOneAsync(string fieldPath, object value, IDictionary<string, object> updates)
         {
             throw new NotImplementedException();
         }

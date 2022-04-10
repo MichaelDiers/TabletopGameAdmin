@@ -29,14 +29,17 @@
             return SurveyGenerator.Generate(
                 configuration,
                 gameSeries,
-                GameGenerator.Generate(new GameGeneratorConfiguration {SurveyId = configuration.Id}, gameSeries));
+                GameGenerator.Generate(
+                    new GameGeneratorConfiguration {SurveyDocumentId = configuration.Id},
+                    gameSeries));
         }
 
         public static ISurvey Generate(SurveyGeneratorConfiguration configuration, IGameSeries gameSeries, IGame game)
         {
-            if (configuration.Id == game.SurveyId)
+            if (configuration.Id == game.SurveyDocumentId)
             {
-                throw new ArgumentException("Id match: SurveyGeneratorConfiguration.Id and Game.SurveyId");
+                throw new ArgumentException(
+                    "DocumentId match: SurveyGeneratorConfiguration.DocumentId and Game.SurveyDocumentId");
             }
 
             if (gameSeries.Players.Count() != configuration.ParticipantCount)

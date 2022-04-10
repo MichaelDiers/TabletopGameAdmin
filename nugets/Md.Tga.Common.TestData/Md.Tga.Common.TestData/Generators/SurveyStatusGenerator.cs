@@ -14,10 +14,10 @@
 
         public static IEnumerable<ISurveyStatus> Generate(SurveyStatusGeneratorConfiguration configuration, IGame game)
         {
-            yield return new SurveyStatus(game.SurveyId, Status.Created);
+            yield return new SurveyStatus(game.SurveyDocumentId, Status.Created);
             if (configuration.IsClosed)
             {
-                yield return new SurveyStatus(game.SurveyId, Status.Closed);
+                yield return new SurveyStatus(game.SurveyDocumentId, Status.Closed);
             }
         }
     }
