@@ -1,6 +1,6 @@
 ﻿namespace Md.Tga.Common.Firestore.Contracts.Logic
 {
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.GoogleCloudFirestore.Contracts.Logic;
     using Md.Tga.Common.Contracts.Models;
 
     /// <summary>

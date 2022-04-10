@@ -3,11 +3,11 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Md.Common.Contracts;
+    using Md.Common.Contracts.Model;
     using Md.Common.Extensions;
-    using Md.GoogleCloud.Base.Contracts.Logic;
-    using Md.GoogleCloud.Base.Logic;
+    using Md.GoogleCloudFirestore.Contracts.Logic;
     using Md.GoogleCloudFirestore.Logic;
+    using Md.GoogleCloudFirestore.Model;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Models;
