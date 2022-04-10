@@ -21,7 +21,7 @@
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
             Assert.Equal(3, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Id, dictionary[NamedBase.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
             Assert.Equal(obj.Email, dictionary[Person.EmailName]);
         }
@@ -62,12 +62,6 @@
         }
 
         [Fact]
-        public void ExtendsBase()
-        {
-            Assert.IsAssignableFrom<Base>(PersonTests.Init());
-        }
-
-        [Fact]
         public void ExtendsNamedBase()
         {
             Assert.IsAssignableFrom<NamedBase>(PersonTests.Init());
@@ -84,13 +78,6 @@
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Name, actual.Name);
             Assert.Equal(expected.Email, actual.Email);
-        }
-
-
-        [Fact]
-        public void ImplementsIBase()
-        {
-            Assert.IsAssignableFrom<IBase>(PersonTests.Init());
         }
 
         [Fact]
@@ -131,7 +118,7 @@
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(3, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Id, dictionary[NamedBase.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
             Assert.Equal(obj.Email, dictionary[Person.EmailName]);
         }

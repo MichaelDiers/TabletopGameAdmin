@@ -21,7 +21,7 @@
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
             Assert.Equal(2, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Id, dictionary[NamedBase.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
         }
 
@@ -52,12 +52,6 @@
         }
 
         [Fact]
-        public void ExtendsBase()
-        {
-            Assert.IsAssignableFrom<Base>(NamedBaseTests.Init());
-        }
-
-        [Fact]
         public void FromDictionary()
         {
             var expected = NamedBaseTests.Init();
@@ -71,9 +65,9 @@
 
 
         [Fact]
-        public void ImplementsIBase()
+        public void ImplementsINamedBase()
         {
-            Assert.IsAssignableFrom<IBase>(NamedBaseTests.Init());
+            Assert.IsAssignableFrom<INamedBase>(NamedBaseTests.Init());
         }
 
         [Fact]
@@ -102,8 +96,7 @@
 
         public static string SerializePlain(INamedBase obj)
         {
-            var baseJson = BaseTests.SerializePlain(obj);
-            return $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"name\":\"{obj.Name}\"}}";
+            return $"{{\"id\":\"{obj.Id}\",\"name\":\"{obj.Name}\"}}";
         }
 
         [Fact]
@@ -113,7 +106,7 @@
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(2, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Id, dictionary[NamedBase.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
         }
 

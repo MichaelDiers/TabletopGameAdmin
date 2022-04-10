@@ -2,14 +2,20 @@
 {
     using System.Collections.Generic;
     using Md.Common.Extensions;
+    using Md.Common.Model;
     using Md.Tga.Common.Contracts.Models;
     using Newtonsoft.Json;
 
     /// <summary>
     ///     Describes a named base object.
     /// </summary>
-    public class NamedBase : Base, INamedBase
+    public class NamedBase : ToDictionaryConverter, INamedBase
     {
+        /// <summary>
+        ///     The json name of <see cref="Id" />.
+        /// </summary>
+        public const string IdName = "id";
+
         /// <summary>
         ///     The name of json entry name.
         /// </summary>
@@ -21,21 +27,16 @@
         /// <param name="id">The id of the object. Has to be a guid.</param>
         /// <param name="name">The name of the object.</param>
         public NamedBase(string id, string name)
-            : this(id, name, string.Empty)
         {
+            this.Id = id.ValidateIsAGuid(nameof(id));
+            this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
         }
 
         /// <summary>
-        ///     Create a new instance of <see cref="NamedBase" />.
+        ///     Gets the id.
         /// </summary>
-        /// <param name="id">The id of the object. Has to be a guid.</param>
-        /// <param name="name">The name of the object.</param>
-        /// <param name="internalDocumentId">The internal document id.</param>
-        protected NamedBase(string id, string name, string internalDocumentId)
-            : base(id, internalDocumentId)
-        {
-            this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
-        }
+        [JsonProperty(NamedBase.IdName, Required = Required.Always, Order = 10)]
+        public string Id { get; }
 
         /// <summary>
         ///     Gets the name.
@@ -50,8 +51,8 @@
         /// <returns>The given <paramref name="dictionary" />.</returns>
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
-            base.AddToDictionary(dictionary);
             dictionary.Add(NamedBase.NameName, this.Name);
+            dictionary.Add(NamedBase.IdName, this.Id);
             return dictionary;
         }
 
@@ -62,10 +63,9 @@
         /// <returns>An instance of <see cref="NamedBase" />.</returns>
         public static NamedBase FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(Base.IdName);
+            var id = dictionary.GetString(NamedBase.IdName);
             var name = dictionary.GetString(NamedBase.NameName);
-            var internalDocumentId = dictionary.GetString(Base.InternalDocumentIdName, string.Empty);
-            return new NamedBase(id, name, internalDocumentId);
+            return new NamedBase(id, name);
         }
     }
 }

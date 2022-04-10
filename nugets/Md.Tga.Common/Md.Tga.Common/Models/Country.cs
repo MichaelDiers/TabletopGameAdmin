@@ -52,7 +52,7 @@
         /// <returns>An instance of <see cref="Country" />.</returns>
         public new static Country FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(Base.IdName);
+            var id = dictionary.GetString(NamedBase.IdName);
             var name = dictionary.GetString(NamedBase.NameName);
             var sideId = dictionary.GetString(Country.SideIdName);
             return new Country(id, name, sideId);

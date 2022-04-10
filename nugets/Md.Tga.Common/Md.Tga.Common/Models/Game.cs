@@ -1,7 +1,9 @@
 ﻿namespace Md.Tga.Common.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Md.Common.Database;
     using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
     using Newtonsoft.Json;
@@ -9,7 +11,7 @@
     /// <summary>
     ///     Describes a game of a game series.
     /// </summary>
-    public class Game : NamedBase, IGame
+    public class Game : DatabaseObject, IGame
     {
         /// <summary>
         ///     The json name of <see cref="GameTerminations" />.
@@ -17,84 +19,62 @@
         public const string GameTerminationsName = "gameTerminations";
 
         /// <summary>
-        ///     The name of the internal game series id.
+        ///     The name of json entry name.
         /// </summary>
-        public const string InternalGameSeriesIdName = "internalGameSeriesId";
+        public const string NameName = "name";
 
         /// <summary>
         ///     The name of the survey id.
         /// </summary>
-        public const string SurveyIdName = "surveyId";
+        public const string SurveyDocumentIdName = "surveyDocumentId";
 
         /// <summary>
         ///     Creates a new instance of <see cref="Game" />.
         /// </summary>
-        /// <param name="id">The id of the game.</param>
+        /// <param name="documentId">The document id of the game.</param>
+        /// <param name="created">The creation time of the document.</param>
+        /// <param name="parentDocumentId">The id of the parent document.</param>
         /// <param name="name">The name of the game.</param>
-        /// <param name="internalGameSeriesId">The internal game series id.</param>
-        /// <param name="surveyId">The id of the survey.</param>
+        /// <param name="surveyDocumentId">The id of the survey.</param>
         /// <param name="gameTerminations">The mapping of player and termination ids.</param>
         [JsonConstructor]
         public Game(
-            string id,
+            string? documentId,
+            DateTime? created,
+            string parentDocumentId,
             string name,
-            string internalGameSeriesId,
-            string surveyId,
+            string surveyDocumentId,
             IEnumerable<GameTermination> gameTerminations
         )
             : this(
-                id,
+                documentId,
+                created,
+                parentDocumentId,
                 name,
-                internalGameSeriesId,
-                surveyId,
+                surveyDocumentId,
                 gameTerminations.Select(gt => gt as IGameTermination))
         {
         }
 
-        /// <summary>
-        ///     Creates a new instance of <see cref="Game" />.
-        /// </summary>
-        /// <param name="id">The id of the game.</param>
+        /// <param name="documentId">The document id of the game.</param>
+        /// <param name="created">The creation time of the document.</param>
+        /// <param name="parentDocumentId">The id of the parent document.</param>
         /// <param name="name">The name of the game.</param>
-        /// <param name="internalGameSeriesId">The internal game series id.</param>
-        /// <param name="surveyId">The id of the survey.</param>
+        /// <param name="surveyDocumentId">The id of the survey.</param>
         /// <param name="gameTerminations">The mapping of player and termination ids.</param>
         public Game(
-            string id,
+            string? documentId,
+            DateTime? created,
+            string? parentDocumentId,
             string name,
-            string internalGameSeriesId,
-            string surveyId,
+            string surveyDocumentId,
             IEnumerable<IGameTermination> gameTerminations
         )
-            : base(id, name)
+            : base(documentId, created, parentDocumentId)
         {
-            this.InternalGameSeriesId = internalGameSeriesId.ValidateIsAGuid(nameof(internalGameSeriesId));
-            this.SurveyId = surveyId.ValidateIsAGuid(nameof(surveyId));
+            this.SurveyDocumentId = surveyDocumentId.ValidateIsAGuid(nameof(surveyDocumentId));
             this.GameTerminations = gameTerminations;
-        }
-
-        /// <summary>
-        ///     Creates a new instance of <see cref="Game" />.
-        /// </summary>
-        /// <param name="id">The id of the game.</param>
-        /// <param name="name">The name of the game.</param>
-        /// <param name="internalGameSeriesId">The internal game series id.</param>
-        /// <param name="surveyId">The id of the survey.</param>
-        /// <param name="internalDocumentId">The internal document id.</param>
-        /// <param name="gameTerminations">The mapping of player and termination ids.</param>
-        protected Game(
-            string id,
-            string name,
-            string internalGameSeriesId,
-            string surveyId,
-            IEnumerable<IGameTermination> gameTerminations,
-            string internalDocumentId
-        )
-            : base(id, name, internalDocumentId)
-        {
-            this.InternalGameSeriesId = internalGameSeriesId.ValidateIsAGuid(nameof(internalGameSeriesId));
-            this.SurveyId = surveyId.ValidateIsAGuid(nameof(surveyId));
-            this.GameTerminations = gameTerminations;
+            this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
         }
 
         /// <summary>
@@ -104,16 +84,16 @@
         public IEnumerable<IGameTermination> GameTerminations { get; }
 
         /// <summary>
-        ///     Gets the internal game series id.
+        ///     Gets the name of the game.
         /// </summary>
-        [JsonProperty(Game.InternalGameSeriesIdName, Required = Required.Always, Order = 111)]
-        public string InternalGameSeriesId { get; }
+        [JsonProperty(Game.NameName, Required = Required.Always, Order = 50)]
+        public string Name { get; }
 
         /// <summary>
         ///     Gets the id of the survey.
         /// </summary>
-        [JsonProperty(Game.SurveyIdName, Required = Required.Always, Order = 112)]
-        public string SurveyId { get; }
+        [JsonProperty(Game.SurveyDocumentIdName, Required = Required.Always, Order = 112)]
+        public string SurveyDocumentId { get; }
 
         /// <summary>
         ///     Add the property values to a dictionary.
@@ -123,8 +103,8 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
-            dictionary.Add(Game.InternalGameSeriesIdName, this.InternalGameSeriesId);
-            dictionary.Add(Game.SurveyIdName, this.SurveyId);
+            dictionary.Add(Game.NameName, this.Name);
+            dictionary.Add(Game.SurveyDocumentIdName, this.SurveyDocumentId);
             dictionary.Add(Game.GameTerminationsName, this.GameTerminations.Select(gt => gt.ToDictionary()));
             return dictionary;
         }
@@ -134,23 +114,24 @@
         /// </summary>
         /// <param name="dictionary">The object is initialized from the dictionary.</param>
         /// <returns>An instance of <see cref="Game" />.</returns>
-        public new static Game FromDictionary(IDictionary<string, object> dictionary)
+        public static IGame FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(Base.IdName);
+            var documentId = dictionary.GetString(DatabaseObject.DocumentIdName);
+            var created = dictionary.GetDateTime(DatabaseObject.CreatedName);
+            var parentDocumentId = dictionary.GetString(DatabaseObject.ParentDocumentIdName);
+
             var name = dictionary.GetString(NamedBase.NameName);
-            var internalGameSeriesId = dictionary.GetString(Game.InternalGameSeriesIdName);
-            var surveyId = dictionary.GetString(Game.SurveyIdName);
+            var surveyId = dictionary.GetString(Game.SurveyDocumentIdName);
             var gameTerminations = dictionary.GetDictionaries(Game.GameTerminationsName)
                 .Select(GameTermination.FromDictionary)
                 .ToArray();
-            var internalDocumentId = dictionary.GetString(Base.InternalDocumentIdName, string.Empty);
             return new Game(
-                id,
+                documentId,
+                created,
+                parentDocumentId,
                 name,
-                internalGameSeriesId,
                 surveyId,
-                gameTerminations,
-                internalDocumentId);
+                gameTerminations);
         }
     }
 }

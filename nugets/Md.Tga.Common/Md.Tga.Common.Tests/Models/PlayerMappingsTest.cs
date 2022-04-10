@@ -12,12 +12,15 @@
         {
             var internalGameId = Guid.NewGuid().ToString();
             var mapping = new PlayerCountryMapping(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
-            var mappings = new PlayerMappings(internalGameId, new[] {mapping});
+            var mappings = new PlayerMappings(
+                internalGameId,
+                DateTime.Now,
+                Guid.NewGuid().ToString(),
+                new[] {mapping});
 
             var fromDictionary = PlayerMappings.FromDictionary(mappings.ToDictionary());
-            Assert.Equal(internalGameId, fromDictionary.InternalGameId);
-            Assert.Equal(mapping.PlayerId, mappings.PlayerCountryMappings.First().PlayerId);
-            Assert.Equal(mapping.CountryId, mappings.PlayerCountryMappings.First().CountryId);
+            Assert.Equal(mapping.PlayerId, fromDictionary.PlayerCountryMappings.First().PlayerId);
+            Assert.Equal(mapping.CountryId, fromDictionary.PlayerCountryMappings.First().CountryId);
         }
     }
 }

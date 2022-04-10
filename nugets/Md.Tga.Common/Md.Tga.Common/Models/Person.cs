@@ -52,7 +52,7 @@
         /// <returns>An instance of <see cref="Person" />.</returns>
         public new static Person FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(Base.IdName);
+            var id = dictionary.GetString(NamedBase.IdName);
             var name = dictionary.GetString(NamedBase.NameName);
             var email = dictionary.GetString(Person.EmailName);
 

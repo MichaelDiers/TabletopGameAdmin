@@ -21,7 +21,7 @@
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
             Assert.Equal(3, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Id, dictionary[NamedBase.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
             Assert.Equal(obj.SideId, dictionary[Country.SideIdName]);
         }
@@ -65,12 +65,6 @@
         }
 
         [Fact]
-        public void ExtendsBase()
-        {
-            Assert.IsAssignableFrom<Base>(CountryTests.Init());
-        }
-
-        [Fact]
         public void ExtendsNamedBase()
         {
             Assert.IsAssignableFrom<NamedBase>(CountryTests.Init());
@@ -87,13 +81,6 @@
             Assert.Equal(expected.Id, actual.Id);
             Assert.Equal(expected.Name, actual.Name);
             Assert.Equal(expected.SideId, actual.SideId);
-        }
-
-
-        [Fact]
-        public void ImplementsIBase()
-        {
-            Assert.IsAssignableFrom<IBase>(CountryTests.Init());
         }
 
         [Fact]
@@ -134,7 +121,7 @@
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
             Assert.Equal(3, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
+            Assert.Equal(obj.Id, dictionary[NamedBase.IdName]);
             Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
             Assert.Equal(obj.SideId, dictionary[Country.SideIdName]);
         }

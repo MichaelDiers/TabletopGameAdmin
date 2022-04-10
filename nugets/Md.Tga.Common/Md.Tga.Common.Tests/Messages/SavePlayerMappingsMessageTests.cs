@@ -16,7 +16,11 @@
             var playerMapping = new PlayerCountryMapping(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             var message = new SavePlayerMappingsMessage(
                 processId,
-                new PlayerMappings(Guid.NewGuid().ToString(), new[] {playerMapping}));
+                new PlayerMappings(
+                    Guid.NewGuid().ToString(),
+                    DateTime.Now,
+                    Guid.NewGuid().ToString(),
+                    new[] {playerMapping}));
 
             Assert.Equal(processId, message.ProcessId);
             Assert.Equal(message.PlayerMappings.PlayerCountryMappings.Single().PlayerId, playerMapping.PlayerId);

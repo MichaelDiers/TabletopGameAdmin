@@ -15,11 +15,11 @@
             var gameSeries = GameSeriesTests.Create();
             var message = new SaveGameSeriesMessage(processId, gameSeries);
             Assert.Equal(processId, message.ProcessId);
-            Assert.Equal(gameSeries.Id, message.GameSeries.Id);
+            Assert.Equal(gameSeries.DocumentId, message.GameSeries.DocumentId);
 
             var iMessage = (ISaveGameSeriesMessage) message;
             Assert.Equal(processId, iMessage.ProcessId);
-            Assert.Equal(gameSeries.Id, iMessage.GameSeries.Id);
+            Assert.Equal(gameSeries.DocumentId, iMessage.GameSeries.DocumentId);
         }
     }
 }

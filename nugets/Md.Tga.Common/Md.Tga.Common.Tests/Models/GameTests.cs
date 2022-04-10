@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Md.Common.Contracts.Model;
+    using Md.Common.Database;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Models;
     using Newtonsoft.Json;
@@ -21,104 +22,42 @@
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
-            Assert.Equal(5, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
-            Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
-            Assert.Equal(obj.InternalGameSeriesId, dictionary[Game.InternalGameSeriesIdName]);
-            Assert.Equal(obj.SurveyId, dictionary[Game.SurveyIdName]);
-            Assert.NotEmpty(obj.GameTerminations);
+            Assert.Equal(6, dictionary.Count);
         }
 
         [Fact]
         public void Ctor()
         {
-            var id = Guid.NewGuid().ToString();
+            var documentId = Guid.NewGuid().ToString();
+            var created = DateTime.Now;
+            var parentDocumentId = Guid.NewGuid().ToString();
+
             const string name = "name";
-            var internalGameSeriesId = Guid.NewGuid().ToString();
-            var surveyId = Guid.NewGuid().ToString();
+            var surveyDocumentId = Guid.NewGuid().ToString();
+            var terminations = new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())};
 
             var obj = new Game(
-                id,
+                documentId,
+                created,
+                parentDocumentId,
                 name,
-                internalGameSeriesId,
-                surveyId,
-                new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
+                surveyDocumentId,
+                terminations);
 
-            Assert.Equal(id, obj.Id);
+            Assert.Equal(documentId, obj.DocumentId);
+            Assert.Equal(created, obj.Created);
+            Assert.Equal(parentDocumentId, obj.ParentDocumentId);
             Assert.Equal(name, obj.Name);
-            Assert.Equal(internalGameSeriesId, obj.InternalGameSeriesId);
-            Assert.Equal(surveyId, obj.SurveyId);
-        }
-
-
-        [Theory]
-        [InlineData("")]
-        [InlineData("abc")]
-        [InlineData("00000000-0000-0000-0000-000000000000")]
-        public void CtorThrowsArgumentExceptionForInvalidId(string id)
-        {
-            Assert.Throws<ArgumentException>(
-                () => new Game(
-                    id,
-                    "name of the game",
-                    Guid.NewGuid().ToString(),
-                    Guid.NewGuid().ToString(),
-                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData("abc")]
-        [InlineData("00000000-0000-0000-0000-000000000000")]
-        public void CtorThrowsArgumentExceptionForInvalidInternalGameSeriesId(string id)
-        {
-            Assert.Throws<ArgumentException>(
-                () => new Game(
-                    Guid.NewGuid().ToString(),
-                    "name of the game",
-                    id,
-                    Guid.NewGuid().ToString(),
-                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
-        }
-
-        [Theory]
-        [InlineData("")]
-        public void CtorThrowsArgumentExceptionForInvalidName(string name)
-        {
-            Assert.Throws<ArgumentException>(
-                () => new Game(
-                    Guid.NewGuid().ToString(),
-                    name,
-                    Guid.NewGuid().ToString(),
-                    Guid.NewGuid().ToString(),
-                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
-        }
-
-        [Theory]
-        [InlineData("")]
-        [InlineData("abc")]
-        [InlineData("00000000-0000-0000-0000-000000000000")]
-        public void CtorThrowsArgumentExceptionForInvalidSurveyId(string id)
-        {
-            Assert.Throws<ArgumentException>(
-                () => new Game(
-                    Guid.NewGuid().ToString(),
-                    "name of the game",
-                    Guid.NewGuid().ToString(),
-                    id,
-                    new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())}));
-        }
-
-        [Fact]
-        public void ExtendsBase()
-        {
-            Assert.IsAssignableFrom<Base>(GameTests.Init());
+            Assert.Equal(surveyDocumentId, obj.SurveyDocumentId);
+            Assert.Single(obj.GameTerminations);
+            Assert.Equal(terminations.First().PlayerId, obj.GameTerminations.First().PlayerId);
+            Assert.Equal(terminations.First().TerminationId, obj.GameTerminations.First().TerminationId);
         }
 
         [Fact]
         public void ExtendsNamedBase()
         {
-            Assert.IsAssignableFrom<NamedBase>(GameTests.Init());
+            Assert.IsAssignableFrom<DatabaseObject>(GameTests.Init());
         }
 
         [Fact]
@@ -127,19 +66,7 @@
             var expected = GameTests.Init();
             var dictionary = expected.ToDictionary();
             var actual = Game.FromDictionary(dictionary);
-            Assert.NotNull(expected);
-            Assert.NotNull(actual);
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.Name, actual.Name);
-            Assert.Equal(expected.InternalGameSeriesId, actual.InternalGameSeriesId);
-            Assert.Equal(expected.SurveyId, actual.SurveyId);
-        }
-
-
-        [Fact]
-        public void ImplementsIBase()
-        {
-            Assert.IsAssignableFrom<IBase>(GameTests.Init());
+            GameTests.CheckEqual(expected, actual);
         }
 
         [Fact]
@@ -158,6 +85,7 @@
         {
             return new Game(
                 Guid.NewGuid().ToString(),
+                DateTime.Now,
                 "name of the game",
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
@@ -170,10 +98,7 @@
             var expected = GameTests.Init();
             var actual = JsonConvert.DeserializeObject<Game>(JsonConvert.SerializeObject(expected));
             Assert.NotNull(actual);
-            Assert.Equal(expected.Id, actual.Id);
-            Assert.Equal(expected.Name, actual.Name);
-            Assert.Equal(expected.InternalGameSeriesId, actual.InternalGameSeriesId);
-            Assert.Equal(expected.SurveyId, actual.SurveyId);
+            GameTests.CheckEqual(expected, actual);
         }
 
         [Fact]
@@ -181,6 +106,7 @@
         {
             var obj = new Game(
                 Guid.NewGuid().ToString(),
+                DateTime.Now,
                 "game name",
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
@@ -192,13 +118,13 @@
 
         public static string SerializePlain(IGame obj)
         {
-            var baseJson = NamedBaseTests.SerializePlain(obj);
+            var baseJson = GameSeriesTests.SerializePlainPartial(obj);
             var gameTerminations = string.Join(
                 ",",
                 obj.GameTerminations.Select(
                     gt => $"{{\"playerId\":\"{gt.PlayerId}\",\"terminationId\":\"{gt.TerminationId}\"}}"));
             return
-                $"{{{baseJson.Substring(1, baseJson.Length - 2)},\"internalGameSeriesId\":\"{obj.InternalGameSeriesId}\",\"surveyId\":\"{obj.SurveyId}\",\"gameTerminations\":[{gameTerminations}]}}";
+                $"{{{baseJson},\"name\":\"{obj.Name}\",\"surveyDocumentId\":\"{obj.SurveyDocumentId}\",\"gameTerminations\":[{gameTerminations}]}}";
         }
 
         [Fact]
@@ -207,12 +133,29 @@
             var obj = GameTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
-            Assert.Equal(5, dictionary.Count);
-            Assert.Equal(obj.Id, dictionary[Base.IdName]);
-            Assert.Equal(obj.Name, dictionary[NamedBase.NameName]);
-            Assert.Equal(obj.InternalGameSeriesId, dictionary[Game.InternalGameSeriesIdName]);
-            Assert.Equal(obj.SurveyId, dictionary[Game.SurveyIdName]);
-            Assert.NotEmpty(obj.GameTerminations);
+            Assert.Equal(6, dictionary.Count);
+            GameTests.CheckEqual(obj, Game.FromDictionary(dictionary));
+        }
+
+        private static void CheckEqual(IGame expected, IGame actual)
+        {
+            Assert.NotNull(expected);
+            Assert.NotNull(actual);
+            Assert.Equal(expected.DocumentId, actual.DocumentId);
+            Assert.Equal(expected.Created, actual.Created);
+            Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
+
+            Assert.Equal(expected.Name, actual.Name);
+            Assert.Equal(expected.SurveyDocumentId, actual.SurveyDocumentId);
+            Assert.Equal(expected.GameTerminations.Count(), actual.GameTerminations.Count());
+            foreach (var expectedGameTermination in expected.GameTerminations)
+            {
+                Assert.Contains(
+                    actual.GameTerminations,
+                    actualGameTermination => expectedGameTermination.PlayerId == actualGameTermination.PlayerId &&
+                                             actualGameTermination.TerminationId ==
+                                             expectedGameTermination.TerminationId);
+            }
         }
     }
 }

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Md.Common.Database;
     using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
     using Newtonsoft.Json;
@@ -10,38 +11,44 @@
     /// <summary>
     ///     Describes a game series.
     /// </summary>
-    public class GameSeries : NamedBase, IGameSeries
+    public class GameSeries : DatabaseObject, IGameSeries
 
     {
         /// <summary>
         ///     The name of json entry countries.
         /// </summary>
-        private const string CountriesName = "countries";
+        public const string CountriesName = "countries";
 
         /// <summary>
         ///     The name if the json entry gameType.
         /// </summary>
-        private const string GameTypeName = "gameType";
+        public const string GameTypeName = "gameType";
+
+        /// <summary>
+        ///     The name of json entry name.
+        /// </summary>
+        public const string NameName = "name";
 
         /// <summary>
         ///     The name of json entry organizer.
         /// </summary>
-        private const string OrganizerName = "organizer";
+        public const string OrganizerName = "organizer";
 
         /// <summary>
         ///     The name of json entry players.
         /// </summary>
-        private const string PlayersName = "players";
+        public const string PlayersName = "players";
 
         /// <summary>
         ///     The name of json entry sides.
         /// </summary>
-        private const string SidesName = "sides";
+        public const string SidesName = "sides";
 
         /// <summary>
         ///     Create a new instance of <see cref="GameSeries" />.
         /// </summary>
-        /// <param name="id">The id of the object. Has to be a guid.</param>
+        /// <param name="documentId">The id of the document.</param>
+        /// <param name="created">The creation time of the document.</param>
         /// <param name="name">The name of the object.</param>
         /// <param name="sides">The available sides of the game.</param>
         /// <param name="countries">The countries of the game.</param>
@@ -49,27 +56,30 @@
         /// <param name="players">The players of the game series.</param>
         /// <param name="gameType">The type of the game.</param>
         public GameSeries(
-            string id,
+            string? documentId,
+            DateTime? created,
             string name,
-            IEnumerable<INamedBase> sides,
+            IEnumerable<ISide> sides,
             IEnumerable<ICountry> countries,
             IPerson organizer,
             IEnumerable<IPerson> players,
             string gameType
         )
-            : base(id, name)
+            : base(documentId, created, null)
         {
-            this.Sides = sides ?? throw new ArgumentNullException(nameof(sides));
-            this.Countries = countries ?? throw new ArgumentNullException(nameof(countries));
+            this.Sides = sides.ToArray() ?? throw new ArgumentNullException(nameof(sides));
+            this.Countries = countries.ToArray() ?? throw new ArgumentNullException(nameof(countries));
             this.Organizer = organizer ?? throw new ArgumentNullException(nameof(organizer));
-            this.Players = players ?? throw new ArgumentNullException(nameof(players));
+            this.Players = players.ToArray() ?? throw new ArgumentNullException(nameof(players));
             this.GameType = gameType.ValidateIsNotNullOrWhitespace(nameof(gameType));
+            this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
         }
 
         /// <summary>
         ///     Create a new instance of <see cref="GameSeries" />.
         /// </summary>
-        /// <param name="id">The id of the object. Has to be a guid.</param>
+        /// <param name="documentId">The id of the document.</param>
+        /// <param name="created">The creation time of the document.</param>
         /// <param name="name">The name of the object.</param>
         /// <param name="sides">The available sides of the game.</param>
         /// <param name="countries">The countries of the game.</param>
@@ -78,21 +88,23 @@
         /// <param name="gameType">The type of the game.</param>
         [JsonConstructor]
         public GameSeries(
-            string id,
+            string? documentId,
+            DateTime? created,
             string name,
-            IEnumerable<NamedBase> sides,
+            IEnumerable<Side> sides,
             IEnumerable<Country> countries,
             Person organizer,
             IEnumerable<Person> players,
             string gameType
         )
             : this(
-                id,
+                documentId,
+                created,
                 name,
-                sides,
+                sides.Select(s => s as ISide),
                 countries,
                 organizer,
-                players as IEnumerable<IPerson>,
+                players.Select(p => p as IPerson),
                 gameType)
         {
         }
@@ -110,6 +122,12 @@
         public string GameType { get; }
 
         /// <summary>
+        ///     Gets the name of the game series.
+        /// </summary>
+        [JsonProperty(GameSeries.NameName, Required = Required.Always, Order = 50)]
+        public string Name { get; }
+
+        /// <summary>
         ///     Gets the organizer of the game series.
         /// </summary>
         [JsonProperty(GameSeries.OrganizerName, Required = Required.Always, Order = 113)]
@@ -125,7 +143,7 @@
         ///     Gets the side of the game.
         /// </summary>
         [JsonProperty(GameSeries.SidesName, Required = Required.Always, Order = 111)]
-        public IEnumerable<INamedBase> Sides { get; }
+        public IEnumerable<ISide> Sides { get; }
 
         /// <summary>
         ///     Add the property values to a dictionary.
@@ -135,6 +153,7 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             base.AddToDictionary(dictionary);
+            dictionary.Add(GameSeries.NameName, this.Name);
             dictionary.Add(GameSeries.SidesName, this.Sides.Select(side => side.ToDictionary()).ToArray());
             dictionary.Add(
                 GameSeries.CountriesName,
@@ -150,20 +169,22 @@
         /// </summary>
         /// <param name="dictionary">The object is initialized from the dictionary.</param>
         /// <returns>An instance of <see cref="GameSeries" />.</returns>
-        public new static IGameSeries FromDictionary(IDictionary<string, object> dictionary)
+        public static IGameSeries FromDictionary(IDictionary<string, object> dictionary)
         {
-            var id = dictionary.GetString(Base.IdName);
-            var name = dictionary.GetString(NamedBase.NameName);
-            var organizer = Person.FromDictionary(dictionary.GetDictionary(GameSeries.OrganizerName));
+            var documentId = dictionary.GetString(DatabaseObject.DocumentIdName);
+            var created = dictionary.GetDateTime(DatabaseObject.CreatedName);
 
-            var sides = dictionary.GetDictionaries(GameSeries.SidesName).Select(NamedBase.FromDictionary).ToArray();
+            var name = dictionary.GetString(GameSeries.NameName);
+            var organizer = Person.FromDictionary(dictionary.GetDictionary(GameSeries.OrganizerName));
+            var sides = dictionary.GetDictionaries(GameSeries.SidesName).Select(Side.FromDictionary).ToArray();
             var countries = dictionary.GetDictionaries(GameSeries.CountriesName)
                 .Select(Country.FromDictionary)
                 .ToArray();
             var players = dictionary.GetDictionaries(GameSeries.PlayersName).Select(Person.FromDictionary).ToArray();
             var gameType = dictionary.GetString(GameSeries.GameTypeName);
             return new GameSeries(
-                id,
+                documentId,
+                created,
                 name,
                 sides,
                 countries,
