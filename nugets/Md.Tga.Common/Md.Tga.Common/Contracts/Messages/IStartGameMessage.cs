@@ -8,8 +8,8 @@
     public interface IStartGameMessage : IMessage
     {
         /// <summary>
-        ///     Gets the internal id of the game series.
+        ///     Gets the document id of the game series for that a new game is started.
         /// </summary>
-        string InternalGameSeriesId { get; }
+        string GameSeriesDocumentId { get; }
     }
 }

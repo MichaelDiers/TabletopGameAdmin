@@ -14,17 +14,17 @@
         ///     Creates a new instance of <see cref="StartGameMessage" />.
         /// </summary>
         /// <param name="processId">The global process id.</param>
-        /// <param name="internalGameSeriesId">The internal id of the game series.</param>
-        public StartGameMessage(string processId, string internalGameSeriesId)
+        /// <param name="gameSeriesDocumentId">The document id of the game series for that a new game is started.</param>
+        public StartGameMessage(string processId, string gameSeriesDocumentId)
             : base(processId)
         {
-            this.InternalGameSeriesId = internalGameSeriesId.ValidateIsAGuid(nameof(internalGameSeriesId));
+            this.GameSeriesDocumentId = gameSeriesDocumentId.ValidateIsAGuid(nameof(gameSeriesDocumentId));
         }
 
         /// <summary>
-        ///     Gets the internal id of the game series.
+        ///     Gets the document id of the game series for that a new game is started.
         /// </summary>
-        [JsonProperty("internalGameSeriesId", Required = Required.Always, Order = 11)]
-        public string InternalGameSeriesId { get; }
+        [JsonProperty("gameSeriesDocumentId", Required = Required.Always, Order = 11)]
+        public string GameSeriesDocumentId { get; }
     }
 }

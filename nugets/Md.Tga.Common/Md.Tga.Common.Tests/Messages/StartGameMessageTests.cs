@@ -11,12 +11,24 @@
         public void Ctor()
         {
             var processId = Guid.NewGuid().ToString();
-            var gameSeriesId = Guid.NewGuid().ToString();
+            var gameSeriesDocumentId = Guid.NewGuid().ToString();
 
-            var message = new StartGameMessage(processId, gameSeriesId) as IStartGameMessage;
+            var message = new StartGameMessage(processId, gameSeriesDocumentId) as IStartGameMessage;
 
             Assert.Equal(processId, message.ProcessId);
-            Assert.Equal(gameSeriesId, message.InternalGameSeriesId);
+            Assert.Equal(gameSeriesDocumentId, message.GameSeriesDocumentId);
+        }
+
+        [Fact]
+        public void CtorArgumentExceptionForInvalidDocumentId()
+        {
+            Assert.Throws<ArgumentException>(() => new StartGameMessage(Guid.NewGuid().ToString(), string.Empty));
+        }
+
+        [Fact]
+        public void CtorArgumentExceptionForInvalidProcessId()
+        {
+            Assert.Throws<ArgumentException>(() => new StartGameMessage(string.Empty, Guid.NewGuid().ToString()));
         }
     }
 }
