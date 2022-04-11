@@ -21,9 +21,7 @@
                 new Dictionary<string, ISurveyResult>(
                     results.Select(
                         result => new KeyValuePair<string, ISurveyResult>(Guid.NewGuid().ToString(), result))),
-                x => new KeyValuePair<string, ISurveyResult>(
-                    Guid.NewGuid().ToString(),
-                    SurveyResult.FromDictionary(x.ToDictionary())))
+                SurveyResult.FromDictionary)
         {
         }
 

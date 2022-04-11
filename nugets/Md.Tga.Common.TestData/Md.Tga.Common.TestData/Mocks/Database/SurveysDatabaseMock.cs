@@ -1,6 +1,5 @@
 ﻿namespace Md.Tga.Common.TestData.Mocks.Database
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Surveys.Common.Contracts;
@@ -30,11 +29,7 @@
         }
 
         public SurveysDatabaseMock(IDictionary<string, ISurvey> dictionary)
-            : base(
-                dictionary,
-                x => new KeyValuePair<string, ISurvey>(
-                    Guid.NewGuid().ToString(),
-                    Survey.FromDictionary(x.ToDictionary())))
+            : base(dictionary, Survey.FromDictionary)
 
         {
         }

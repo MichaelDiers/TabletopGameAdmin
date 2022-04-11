@@ -23,7 +23,7 @@
         public GamesDatabaseMock(IEnumerable<IGame> games)
             : base(
                 new Dictionary<string, IGame>(games.Select(g => new KeyValuePair<string, IGame>(g.DocumentId, g))),
-                x => new KeyValuePair<string, IGame>(Guid.NewGuid().ToString(), Game.FromDictionary(x.ToDictionary())))
+                Game.FromDictionary)
         {
         }
 

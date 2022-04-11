@@ -40,11 +40,7 @@
         }
 
         public GameSeriesDatabaseMock(IDictionary<string, IGameSeries> dictionary)
-            : base(
-                dictionary,
-                x => new KeyValuePair<string, IGameSeries>(
-                    Guid.NewGuid().ToString(),
-                    GameSeries.FromDictionary(x.ToDictionary())))
+            : base(dictionary, GameSeries.FromDictionary)
         {
         }
     }

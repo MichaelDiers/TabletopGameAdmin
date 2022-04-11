@@ -20,9 +20,7 @@
             : base(
                 new Dictionary<string, ISurveyStatus>(
                     status.Select(stat => new KeyValuePair<string, ISurveyStatus>(Guid.NewGuid().ToString(), stat))),
-                x => new KeyValuePair<string, ISurveyStatus>(
-                    Guid.NewGuid().ToString(),
-                    SurveyStatus.FromDictionary(x.ToDictionary())))
+                SurveyStatus.FromDictionary)
         {
         }
 
