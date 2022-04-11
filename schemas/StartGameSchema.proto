@@ -1,5 +1,5 @@
 syntax = "proto3";
 message InitializeGameSeries {       
     string processId = 1;
-    string internalGameSeriesId = 2;
+    string gameSeriesDocumentId = 2;
 };
