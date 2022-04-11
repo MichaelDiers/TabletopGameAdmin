@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Logic;
+    using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
@@ -49,9 +49,9 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISaveGameSeriesMessage message)
         {
-            var internalId = Guid.NewGuid().ToString();
-            await this.database.InsertAsync(internalId, message.GameSeries);
-            await this.pubSubClient.PublishAsync(new StartGameMessage(message.ProcessId, internalId));
+            var documentId = Guid.NewGuid().ToString();
+            await this.database.InsertAsync(documentId, message.GameSeries);
+            await this.pubSubClient.PublishAsync(new StartGameMessage(message.ProcessId, documentId));
         }
     }
 }

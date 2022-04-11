@@ -8,8 +8,9 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Functions.Testing" Version="1.0.0" />
-    <PackageReference Include="Md.GoogleCloudFirestore" Version="1.2.24" />
-    <PackageReference Include="Md.Tga.Common" Version="1.2.33" />
+    <PackageReference Include="Md.GoogleCloudFirestore" Version="1.2.31" />
+    <PackageReference Include="Md.Tga.Common" Version="1.2.41" />
+    <PackageReference Include="Md.Tga.Common.TestData" Version="1.2.20" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
@@ -25,12 +26,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Md.Tga.SaveGameSeriesSubscriber\Md.Tga.SaveGameSeriesSubscriber.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Data\SaveGameSeriesMessage.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

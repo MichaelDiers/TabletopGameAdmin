@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.GoogleCloudFunctions.Contracts.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Xunit;
 
@@ -19,7 +19,7 @@
         public Task HandleAsync(ISaveGameSeriesMessage message)
         {
             Assert.Equal(this.expectedMessage.ProcessId, message.ProcessId);
-            Assert.Equal(this.expectedMessage.GameSeries.Id, message.GameSeries.Id);
+            Assert.Equal(this.expectedMessage.GameSeries.DocumentId, message.GameSeries.DocumentId);
             Assert.Equal(this.expectedMessage.GameSeries.Name, message.GameSeries.Name);
             Assert.Equal(this.expectedMessage.GameSeries.Sides.Count(), message.GameSeries.Sides.Count());
             foreach (var gameSeriesSide in this.expectedMessage.GameSeries.Sides)
