@@ -23,7 +23,7 @@
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
-            Assert.Equal(8, dictionary.Count);
+            Assert.Equal(9, dictionary.Count);
         }
 
         public static GameSeries Create()
@@ -85,7 +85,7 @@
             var parent = databaseObject.ParentDocumentId == null ? "null" : $"\"{databaseObject.ParentDocumentId}\"";
             Assert.NotNull(databaseObject.Created);
             return
-                $"\"documentId\":\"{databaseObject.DocumentId}\",\"created\":{Serializer.SerializeObject(databaseObject.Created.Value)},\"parentDocumentId\":{parent}";
+                $"\"documentId\":\"{databaseObject.DocumentId}\",\"created\":{Serializer.SerializeObject(databaseObject.Created)},\"parentDocumentId\":{parent}";
         }
 
         [Fact]
@@ -94,7 +94,7 @@
             var obj = GameSeriesTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
-            Assert.Equal(8, dictionary.Count);
+            Assert.Equal(9, dictionary.Count);
             GameSeriesTests.CheckEqual(obj, GameSeries.FromDictionary(dictionary));
         }
 

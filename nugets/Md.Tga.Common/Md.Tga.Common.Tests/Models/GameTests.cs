@@ -86,8 +86,8 @@
             return new Game(
                 Guid.NewGuid().ToString(),
                 DateTime.Now,
-                "name of the game",
                 Guid.NewGuid().ToString(),
+                "name of the game",
                 Guid.NewGuid().ToString(),
                 new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
         }
@@ -107,8 +107,8 @@
             var obj = new Game(
                 Guid.NewGuid().ToString(),
                 DateTime.Now,
-                "game name",
                 Guid.NewGuid().ToString(),
+                "game name",
                 Guid.NewGuid().ToString(),
                 new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
 
