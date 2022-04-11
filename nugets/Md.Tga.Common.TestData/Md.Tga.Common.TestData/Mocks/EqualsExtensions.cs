@@ -224,6 +224,12 @@
                    expected.PlayerCountryMappings.CheckEqual(actual.PlayerCountryMappings, false);
         }
 
+        public static bool CheckEqual(this IStartGameMessage expected, IStartGameMessage actual)
+        {
+            return expected.InternalGameSeriesId.CheckEqual(actual.InternalGameSeriesId) &&
+                   expected.ProcessId.CheckEqual(actual.ProcessId);
+        }
+
         public static bool CheckEqual(
             this IEnumerable<IPlayerCountryMapping> expected,
             IEnumerable<IPlayerCountryMapping> actual,
