@@ -20,7 +20,7 @@ message SaveGameSeries {
     message GameSeries {
         string documentId = 1;
         string created = 2;
-        string partenDocumentId = 3;
+        string parentDocumentId = 3;
         string name = 4;
         repeated Side sides = 5;
         repeated Countries countries = 6;
