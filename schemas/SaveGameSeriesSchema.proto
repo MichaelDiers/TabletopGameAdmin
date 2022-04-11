@@ -18,13 +18,15 @@ message SaveGameSeries {
     };
 
     message GameSeries {
-        string id = 1;
-        string name = 2;
-        repeated Side sides = 3;
-        repeated Countries countries = 4;
-        Person organizer = 5;
-        repeated Person players = 6;
-        string gameType = 7;
+        string documentId = 1;
+        string created = 2;
+        string partenDocumentId = 3;
+        string name = 4;
+        repeated Side sides = 5;
+        repeated Countries countries = 6;
+        Person organizer = 7;
+        repeated Person players = 8;
+        string gameType = 9;
     };
        
     string processId = 1;
