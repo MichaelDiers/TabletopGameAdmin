@@ -1,0 +1,18 @@
+syntax = "proto3";
+message StartGameSeries {
+    message Person {
+        string name = 1;
+        string email = 2;
+    };
+
+    message GameSeries {
+        string externalId = 1;
+        string name = 2;
+        string gameType = 3;
+        Person organizer = 4;
+        repeated Person players = 5;
+    };
+       
+    string processId = 1;
+    GameSeries gameSeries = 2;
+};
