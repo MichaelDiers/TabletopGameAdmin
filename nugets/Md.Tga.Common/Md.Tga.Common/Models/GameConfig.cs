@@ -26,6 +26,7 @@
         /// </summary>
         /// <param name="name">The name of the game.</param>
         /// <param name="countries">The countries of the game.</param>
+        [JsonConstructor]
         public GameConfig(string name, IEnumerable<GameCountryConfig> countries)
             : this(name, countries.Select(c => c as IGameCountryConfig))
         {
