@@ -14,14 +14,22 @@
 
         public static IGame Generate(GameGeneratorConfiguration configuration)
         {
-            return GameGenerator.Generate(configuration, GameSeriesGenerator.Generate());
+            return GameGenerator.Generate(
+                configuration,
+                GameSeriesGenerator.Generate(
+                    new GameSeriesGeneratorConfiguration {DocumentId = configuration.ParentDocumentId}));
         }
 
         public static IGame Generate(GameGeneratorConfiguration configuration, IGameSeries gameSeries)
         {
+            if (configuration.ParentDocumentId != gameSeries.DocumentId)
+            {
+                throw new ArgumentException("id mismatch");
+            }
+
             return new Game(
                 configuration.DocumentId,
-                DateTime.Now,
+                configuration.Created,
                 configuration.ParentDocumentId,
                 configuration.Name,
                 configuration.SurveyDocumentId,

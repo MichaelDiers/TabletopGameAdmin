@@ -15,6 +15,11 @@
             ISurvey survey
         )
         {
+            if (game.DocumentId != survey.ParentDocumentId || survey.DocumentId != configuration.ParentDocumentId)
+            {
+                throw new ArgumentException("id mismatch");
+            }
+
             foreach (var surveyParticipant in survey.Participants)
             {
                 yield return new SurveyResult(

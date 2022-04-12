@@ -2,18 +2,36 @@
 {
     public class TestDataContainerConfiguration
     {
-        public GameGeneratorConfiguration GameGeneratorConfiguration { get; set; } = new GameGeneratorConfiguration();
+        public TestDataContainerConfiguration()
 
-        public GameSeriesGeneratorConfiguration GameSeriesGeneratorConfiguration { get; set; } =
-            new GameSeriesGeneratorConfiguration();
+        {
+            this.GameSeriesGeneratorConfiguration = new GameSeriesGeneratorConfiguration();
+            this.GameGeneratorConfiguration = new GameGeneratorConfiguration
+            {
+                ParentDocumentId = this.GameSeriesGeneratorConfiguration.DocumentId
+            };
+            this.SurveyGeneratorConfiguration =
+                new SurveyGeneratorConfiguration {ParentDocumentId = this.GameGeneratorConfiguration.DocumentId};
+            this.SurveyResultGeneratorConfiguration =
+                new SurveyResultGeneratorConfiguration
+                {
+                    ParentDocumentId = this.SurveyGeneratorConfiguration.DocumentId
+                };
+            this.SurveyStatusGeneratorConfiguration =
+                new SurveyStatusGeneratorConfiguration
+                {
+                    ParentDocumentId = this.SurveyGeneratorConfiguration.DocumentId
+                };
+        }
 
-        public SurveyGeneratorConfiguration SurveyGeneratorConfiguration { get; set; } =
-            new SurveyGeneratorConfiguration();
+        public GameGeneratorConfiguration GameGeneratorConfiguration { get; set; }
 
-        public SurveyResultGeneratorConfiguration SurveyResultGeneratorConfiguration { get; set; } =
-            new SurveyResultGeneratorConfiguration();
+        public GameSeriesGeneratorConfiguration GameSeriesGeneratorConfiguration { get; set; }
 
-        public SurveyStatusGeneratorConfiguration SurveyStatusGeneratorConfiguration { get; set; } =
-            new SurveyStatusGeneratorConfiguration();
+        public SurveyGeneratorConfiguration SurveyGeneratorConfiguration { get; set; }
+
+        public SurveyResultGeneratorConfiguration SurveyResultGeneratorConfiguration { get; set; }
+
+        public SurveyStatusGeneratorConfiguration SurveyStatusGeneratorConfiguration { get; set; }
     }
 }

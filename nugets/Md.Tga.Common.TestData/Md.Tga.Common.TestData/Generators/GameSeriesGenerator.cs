@@ -26,7 +26,7 @@
                 .ToArray();
             return new GameSeries(
                 configuration.DocumentId,
-                DateTime.Now,
+                configuration.Created,
                 configuration.Name,
                 sides,
                 countries,

@@ -30,13 +30,16 @@
                 configuration,
                 gameSeries,
                 GameGenerator.Generate(
-                    new GameGeneratorConfiguration {SurveyDocumentId = configuration.DocumentId},
+                    new GameGeneratorConfiguration
+                    {
+                        ParentDocumentId = gameSeries.DocumentId, DocumentId = configuration.ParentDocumentId
+                    },
                     gameSeries));
         }
 
         public static ISurvey Generate(SurveyGeneratorConfiguration configuration, IGameSeries gameSeries, IGame game)
         {
-            if (configuration.ParentDocumentId != game.DocumentId)
+            if (gameSeries.DocumentId != game.ParentDocumentId || game.DocumentId != configuration.ParentDocumentId)
             {
                 throw new ArgumentException("document id mismatch");
             }

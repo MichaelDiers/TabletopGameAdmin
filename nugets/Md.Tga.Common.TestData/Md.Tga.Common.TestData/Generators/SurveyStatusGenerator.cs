@@ -9,7 +9,15 @@
     {
         public static IEnumerable<ISurveyStatus> Generate()
         {
-            return SurveyStatusGenerator.Generate(new SurveyStatusGeneratorConfiguration(), SurveyGenerator.Generate());
+            return SurveyStatusGenerator.Generate(new SurveyStatusGeneratorConfiguration());
+        }
+
+        public static IEnumerable<ISurveyStatus> Generate(SurveyStatusGeneratorConfiguration configuration)
+        {
+            return SurveyStatusGenerator.Generate(
+                new SurveyStatusGeneratorConfiguration(),
+                SurveyGenerator.Generate(
+                    new SurveyGeneratorConfiguration {DocumentId = configuration.ParentDocumentId}));
         }
 
         public static IEnumerable<ISurveyStatus> Generate(
@@ -17,9 +25,14 @@
             ISurvey survey
         )
         {
+            if (survey.DocumentId != configuration.ParentDocumentId)
+            {
+                throw new ArgumentException("id mismatch");
+            }
+
             yield return new SurveyStatus(
                 configuration.DocumentId,
-                DateTime.Now,
+                configuration.Created,
                 survey.DocumentId,
                 Status.Created);
             if (configuration.IsClosed)
