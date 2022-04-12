@@ -10,6 +10,7 @@
     using Md.GoogleCloudFirestore.Model;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
     using Newtonsoft.Json;
 
     /// <summary>
@@ -54,7 +55,7 @@
         /// <returns>A <see cref="Task" /> whose result is a <see cref="IStartGameSeriesMessage" />.</returns>
         public async Task<IStartGameSeriesMessage> ReadStartGameSeriesMessageAsync()
         {
-            var data = JsonConvert.DeserializeObject<IStartGameSeriesMessage>(
+            var data = JsonConvert.DeserializeObject<StartGameSeriesMessage>(
                 (await this.database.ReadByDocumentIdAsync(TestDataReadOnlyDatabase.StartGameSeriesMessageDocumentId))
                 ?.GetString(TestDataReadOnlyDatabase.StartGameSeriesMessageJsonId) ??
                 string.Empty);
