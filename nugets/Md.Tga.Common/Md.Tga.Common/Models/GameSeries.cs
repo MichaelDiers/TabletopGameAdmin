@@ -134,13 +134,13 @@
         /// <summary>
         ///     Gets the countries of the game series.
         /// </summary>
-        [JsonProperty(GameSeries.CountriesName, Required = Required.Always, Order = 112)]
+        [JsonProperty(GameSeries.CountriesName, Required = Required.Always, Order = 60)]
         public IEnumerable<ICountry> Countries { get; }
 
         /// <summary>
         ///     Gets the id that is set by the client for the new game series.
         /// </summary>
-        [JsonProperty(GameSeries.ExternalIdName, Required = Required.Always, Order = 50)]
+        [JsonProperty(GameSeries.ExternalIdName, Required = Required.Always, Order = 110)]
         public string ExternalId { get; }
 
         /// <summary>
@@ -149,37 +149,37 @@
         /// <summary>
         ///     Gets the type of the game.
         /// </summary>
-        [JsonProperty(GameSeries.GameNameName, Required = Required.Always, Order = 51)]
+        [JsonProperty(GameSeries.GameNameName, Required = Required.Always, Order = 100)]
         public string GameName { get; }
 
         /// <summary>
         ///     Gets the type of the game.
         /// </summary>
-        [JsonProperty(GameSeries.GameTypeName, Required = Required.Always, Order = 115)]
+        [JsonProperty(GameSeries.GameTypeName, Required = Required.Always, Order = 90)]
         public string GameType { get; }
 
         /// <summary>
         ///     Gets the name of the game series.
         /// </summary>
-        [JsonProperty(GameSeries.NameName, Required = Required.Always, Order = 51)]
+        [JsonProperty(GameSeries.NameName, Required = Required.Always, Order = 40)]
         public string Name { get; }
 
         /// <summary>
         ///     Gets the organizer of the game series.
         /// </summary>
-        [JsonProperty(GameSeries.OrganizerName, Required = Required.Always, Order = 113)]
+        [JsonProperty(GameSeries.OrganizerName, Required = Required.Always, Order = 70)]
         public IPerson Organizer { get; }
 
         /// <summary>
         ///     Gets the players of the game series.
         /// </summary>
-        [JsonProperty(GameSeries.PlayersName, Required = Required.Always, Order = 114)]
+        [JsonProperty(GameSeries.PlayersName, Required = Required.Always, Order = 80)]
         public IEnumerable<IPerson> Players { get; }
 
         /// <summary>
         ///     Gets the side of the game.
         /// </summary>
-        [JsonProperty(GameSeries.SidesName, Required = Required.Always, Order = 111)]
+        [JsonProperty(GameSeries.SidesName, Required = Required.Always, Order = 50)]
         public IEnumerable<ISide> Sides { get; }
 
         /// <summary>

@@ -77,7 +77,7 @@
             var organizer = PersonTests.SerializePlain(obj.Organizer);
             var players = string.Join(",", obj.Players.Select(PersonTests.SerializePlain));
             return
-                $"{{{basePartial},\"externalId\":\"{obj.ExternalId}\",\"gameName\":\"{obj.GameName}\",\"name\":\"{obj.Name}\",\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}],\"gameType\":\"{obj.GameType}\"}}";
+                $"{{{basePartial},\"name\":\"{obj.Name}\",\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}],\"gameType\":\"{obj.GameType}\",\"gameName\":\"{obj.GameName}\",\"externalId\":\"{obj.ExternalId}\"}}";
         }
 
         public static string SerializePlainPartial(IDatabaseObject databaseObject)
