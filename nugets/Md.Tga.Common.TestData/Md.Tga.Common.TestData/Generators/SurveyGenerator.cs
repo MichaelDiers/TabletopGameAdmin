@@ -30,16 +30,15 @@
                 configuration,
                 gameSeries,
                 GameGenerator.Generate(
-                    new GameGeneratorConfiguration {SurveyDocumentId = configuration.Id},
+                    new GameGeneratorConfiguration {SurveyDocumentId = configuration.DocumentId},
                     gameSeries));
         }
 
         public static ISurvey Generate(SurveyGeneratorConfiguration configuration, IGameSeries gameSeries, IGame game)
         {
-            if (configuration.Id == game.SurveyDocumentId)
+            if (configuration.ParentDocumentId != game.DocumentId)
             {
-                throw new ArgumentException(
-                    "DocumentId match: SurveyGeneratorConfiguration.DocumentId and Game.SurveyDocumentId");
+                throw new ArgumentException("document id mismatch");
             }
 
             if (gameSeries.Players.Count() != configuration.ParticipantCount)
@@ -88,7 +87,9 @@
                 .ToArray();
 
             return new Survey(
-                configuration.Id,
+                configuration.DocumentId,
+                configuration.Created,
+                game.DocumentId,
                 configuration.Name,
                 configuration.Info,
                 configuration.Link,

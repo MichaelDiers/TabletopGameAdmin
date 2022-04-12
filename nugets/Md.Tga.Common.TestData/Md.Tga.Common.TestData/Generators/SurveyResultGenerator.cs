@@ -1,5 +1,6 @@
 ﻿namespace Md.Tga.Common.TestData.Generators
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Md.Tga.Common.Contracts.Models;
@@ -17,7 +18,9 @@
             foreach (var surveyParticipant in survey.Participants)
             {
                 yield return new SurveyResult(
-                    game.SurveyDocumentId,
+                    Guid.NewGuid().ToString(),
+                    DateTime.Now,
+                    survey.DocumentId,
                     surveyParticipant.Id,
                     true,
                     surveyParticipant.QuestionReferences);
@@ -31,7 +34,9 @@
                 foreach (var surveyParticipant in survey.Participants)
                 {
                     yield return new SurveyResult(
-                        game.SurveyDocumentId,
+                        Guid.NewGuid().ToString(),
+                        DateTime.Now,
+                        survey.DocumentId,
                         surveyParticipant.Id,
                         false,
                         questionReferences);
@@ -46,7 +51,9 @@
                             q => new QuestionReference(q.Id, q.Choices.Where(c => c.Selectable).Skip(i).First().Id))
                         .ToArray();
                     yield return new SurveyResult(
-                        game.SurveyDocumentId,
+                        Guid.NewGuid().ToString(),
+                        DateTime.Now,
+                        survey.DocumentId,
                         surveyParticipant.Id,
                         true,
                         questionReferences);
@@ -61,7 +68,9 @@
                 foreach (var surveyParticipant in survey.Participants.Skip(1))
                 {
                     yield return new SurveyResult(
-                        game.SurveyDocumentId,
+                        Guid.NewGuid().ToString(),
+                        DateTime.Now,
+                        survey.DocumentId,
                         surveyParticipant.Id,
                         true,
                         questionReferences);

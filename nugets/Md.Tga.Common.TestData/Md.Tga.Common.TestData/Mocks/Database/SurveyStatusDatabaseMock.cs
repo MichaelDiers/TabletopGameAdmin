@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Md.Common.Database;
     using Md.GoogleCloudFirestore.Contracts.Logic;
     using Surveys.Common.Contracts;
     using Surveys.Common.Firestore.Contracts;
@@ -31,9 +32,9 @@
         )
         {
             await Task.CompletedTask;
-            if (fieldPath == SurveyStatus.InternalSurveyIdName)
+            if (fieldPath == DatabaseObject.ParentDocumentIdName)
             {
-                var results = this.Values.Where(result => result.InternalSurveyId == (string) value);
+                var results = this.Values.Where(result => result.ParentDocumentId == (string) value);
                 if (orderType == OrderType.Desc)
                 {
                     return results.Reverse();

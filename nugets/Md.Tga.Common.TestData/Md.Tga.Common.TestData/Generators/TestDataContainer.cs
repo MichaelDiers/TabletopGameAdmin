@@ -26,7 +26,7 @@
                 this.GameSeries,
                 this.Game);
             this.SurveyStatus = SurveyStatusGenerator
-                .Generate(configuration.SurveyStatusGeneratorConfiguration, this.Game)
+                .Generate(configuration.SurveyStatusGeneratorConfiguration, this.Survey)
                 .ToList();
             this.SurveyResults = SurveyResultGenerator.Generate(
                     configuration.SurveyResultGeneratorConfiguration,

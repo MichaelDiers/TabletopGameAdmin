@@ -1,7 +1,9 @@
 ﻿namespace Md.Tga.Common.TestData.Mocks
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Md.Common.Contracts.Database;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
     using Surveys.Common.Contracts;
@@ -153,12 +155,16 @@
 
         public static bool CheckEqual(this ISurveyResult expected, ISurveyResult actual)
         {
-            return expected.IsSuggested.CheckEqual(actual.IsSuggested) &&
+            return expected.CheckEqualBase(actual) &&
+                   expected.IsSuggested.CheckEqual(actual.IsSuggested) &&
                    expected.Results.CheckEqual(actual.Results, true) &&
-                   expected.InternalSurveyId.CheckEqual(actual.InternalSurveyId) &&
                    expected.ParticipantId.CheckEqual(actual.ParticipantId);
         }
 
+        public static bool CheckEqual(this DateTime expected, DateTime actual)
+        {
+            return expected == actual;
+        }
 
         public static bool CheckEqual(this string? expected, string? actual)
         {
@@ -187,13 +193,13 @@
                 return false;
             }
 
-            return expected.Participants.CheckEqual(actual.Participants, false) &&
+            return expected.CheckEqualBase(actual) &&
+                   expected.Participants.CheckEqual(actual.Participants, false) &&
                    expected.Info.CheckEqual(actual.Info) &&
                    expected.Link.CheckEqual(actual.Link) &&
                    expected.Name.CheckEqual(actual.Name) &&
                    expected.Organizer.CheckEqual(actual.Organizer) &&
-                   expected.Questions.CheckEqual(actual.Questions, true) &&
-                   expected.Id.CheckEqual(actual.Id);
+                   expected.Questions.CheckEqual(actual.Questions, true);
         }
 
         public static bool CheckEqual(this IParticipant expected, IParticipant actual)
@@ -220,13 +226,13 @@
 
         public static bool CheckEqual(this IPlayerMappings expected, IPlayerMappings actual)
         {
-            return expected.ParentDocumentId.CheckEqual(actual.ParentDocumentId) &&
+            return expected.CheckEqualBase(actual) &&
                    expected.PlayerCountryMappings.CheckEqual(actual.PlayerCountryMappings, false);
         }
 
         public static bool CheckEqual(this IStartGameMessage expected, IStartGameMessage actual)
         {
-            return expected.InternalGameSeriesId.CheckEqual(actual.InternalGameSeriesId) &&
+            return expected.GameSeriesDocumentId.CheckEqual(actual.GameSeriesDocumentId) &&
                    expected.ProcessId.CheckEqual(actual.ProcessId);
         }
 
@@ -306,7 +312,7 @@
 
         public static bool CheckEqual(this ISurveyStatus expected, ISurveyStatus actual)
         {
-            return expected.InternalSurveyId.CheckEqual(actual.InternalSurveyId) &&
+            return expected.CheckEqualBase(actual) &&
                    expected.ParticipantId.CheckEqual(actual.ParticipantId) &&
                    expected.Status.CheckEqual(actual.Status);
         }
@@ -314,6 +320,13 @@
         public static bool CheckEqual(this Status expected, Status actual)
         {
             return expected == actual;
+        }
+
+        public static bool CheckEqualBase(this IDatabaseObject expected, IDatabaseObject actual)
+        {
+            return expected.DocumentId.CheckEqual(actual.DocumentId) &&
+                   expected.Created.CheckEqual(actual.Created) &&
+                   expected.ParentDocumentId.CheckEqual(actual.ParentDocumentId);
         }
     }
 }

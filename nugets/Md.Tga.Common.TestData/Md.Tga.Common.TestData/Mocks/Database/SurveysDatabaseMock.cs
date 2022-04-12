@@ -14,17 +14,19 @@
         }
 
         public SurveysDatabaseMock(ISurvey survey, ISurveyStatus status)
-            : this(new Dictionary<string, ISurvey> {{status.InternalSurveyId, survey}})
+            : this(new Dictionary<string, ISurvey> {{status.DocumentId, survey}})
         {
         }
 
         public SurveysDatabaseMock(ISurvey survey, ISurveyResult result)
-            : this(new Dictionary<string, ISurvey> {{result.InternalSurveyId, survey}})
+            : this(new Dictionary<string, ISurvey> {{result.DocumentId, survey}})
         {
         }
 
         public SurveysDatabaseMock(IEnumerable<ISurvey> surveys)
-            : this(new Dictionary<string, ISurvey>(surveys.Select(s => new KeyValuePair<string, ISurvey>(s.Id, s))))
+            : this(
+                new Dictionary<string, ISurvey>(
+                    surveys.Select(s => new KeyValuePair<string, ISurvey>(s.DocumentId, s))))
         {
         }
 

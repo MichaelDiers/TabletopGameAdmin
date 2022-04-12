@@ -2,10 +2,9 @@
 {
     using System;
 
-    public class SurveyGeneratorConfiguration
+    public class SurveyGeneratorConfiguration : BaseGeneratorConfiguration
     {
         public int ChoiceCount { get; set; } = 5;
-        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         public string Info { get; set; } = $"SurveyInfo-{Guid.NewGuid().ToString()}";
         public string Link { get; set; } = $"SurveyLink-{Guid.NewGuid().ToString()}";
