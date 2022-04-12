@@ -19,6 +19,11 @@
         string ExternalId { get; }
 
         /// <summary>
+        ///     Gets the name of the game type.
+        /// </summary>
+        string GameName { get; }
+
+        /// <summary>
         ///     Gets the type of the game.
         /// </summary>
         string GameType { get; }

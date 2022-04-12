@@ -24,6 +24,10 @@
         /// </summary>
         public const string ExternalIdName = "externalId";
 
+        /// <summary>
+        ///     The name if the json entry <see cref="GameName" />.
+        /// </summary>
+        public const string GameNameName = "gameName";
 
         /// <summary>
         ///     The name if the json entry gameType.
@@ -56,6 +60,7 @@
         /// <param name="documentId">The id of the document.</param>
         /// <param name="created">The creation time of the document.</param>
         /// <param name="externalId">The external id set by the client for the game series.</param>
+        /// <param name="gameName">The name of the game type.</param>
         /// <param name="name">The name of the object.</param>
         /// <param name="sides">The available sides of the game.</param>
         /// <param name="countries">The countries of the game.</param>
@@ -66,6 +71,7 @@
             string? documentId,
             DateTime? created,
             string externalId,
+            string gameName,
             string name,
             IEnumerable<ISide> sides,
             IEnumerable<ICountry> countries,
@@ -82,6 +88,7 @@
             this.GameType = gameType.ValidateIsNotNullOrWhitespace(nameof(gameType));
             this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
             this.ExternalId = externalId.ValidateIsAGuid(nameof(externalId));
+            this.GameName = gameName.ValidateIsNotNullOrWhitespace(nameof(gameName));
         }
 
         /// <summary>
@@ -90,6 +97,7 @@
         /// <param name="documentId">The id of the document.</param>
         /// <param name="created">The creation time of the document.</param>
         /// <param name="externalId">The external id set by the client for the game series.</param>
+        /// <param name="gameName">The name of the game type.</param>
         /// <param name="name">The name of the object.</param>
         /// <param name="sides">The available sides of the game.</param>
         /// <param name="countries">The countries of the game.</param>
@@ -101,6 +109,7 @@
             string? documentId,
             DateTime? created,
             string externalId,
+            string gameName,
             string name,
             IEnumerable<Side> sides,
             IEnumerable<Country> countries,
@@ -112,6 +121,7 @@
                 documentId,
                 created,
                 externalId,
+                gameName,
                 name,
                 sides.Select(s => s as ISide),
                 countries,
@@ -132,6 +142,15 @@
         /// </summary>
         [JsonProperty(GameSeries.ExternalIdName, Required = Required.Always, Order = 50)]
         public string ExternalId { get; }
+
+        /// <summary>
+        ///     Gets the name of the game type.
+        /// </summary>
+        /// <summary>
+        ///     Gets the type of the game.
+        /// </summary>
+        [JsonProperty(GameSeries.GameNameName, Required = Required.Always, Order = 51)]
+        public string GameName { get; }
 
         /// <summary>
         ///     Gets the type of the game.
@@ -180,6 +199,7 @@
             dictionary.Add(GameSeries.PlayersName, this.Players.Select(player => player.ToDictionary()).ToArray());
             dictionary.Add(GameSeries.GameTypeName, this.GameType);
             dictionary.Add(GameSeries.ExternalIdName, this.ExternalId);
+            dictionary.Add(GameSeries.GameNameName, this.GameName);
             return dictionary;
         }
 
@@ -202,10 +222,13 @@
             var players = dictionary.GetDictionaries(GameSeries.PlayersName).Select(Person.FromDictionary).ToArray();
             var gameType = dictionary.GetString(GameSeries.GameTypeName);
             var externalId = dictionary.GetString(GameSeries.ExternalIdName);
+            var gameName = dictionary.GetString(GameSeries.GameNameName);
+
             return new GameSeries(
                 documentId,
                 created,
                 externalId,
+                gameName,
                 name,
                 sides,
                 countries,

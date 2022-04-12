@@ -23,7 +23,7 @@
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
-            Assert.Equal(10, dictionary.Count);
+            Assert.Equal(11, dictionary.Count);
         }
 
         public static GameSeries Create()
@@ -77,7 +77,7 @@
             var organizer = PersonTests.SerializePlain(obj.Organizer);
             var players = string.Join(",", obj.Players.Select(PersonTests.SerializePlain));
             return
-                $"{{{basePartial},\"externalId\":\"{obj.ExternalId}\",\"name\":\"{obj.Name}\",\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}],\"gameType\":\"{obj.GameType}\"}}";
+                $"{{{basePartial},\"externalId\":\"{obj.ExternalId}\",\"gameName\":\"{obj.GameName}\",\"name\":\"{obj.Name}\",\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}],\"gameType\":\"{obj.GameType}\"}}";
         }
 
         public static string SerializePlainPartial(IDatabaseObject databaseObject)
@@ -94,7 +94,7 @@
             var obj = GameSeriesTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
-            Assert.Equal(10, dictionary.Count);
+            Assert.Equal(11, dictionary.Count);
             GameSeriesTests.CheckEqual(obj, GameSeries.FromDictionary(dictionary));
         }
 
@@ -107,8 +107,10 @@
             Assert.Equal(expected.Created, actual.Created);
             Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
 
+            Assert.Equal(expected.GameName, actual.GameName);
             Assert.Equal(expected.Name, actual.Name);
             Assert.Equal(expected.GameType, actual.GameType);
+            Assert.Equal(expected.ExternalId, actual.ExternalId);
 
             Assert.Equal(expected.Organizer.Email, actual.Organizer.Email);
             Assert.Equal(expected.Organizer.Name, actual.Organizer.Name);
@@ -163,6 +165,7 @@
                 id,
                 DateTime.Now,
                 Guid.NewGuid().ToString(),
+                "game type name",
                 "game series",
                 sides,
                 countries,
