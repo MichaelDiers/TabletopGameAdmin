@@ -322,6 +322,12 @@
             return expected == actual;
         }
 
+        public static bool CheckEqual(this ISaveGameSeriesMessage expected, ISaveGameSeriesMessage actual)
+        {
+            return expected.ProcessId.CheckEqual(actual.ProcessId) &&
+                   expected.GameSeries.CheckEqualBase(actual.GameSeries);
+        }
+
         public static bool CheckEqualBase(this IDatabaseObject expected, IDatabaseObject actual)
         {
             return expected.DocumentId.CheckEqual(actual.DocumentId) &&
