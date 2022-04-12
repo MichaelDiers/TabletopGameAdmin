@@ -27,6 +27,7 @@
             return new GameSeries(
                 configuration.DocumentId,
                 configuration.Created,
+                configuration.ExternalId,
                 configuration.Name,
                 sides,
                 countries,
