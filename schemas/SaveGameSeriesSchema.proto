@@ -27,6 +27,8 @@ message SaveGameSeries {
         Person organizer = 7;
         repeated Person players = 8;
         string gameType = 9;
+        string gameName = 10;
+        string externalId = 11;
     };
        
     string processId = 1;
