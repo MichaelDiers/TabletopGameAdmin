@@ -20,6 +20,7 @@
         /// <param name="gameType">The type of the game series.</param>
         /// <param name="organizer">The organizer of the game series.</param>
         /// <param name="players">The players of the game series.</param>
+        [JsonConstructor]
         public StartGameSeries(
             string externalId,
             string name,
