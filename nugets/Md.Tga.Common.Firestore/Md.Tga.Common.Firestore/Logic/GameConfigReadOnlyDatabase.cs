@@ -1,6 +1,9 @@
 ﻿namespace Md.Tga.Common.Firestore.Logic
 {
+    using System.Collections.Generic;
     using Md.Common.Contracts.Model;
+    using Md.Common.Extensions;
+    using Md.Common.Logic;
     using Md.GoogleCloudFirestore.Logic;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
@@ -21,8 +24,19 @@
         /// </summary>
         /// <param name="runtimeEnvironment">The runtime environment.</param>
         public GameConfigReadOnlyDatabase(IRuntimeEnvironment runtimeEnvironment)
-            : base(runtimeEnvironment, GameConfigReadOnlyDatabase.CollectionName, GameConfig.FromDictionary)
+            : base(runtimeEnvironment, GameConfigReadOnlyDatabase.CollectionName, GameConfigReadOnlyDatabase.Convert)
         {
+        }
+
+        /// <summary>
+        ///     Create a new <see cref="GameConfig" />.
+        /// </summary>
+        /// <param name="dictionary">The data of the config.</param>
+        /// <returns>An <see cref="IGameConfig" />.</returns>
+        private static IGameConfig Convert(IDictionary<string, object> dictionary)
+        {
+            var json = dictionary.GetString("json");
+            return Serializer.DeserializeObject<GameConfig>(json);
         }
     }
 }
