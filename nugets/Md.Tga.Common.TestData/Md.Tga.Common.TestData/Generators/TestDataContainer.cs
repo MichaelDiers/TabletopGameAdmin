@@ -64,6 +64,23 @@
 
         public SurveyStatusDatabaseMock SurveyStatusDatabaseMock { get; set; }
 
+        public IDictionary<string, IGameConfig> GameConfig()
+        {
+            return new Dictionary<string, IGameConfig>
+            {
+                {
+                    this.StartGameSeriesMessage().GameSeries.GameType,
+                    new GameConfig(
+                        "game config",
+                        this.GameSeries.Countries.Select(
+                                c => new GameCountryConfig(
+                                    c.Name,
+                                    this.GameSeries.Countries.First(cc => cc.Id == c.SideId).Name))
+                            .ToArray())
+                }
+            };
+        }
+
         public IStartGameSeriesMessage StartGameSeriesMessage()
         {
             return new StartGameSeriesMessage(
