@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Md.Common" Version="1.2.31" />
+    <PackageReference Include="Md.Common" Version="1.2.32" />
     <PackageReference Include="Md.GoogleCloudFirestore" Version="1.2.32" />
-    <PackageReference Include="Md.Tga.Common" Version="1.2.41" />
+    <PackageReference Include="Md.Tga.Common" Version="1.2.45" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
