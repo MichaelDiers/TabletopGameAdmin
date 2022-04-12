@@ -13,7 +13,7 @@
     public class SaveGameSeriesMessage : Message, ISaveGameSeriesMessage
     {
         /// <summary>
-        ///     Creates a new instance of <see cref="InitializeGameSeriesMessage" />.
+        ///     Creates a new instance of <see cref="SaveGameSeriesMessage" />.
         /// </summary>
         /// <param name="processId">The id of the process.</param>
         /// <param name="gameSeries">The data of the new game series.</param>
@@ -25,7 +25,7 @@
         }
 
         /// <summary>
-        ///     Creates a new instance of <see cref="InitializeGameSeriesMessage" />.
+        ///     Creates a new instance of <see cref="SaveGameSeriesMessage" />.
         /// </summary>
         /// <param name="processId">The id of the process.</param>
         /// <param name="gameSeries">The data of the new game series.</param>
