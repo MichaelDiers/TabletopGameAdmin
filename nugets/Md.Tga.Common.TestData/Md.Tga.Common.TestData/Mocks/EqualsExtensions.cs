@@ -324,8 +324,12 @@
 
         public static bool CheckEqual(this ISaveGameSeriesMessage expected, ISaveGameSeriesMessage actual)
         {
-            return expected.ProcessId.CheckEqual(actual.ProcessId) &&
-                   expected.GameSeries.CheckEqualBase(actual.GameSeries);
+            return expected.ProcessId.CheckEqual(actual.ProcessId) && expected.GameSeries.CheckEqual(actual.GameSeries);
+        }
+
+        public static bool CheckEqual(this IGameSeries expected, IGameSeries actual)
+        {
+            throw new NotImplementedException();
         }
 
         public static bool CheckEqualBase(this IDatabaseObject expected, IDatabaseObject actual)

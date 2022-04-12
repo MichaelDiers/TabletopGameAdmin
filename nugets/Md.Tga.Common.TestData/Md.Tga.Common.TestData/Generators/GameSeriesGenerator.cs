@@ -28,6 +28,7 @@
                 configuration.DocumentId,
                 configuration.Created,
                 configuration.ExternalId,
+                configuration.GameName,
                 configuration.Name,
                 sides,
                 countries,
