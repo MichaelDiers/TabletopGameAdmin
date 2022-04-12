@@ -12,6 +12,16 @@
     public class GameConfig : IGameConfig
     {
         /// <summary>
+        ///     The json name of <see cref="Countries" />.
+        /// </summary>
+        public const string CountriesName = "countries";
+
+        /// <summary>
+        ///     The json name of <see cref="Name" />.
+        /// </summary>
+        public const string NameName = "name";
+
+        /// <summary>
         ///     Creates a new instance of <see cref="GameConfig" />.
         /// </summary>
         /// <param name="name">The name of the game.</param>
@@ -35,13 +45,22 @@
         /// <summary>
         ///     Gets the configuration of the countries.
         /// </summary>
-        [JsonProperty("countries", Required = Required.Always, Order = 2)]
+        [JsonProperty(GameConfig.CountriesName, Required = Required.Always, Order = 2)]
         public IEnumerable<IGameCountryConfig> Countries { get; }
 
         /// <summary>
         ///     Gets the name of the game.
         /// </summary>
-        [JsonProperty("name", Required = Required.Always, Order = 1)]
+        [JsonProperty(GameConfig.NameName, Required = Required.Always, Order = 1)]
         public string Name { get; }
+
+        public static IGameConfig FromDictionary(IDictionary<string, object> dictionary)
+        {
+            var name = dictionary.GetString(GameConfig.NameName);
+            var countries = dictionary.GetDictionaries(GameConfig.CountriesName)
+                .Select(GameCountryConfig.FromDictionary)
+                .ToArray();
+            return new GameConfig(name, countries);
+        }
     }
 }

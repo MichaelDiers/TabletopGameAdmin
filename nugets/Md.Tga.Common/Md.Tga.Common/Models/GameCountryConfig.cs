@@ -1,5 +1,6 @@
 ﻿namespace Md.Tga.Common.Models
 {
+    using System.Collections.Generic;
     using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
     using Newtonsoft.Json;
@@ -9,6 +10,16 @@
     /// </summary>
     public class GameCountryConfig : IGameCountryConfig
     {
+        /// <summary>
+        ///     THe json name of <see cref="Name" />.
+        /// </summary>
+        public const string NameName = "name";
+
+        /// <summary>
+        ///     The json name of <see cref="Side" />.
+        /// </summary>
+        public const string SideName = "side";
+
         /// <summary>
         ///     Creates a new instance of <see cref="GameCountryConfig" />.
         /// </summary>
@@ -31,5 +42,17 @@
         /// </summary>
         [JsonProperty("side", Required = Required.Always, Order = 2)]
         public string Side { get; }
+
+        /// <summary>
+        ///     Creates a new instance of <see cref="GameCountryConfig" />.
+        /// </summary>
+        /// <param name="dictionary">The data of the new config.</param>
+        /// <returns>An instance of <see cref="IGameCountryConfig" />.</returns>
+        public static IGameCountryConfig FromDictionary(IDictionary<string, object> dictionary)
+        {
+            var name = dictionary.GetString(GameCountryConfig.NameName);
+            var side = dictionary.GetString(GameCountryConfig.SideName);
+            return new GameCountryConfig(name, side);
+        }
     }
 }
