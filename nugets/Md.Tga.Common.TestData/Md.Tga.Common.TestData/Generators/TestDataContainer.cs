@@ -3,7 +3,9 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
+    using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
     using Md.Tga.Common.TestData.Mocks.Database;
     using Surveys.Common.Contracts;
@@ -61,6 +63,18 @@
         public IList<ISurveyStatus> SurveyStatus { get; }
 
         public SurveyStatusDatabaseMock SurveyStatusDatabaseMock { get; set; }
+
+        public IStartGameSeriesMessage StartGameSeriesMessage()
+        {
+            return new StartGameSeriesMessage(
+                Guid.NewGuid().ToString(),
+                new StartGameSeries(
+                    Guid.NewGuid().ToString(),
+                    "name",
+                    "AAG40",
+                    new StartGameSeriesPerson(this.GameSeries.Organizer.Name, this.GameSeries.Organizer.Email),
+                    this.GameSeries.Players.Select(player => new StartGameSeriesPerson(player.Name, player.Email))));
+        }
 
         public ISurveyClosedMessage SurveyClosedMessage()
         {
