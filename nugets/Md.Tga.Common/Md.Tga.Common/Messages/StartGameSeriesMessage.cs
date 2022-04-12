@@ -21,6 +21,17 @@
         }
 
         /// <summary>
+        ///     Creates a new instance of <see cref="StartGameSeriesMessage" />.
+        /// </summary>
+        /// <param name="processId">The global process id.</param>
+        /// <param name="gameSeries">The game series data.</param>
+        [JsonConstructor]
+        public StartGameSeriesMessage(string processId, StartGameSeries gameSeries)
+            : this(processId, gameSeries as IStartGameSeries)
+        {
+        }
+
+        /// <summary>
         ///     Gets the game series data.
         /// </summary>
         [JsonProperty("gameSeries", Required = Required.Always, Order = 11)]
