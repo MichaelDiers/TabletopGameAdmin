@@ -75,7 +75,7 @@
                         this.GameSeries.Countries.Select(
                                 c => new GameCountryConfig(
                                     c.Name,
-                                    this.GameSeries.Countries.First(cc => cc.Id == c.SideId).Name))
+                                    this.GameSeries.Sides.First(side => side.Id == c.SideId).Name))
                             .ToArray())
                 }
             };
