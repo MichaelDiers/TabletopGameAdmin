@@ -9,8 +9,8 @@
 		<PackageReference Include="Md.GoogleCloudFirestore" Version="1.2.32" />
 		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.15" />
 		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.2.29" />
-		<PackageReference Include="Md.Tga.Common" Version="1.2.49" />
-		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.22" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.50" />
+		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.23" />
 		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.10" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
