@@ -20,6 +20,12 @@
         public const string CountriesName = "countries";
 
         /// <summary>
+        ///     The name of json entry <see cref="ExternalId" />.
+        /// </summary>
+        public const string ExternalIdName = "externalId";
+
+
+        /// <summary>
         ///     The name if the json entry gameType.
         /// </summary>
         public const string GameTypeName = "gameType";
@@ -49,6 +55,7 @@
         /// </summary>
         /// <param name="documentId">The id of the document.</param>
         /// <param name="created">The creation time of the document.</param>
+        /// <param name="externalId">The external id set by the client for the game series.</param>
         /// <param name="name">The name of the object.</param>
         /// <param name="sides">The available sides of the game.</param>
         /// <param name="countries">The countries of the game.</param>
@@ -58,6 +65,7 @@
         public GameSeries(
             string? documentId,
             DateTime? created,
+            string externalId,
             string name,
             IEnumerable<ISide> sides,
             IEnumerable<ICountry> countries,
@@ -73,6 +81,7 @@
             this.Players = players.ToArray() ?? throw new ArgumentNullException(nameof(players));
             this.GameType = gameType.ValidateIsNotNullOrWhitespace(nameof(gameType));
             this.Name = name.ValidateIsNotNullOrWhitespace(nameof(name));
+            this.ExternalId = externalId.ValidateIsAGuid(nameof(externalId));
         }
 
         /// <summary>
@@ -80,6 +89,7 @@
         /// </summary>
         /// <param name="documentId">The id of the document.</param>
         /// <param name="created">The creation time of the document.</param>
+        /// <param name="externalId">The external id set by the client for the game series.</param>
         /// <param name="name">The name of the object.</param>
         /// <param name="sides">The available sides of the game.</param>
         /// <param name="countries">The countries of the game.</param>
@@ -90,6 +100,7 @@
         public GameSeries(
             string? documentId,
             DateTime? created,
+            string externalId,
             string name,
             IEnumerable<Side> sides,
             IEnumerable<Country> countries,
@@ -100,6 +111,7 @@
             : this(
                 documentId,
                 created,
+                externalId,
                 name,
                 sides.Select(s => s as ISide),
                 countries,
@@ -116,6 +128,12 @@
         public IEnumerable<ICountry> Countries { get; }
 
         /// <summary>
+        ///     Gets the id that is set by the client for the new game series.
+        /// </summary>
+        [JsonProperty(GameSeries.ExternalIdName, Required = Required.Always, Order = 50)]
+        public string ExternalId { get; }
+
+        /// <summary>
         ///     Gets the type of the game.
         /// </summary>
         [JsonProperty(GameSeries.GameTypeName, Required = Required.Always, Order = 115)]
@@ -124,7 +142,7 @@
         /// <summary>
         ///     Gets the name of the game series.
         /// </summary>
-        [JsonProperty(GameSeries.NameName, Required = Required.Always, Order = 50)]
+        [JsonProperty(GameSeries.NameName, Required = Required.Always, Order = 51)]
         public string Name { get; }
 
         /// <summary>
@@ -161,6 +179,7 @@
             dictionary.Add(GameSeries.OrganizerName, this.Organizer.ToDictionary());
             dictionary.Add(GameSeries.PlayersName, this.Players.Select(player => player.ToDictionary()).ToArray());
             dictionary.Add(GameSeries.GameTypeName, this.GameType);
+            dictionary.Add(GameSeries.ExternalIdName, this.ExternalId);
             return dictionary;
         }
 
@@ -182,9 +201,11 @@
                 .ToArray();
             var players = dictionary.GetDictionaries(GameSeries.PlayersName).Select(Person.FromDictionary).ToArray();
             var gameType = dictionary.GetString(GameSeries.GameTypeName);
+            var externalId = dictionary.GetString(GameSeries.ExternalIdName);
             return new GameSeries(
                 documentId,
                 created,
+                externalId,
                 name,
                 sides,
                 countries,

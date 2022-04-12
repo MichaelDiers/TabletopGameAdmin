@@ -23,7 +23,7 @@
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
-            Assert.Equal(9, dictionary.Count);
+            Assert.Equal(10, dictionary.Count);
         }
 
         public static GameSeries Create()
@@ -77,7 +77,7 @@
             var organizer = PersonTests.SerializePlain(obj.Organizer);
             var players = string.Join(",", obj.Players.Select(PersonTests.SerializePlain));
             return
-                $"{{{basePartial},\"name\":\"{obj.Name}\",\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}],\"gameType\":\"{obj.GameType}\"}}";
+                $"{{{basePartial},\"externalId\":\"{obj.ExternalId}\",\"name\":\"{obj.Name}\",\"sides\":[{sides}],\"countries\":[{countries}],\"organizer\":{organizer},\"players\":[{players}],\"gameType\":\"{obj.GameType}\"}}";
         }
 
         public static string SerializePlainPartial(IDatabaseObject databaseObject)
@@ -94,7 +94,7 @@
             var obj = GameSeriesTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
-            Assert.Equal(9, dictionary.Count);
+            Assert.Equal(10, dictionary.Count);
             GameSeriesTests.CheckEqual(obj, GameSeries.FromDictionary(dictionary));
         }
 
@@ -162,6 +162,7 @@
             return new GameSeries(
                 id,
                 DateTime.Now,
+                Guid.NewGuid().ToString(),
                 "game series",
                 sides,
                 countries,

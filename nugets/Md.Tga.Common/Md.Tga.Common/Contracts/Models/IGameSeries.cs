@@ -14,6 +14,11 @@
         IEnumerable<ICountry> Countries { get; }
 
         /// <summary>
+        ///     Gets the id that is set by the client for the new game series.
+        /// </summary>
+        string ExternalId { get; }
+
+        /// <summary>
         ///     Gets the type of the game.
         /// </summary>
         string GameType { get; }
