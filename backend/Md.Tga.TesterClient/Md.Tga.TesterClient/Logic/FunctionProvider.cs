@@ -3,7 +3,6 @@
     using System;
     using System.Threading.Tasks;
     using Md.Tga.Common.Firestore.Contracts.Logic;
-    using Md.Tga.Common.Messages;
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.TesterClient.Contracts;
 
@@ -15,7 +14,7 @@
         /// <summary>
         ///     Client for sending a message to pub/sub.
         /// </summary>
-        private readonly ISaveGameSeriesPubSubClient pubSubClient;
+        private readonly IStartGameSeriesPubSubClient pubSubClient;
 
         /// <summary>
         ///     Access test data.
@@ -28,7 +27,7 @@
         /// <param name="pubSubClient">Client for sending a message to pub/sub.</param>
         /// <param name="testDataReadOnlyDatabase">Access test data.</param>
         public FunctionProvider(
-            ISaveGameSeriesPubSubClient pubSubClient,
+            IStartGameSeriesPubSubClient pubSubClient,
             ITestDataReadOnlyDatabase testDataReadOnlyDatabase
         )
         {
@@ -43,9 +42,8 @@
         /// <returns>A <see cref="Task" />.</returns>
         public async Task InitializeGameSeries()
         {
-            var gameSeries = await this.testDataReadOnlyDatabase.ReadGameSeriesAsync();
-            var message = new SaveGameSeriesMessage(Guid.NewGuid().ToString(), gameSeries);
-            await this.pubSubClient.PublishAsync(message);
+            var startGameSeriesMessage = await this.testDataReadOnlyDatabase.ReadStartGameSeriesMessageAsync();
+            await this.pubSubClient.PublishAsync(startGameSeriesMessage);
         }
     }
 }

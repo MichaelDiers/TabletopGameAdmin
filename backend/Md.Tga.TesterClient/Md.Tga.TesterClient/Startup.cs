@@ -34,7 +34,7 @@ namespace Md.Tga.TesterClient
             services.AddScoped<ITestDataReadOnlyDatabase, TestDataReadOnlyDatabase>();
 
             services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
-            services.AddScoped<ISaveGameSeriesPubSubClient, SaveGameSeriesPubSubClient>();
+            services.AddScoped<IStartGameSeriesPubSubClient, StartGameSeriesPubSubClient>();
 
             services.AddScoped<IFunctionProvider, FunctionProvider>();
         }
