@@ -1,13 +1,14 @@
 ﻿namespace Md.Tga.StartGameSeriesSubscriber.Tests
 {
     using System;
+    using System.Threading;
     using System.Threading.Tasks;
     using CloudNative.CloudEvents;
     using Google.Cloud.Functions.Testing;
     using Google.Events.Protobuf.Cloud.PubSub.V1;
     using Md.Tga.Common.Contracts.Messages;
-    using Md.Tga.Common.Models;
     using Md.Tga.Common.TestData.Generators;
+    using Md.Tga.StartGameSeriesSubscriber.Tests.Mocks;
     using Newtonsoft.Json;
     using Xunit;
 
@@ -20,22 +21,13 @@
         public async void HandleAsync()
         {
             var testData = new TestDataContainer();
-            var gameSeries = new GameSeries(
-                null,
-                null,
-                testData.GameSeries.ExternalId,
-                testData.GameSeries.Name,
-                testData.GameSeries.Sides,
-                testData.GameSeries.Countries,
-                testData.GameSeries.Organizer,
-                testData.GameSeries.Players,
-                testData.GameSeries.GameType);
-            //var message = new SaveGameSeriesMessage(Guid.NewGuid().ToString(), gameSeries);
-            //await FunctionTests.HandleAsyncForMessage(message);
+            var message = testData.StartGameSeriesMessage();
+            await FunctionTests.HandleAsyncForMessage(message);
         }
 
         private static async Task HandleAsyncForMessage(IStartGameSeriesMessage message)
         {
+            await Task.CompletedTask;
             var json = JsonConvert.SerializeObject(message);
             var data = new MessagePublishedData {Message = new PubsubMessage {TextData = json}};
 
@@ -49,9 +41,9 @@
             };
 
             var logger = new MemoryLogger<Function>();
-            //var provider = new FunctionProviderMock(message);
-            //var function = new Function(logger, provider);
-            //await function.HandleAsync(cloudEvent, data, CancellationToken.None);
+            var provider = new FunctionProviderMock(message);
+            var function = new Function(logger, provider);
+            await function.HandleAsync(cloudEvent, data, CancellationToken.None);
 
             Assert.Empty(logger.ListLogEntries());
         }

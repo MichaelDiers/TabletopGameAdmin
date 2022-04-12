@@ -31,7 +31,7 @@ namespace Md.Tga.StartGameSeriesSubscriber
             context.Configuration.Bind(configuration);
 
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
-            services.AddScoped<IGameConfigDatabase, GameConfigDatabase>();
+            services.AddScoped<IGameConfigReadOnlyDatabase, GameConfigReadOnlyDatabase>();
 
             services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
             services.AddScoped<ISaveGameSeriesPubSubClient, SaveGameSeriesPubSubClient>();

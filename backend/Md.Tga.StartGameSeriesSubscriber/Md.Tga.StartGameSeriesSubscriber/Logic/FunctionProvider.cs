@@ -96,6 +96,7 @@
                 null,
                 null,
                 message.GameSeries.ExternalId,
+                gameConfig.Name,
                 message.GameSeries.Name,
                 sides,
                 countries,
