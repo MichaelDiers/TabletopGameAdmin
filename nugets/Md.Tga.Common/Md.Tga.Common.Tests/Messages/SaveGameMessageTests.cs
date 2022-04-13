@@ -14,7 +14,7 @@
     /// </summary>
     public class SaveGameMessageTests
     {
-        [Fact(Skip = "pending")]
+        [Fact]
         public void Implements()
         {
             var testData = new TestDataContainer();
@@ -22,7 +22,7 @@
             TestHelper.Implements<SaveGameMessage, ISaveGameMessage, IMessage>(message);
         }
 
-        [Fact(Skip = "pending")]
+        [Fact]
         public void Serialize()
         {
             var testData = new TestDataContainer();
