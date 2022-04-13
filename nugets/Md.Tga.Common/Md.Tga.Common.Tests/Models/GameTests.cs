@@ -22,7 +22,7 @@
             var dictionary = new Dictionary<string, object>();
             obj.AddToDictionary(dictionary);
             Assert.NotNull(dictionary);
-            Assert.Equal(6, dictionary.Count);
+            Assert.Equal(5, dictionary.Count);
         }
 
         [Fact]
@@ -33,7 +33,6 @@
             var parentDocumentId = Guid.NewGuid().ToString();
 
             const string name = "name";
-            var surveyDocumentId = Guid.NewGuid().ToString();
             var terminations = new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())};
 
             var obj = new Game(
@@ -41,14 +40,12 @@
                 created,
                 parentDocumentId,
                 name,
-                surveyDocumentId,
                 terminations);
 
             Assert.Equal(documentId, obj.DocumentId);
             Assert.Equal(created, obj.Created);
             Assert.Equal(parentDocumentId, obj.ParentDocumentId);
             Assert.Equal(name, obj.Name);
-            Assert.Equal(surveyDocumentId, obj.SurveyDocumentId);
             Assert.Single(obj.GameTerminations);
             Assert.Equal(terminations.First().PlayerId, obj.GameTerminations.First().PlayerId);
             Assert.Equal(terminations.First().TerminationId, obj.GameTerminations.First().TerminationId);
@@ -88,7 +85,6 @@
                 DateTime.Now,
                 Guid.NewGuid().ToString(),
                 "name of the game",
-                Guid.NewGuid().ToString(),
                 new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
         }
 
@@ -109,7 +105,6 @@
                 DateTime.Now,
                 Guid.NewGuid().ToString(),
                 "game name",
-                Guid.NewGuid().ToString(),
                 new[] {new GameTermination(Guid.NewGuid().ToString(), Guid.NewGuid().ToString())});
 
             var actual = JsonConvert.SerializeObject(obj);
@@ -123,8 +118,7 @@
                 ",",
                 obj.GameTerminations.Select(
                     gt => $"{{\"playerId\":\"{gt.PlayerId}\",\"terminationId\":\"{gt.TerminationId}\"}}"));
-            return
-                $"{{{baseJson},\"name\":\"{obj.Name}\",\"surveyDocumentId\":\"{obj.SurveyDocumentId}\",\"gameTerminations\":[{gameTerminations}]}}";
+            return $"{{{baseJson},\"name\":\"{obj.Name}\",\"gameTerminations\":[{gameTerminations}]}}";
         }
 
         [Fact]
@@ -133,7 +127,7 @@
             var obj = GameTests.Init();
             var dictionary = obj.ToDictionary();
             Assert.NotNull(dictionary);
-            Assert.Equal(6, dictionary.Count);
+            Assert.Equal(5, dictionary.Count);
             GameTests.CheckEqual(obj, Game.FromDictionary(dictionary));
         }
 
@@ -146,7 +140,6 @@
             Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
 
             Assert.Equal(expected.Name, actual.Name);
-            Assert.Equal(expected.SurveyDocumentId, actual.SurveyDocumentId);
             Assert.Equal(expected.GameTerminations.Count(), actual.GameTerminations.Count());
             foreach (var expectedGameTermination in expected.GameTerminations)
             {

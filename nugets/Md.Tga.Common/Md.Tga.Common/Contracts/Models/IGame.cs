@@ -17,10 +17,5 @@
         ///     Gets the name of the game series.
         /// </summary>
         string Name { get; }
-
-        /// <summary>
-        ///     Gets the id of the survey.
-        /// </summary>
-        string SurveyDocumentId { get; }
     }
 }
