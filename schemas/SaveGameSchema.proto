@@ -8,11 +8,43 @@ message SaveGame {
     message Game {
         string id = 1;
         string name = 2;
-	string internalGameSeriesId = 3;
-	string surveyId = 4;
+    	string internalGameSeriesId = 3;
+	    string surveyId = 4;
         repeated GameTermination gameTerminations = 5;
+    };
+
+    message Side {
+        string id = 1;
+        string name = 2;
+    };
+
+    message Countries {
+        string id = 1;
+        string name = 2;
+        string sideId = 3;
+    };
+
+    message Person {
+        string id = 1;
+        string name = 2;
+        string email = 3;
+    };
+
+    message GameSeries {
+        string documentId = 1;
+        string created = 2;
+        string parentDocumentId = 3;
+        string name = 4;
+        repeated Side sides = 5;
+        repeated Countries countries = 6;
+        Person organizer = 7;
+        repeated Person players = 8;
+        string gameType = 9;
+        string gameName = 10;
+        string externalId = 11;
     };
 
     string processId = 1;
     Game game = 2;
+    GameSeries gameSeries = 3;
 };
