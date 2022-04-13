@@ -26,6 +26,8 @@
             var gameSeries = new GameSeries(
                 null,
                 null,
+                testData.GameSeries.ExternalId,
+                testData.GameSeries.GameName,
                 testData.GameSeries.Name,
                 testData.GameSeries.Sides,
                 testData.GameSeries.Countries,
