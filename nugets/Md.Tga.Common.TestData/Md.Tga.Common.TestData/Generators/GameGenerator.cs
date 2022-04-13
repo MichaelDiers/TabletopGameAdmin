@@ -32,7 +32,6 @@
                 configuration.Created,
                 configuration.ParentDocumentId,
                 configuration.Name,
-                configuration.SurveyDocumentId,
                 gameSeries.Players.Select(player => new GameTermination(player.Id, Guid.NewGuid().ToString()))
                     .ToArray());
         }

@@ -10,8 +10,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="Md.Common" Version="1.2.32" />
-		<PackageReference Include="Md.Tga.Common" Version="1.2.49" />
-		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.22" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.53" />
+		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.23" />
 		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.10" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 		<PackageReference Include="Surveys.Common" Version="1.2.68" />
