@@ -4,6 +4,7 @@
     using Md.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Messages;
+    using Md.Tga.Common.TestData.Generators;
     using Md.Tga.Common.Tests.Models;
     using Newtonsoft.Json;
     using Xunit;
@@ -16,17 +17,16 @@
         [Fact]
         public void Implements()
         {
-            var game = GameTests.Init();
-            var message = new SaveGameMessage(Guid.NewGuid().ToString(), game);
-
+            var testData = new TestDataContainer();
+            var message = new SaveGameMessage(Guid.NewGuid().ToString(), testData.GameSeries, testData.Game);
             TestHelper.Implements<SaveGameMessage, ISaveGameMessage, IMessage>(message);
         }
 
         [Fact]
         public void Serialize()
         {
-            var game = GameTests.Init();
-            var message = new SaveGameMessage(Guid.NewGuid().ToString(), game);
+            var testData = new TestDataContainer();
+            var message = new SaveGameMessage(Guid.NewGuid().ToString(), testData.GameSeries, testData.Game);
 
             var actual = JsonConvert.SerializeObject(message);
             Assert.Equal(SaveGameMessageTests.SerializePlain(message), actual);
@@ -38,8 +38,8 @@
         private static string SerializePlain(ISaveGameMessage obj)
         {
             var game = GameTests.SerializePlain(obj.Game);
-
-            return $"{{\"processId\":\"{obj.ProcessId}\",\"game\":{game}}}";
+            var gameSeries = GameSeriesTests.SerializePlain(obj.GameSeries);
+            return $"{{\"processId\":\"{obj.ProcessId}\",\"game\":{game},\"gameSeries\":{gameSeries}}}";
         }
     }
 }

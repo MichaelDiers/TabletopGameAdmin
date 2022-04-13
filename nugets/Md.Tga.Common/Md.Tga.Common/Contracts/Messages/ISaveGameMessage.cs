@@ -12,5 +12,10 @@
         ///     Gets the game to be saved.
         /// </summary>
         IGame Game { get; }
+
+        /// <summary>
+        ///     The new game <see cref="Game" /> is linked to this <see cref="IGameSeries" />.
+        /// </summary>
+        IGameSeries GameSeries { get; }
     }
 }
