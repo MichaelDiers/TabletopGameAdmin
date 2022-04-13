@@ -1,8 +1,8 @@
 namespace Md.Tga.SaveGameSubscriber
 {
     using Google.Cloud.Functions.Hosting;
-    using Md.Common.Contracts;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
+    using Md.GoogleCloudFunctions.Contracts.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;

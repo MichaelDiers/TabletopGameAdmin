@@ -7,7 +7,8 @@
     using Google.Cloud.Functions.Testing;
     using Google.Events.Protobuf.Cloud.PubSub.V1;
     using Md.Tga.Common.Contracts.Messages;
-    using Md.Tga.SaveGameSubscriber.Tests.Data;
+    using Md.Tga.Common.Messages;
+    using Md.Tga.Common.TestData.Generators;
     using Md.Tga.SaveGameSubscriber.Tests.Mocks;
     using Newtonsoft.Json;
     using Xunit;
@@ -20,7 +21,10 @@
         [Fact]
         public async void HandleAsync()
         {
-            var message = TestData.SaveGameMessage();
+            var container = new TestDataContainer();
+            var gameSeries = container.GameSeries;
+            var game = container.Game;
+            var message = new SaveGameMessage(Guid.NewGuid().ToString(), gameSeries, game);
             await FunctionTests.HandleAsyncForMessage(message);
         }
 
