@@ -1,22 +1,17 @@
 namespace Md.Tga.StartGameSubscriber
 {
     using Google.Cloud.Functions.Hosting;
-    using Md.Common.Contracts;
-    using Md.GoogleCloud.Base.Contracts.Logic;
-    using Md.GoogleCloudPubSub.Logic;
+    using Md.Common.Contracts.Model;
+    using Md.GoogleCloudFunctions.Contracts.Logic;
+    using Md.GoogleCloudPubSub.Contracts.Model;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.Common.PubSub.Logic;
-    using Md.Tga.StartGameSubscriber.Contracts;
-    using Md.Tga.StartGameSubscriber.Logic;
-    using Md.Tga.StartGameSubscriber.Model;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Surveys.Common.PubSub.Contracts.Logic;
-    using Surveys.Common.PubSub.Logic;
 
     /// <summary>
     ///     Initialize the function.
@@ -38,20 +33,9 @@ namespace Md.Tga.StartGameSubscriber
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
             services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
-            services.AddScoped<ITranslationsReadOnlyDatabase, TranslationsReadOnlyDatabase>();
 
-            services.AddScoped<ISaveGamePubSubClient>(
-                _ => new SaveGamePubSubClient(
-                    new PubSubClientEnvironment(
-                        configuration.Environment,
-                        configuration.ProjectId,
-                        configuration.SaveGameTopicName)));
-            services.AddScoped<IInitializeSurveyPubSubClient>(
-                _ => new InitializeSurveyPubSubClient(
-                    new PubSubClientEnvironment(
-                        configuration.Environment,
-                        configuration.ProjectId,
-                        configuration.InitializeSurveyTopicName)));
+            services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
+            services.AddScoped<ISaveGamePubSubClient, SaveGamePubSubClient>();
 
             services.AddScoped<IPubSubProvider<IStartGameMessage>, FunctionProvider>();
         }
