@@ -6,11 +6,11 @@ message StartSurvey {
     };
 
     message Game {
-        string id = 1;
-        string name = 2;
-    	string internalGameSeriesId = 3;
-	    string surveyId = 4;
-        repeated GameTermination gameTerminations = 5;
+        string documentId = 1;
+        string created = 2;
+        string parentDocumentId = 3;
+        string name = 4;
+    	repeated GameTermination gameTerminations = 5;
     };
 
     message Side {
