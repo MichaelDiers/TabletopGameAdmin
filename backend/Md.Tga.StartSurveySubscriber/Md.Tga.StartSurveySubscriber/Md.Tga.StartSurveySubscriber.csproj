@@ -7,8 +7,8 @@
 	<ItemGroup>
 		<PackageReference Include="Google.Cloud.Functions.Hosting" Version="1.0.0" />
 		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.16" />
-		<PackageReference Include="Md.Tga.Common" Version="1.2.54" />
-		<PackageReference Include="Surveys.Common" Version="1.2.70" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.55" />
+		<PackageReference Include="Surveys.Common" Version="1.2.71" />
 		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.11" />
 	</ItemGroup>
 

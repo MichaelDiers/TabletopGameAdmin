@@ -132,7 +132,7 @@
                 new Person(
                     message.GameSeries.Organizer.Id,
                     message.GameSeries.Organizer.Email,
-                    message.GameSeries.Name),
+                    message.GameSeries.Organizer.Name),
                 participants,
                 questions);
         }
