@@ -28,3 +28,4 @@ jobs:
       appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_SURVEY }}\"\}'
       appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_SURVEY }}\"\}'
       appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_SURVEY }}\"\}'
+
