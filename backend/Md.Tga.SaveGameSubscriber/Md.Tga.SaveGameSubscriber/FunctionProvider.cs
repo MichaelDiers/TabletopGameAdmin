@@ -1,11 +1,13 @@
-﻿namespace Md.Tga.SaveGameSubscriber.Logic
+﻿namespace Md.Tga.SaveGameSubscriber
 {
     using System;
     using System.Threading.Tasks;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -18,15 +20,24 @@
         /// </summary>
         private readonly IGameDatabase database;
 
+        private readonly IStartSurveyPubSubClient startSurveyPubSubClient;
+
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="database">Access to the database.</param>
-        public FunctionProvider(ILogger<Function> logger, IGameDatabase database)
+        /// <param name="startSurveyPubSubClient">Start a new survey.</param>
+        public FunctionProvider(
+            ILogger<Function> logger,
+            IGameDatabase database,
+            IStartSurveyPubSubClient startSurveyPubSubClient
+        )
             : base(logger)
         {
             this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.startSurveyPubSubClient = startSurveyPubSubClient ??
+                                           throw new ArgumentNullException(nameof(startSurveyPubSubClient));
         }
 
         /// <summary>
@@ -38,6 +49,8 @@
         {
             var game = new Game(message.GameSeries, message.Game);
             await this.database.InsertAsync(game.DocumentId, game);
+            var startSurveyMessage = new StartSurveyMessage(message.ProcessId, message.GameSeries, message.Game);
+            await this.startSurveyPubSubClient.PublishAsync(startSurveyMessage);
         }
     }
 }
