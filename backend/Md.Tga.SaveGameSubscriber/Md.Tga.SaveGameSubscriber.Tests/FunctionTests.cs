@@ -8,8 +8,10 @@
     using Google.Events.Protobuf.Cloud.PubSub.V1;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Messages;
+    using Md.Tga.Common.Models;
     using Md.Tga.Common.TestData.Generators;
-    using Md.Tga.SaveGameSubscriber.Tests.Mocks;
+    using Md.Tga.Common.TestData.Mocks.Database;
+    using Md.Tga.Common.TestData.Mocks.PubSub;
     using Newtonsoft.Json;
     using Xunit;
 
@@ -24,7 +26,15 @@
             var container = new TestDataContainer();
             var gameSeries = container.GameSeries;
             var game = container.Game;
-            var message = new SaveGameMessage(Guid.NewGuid().ToString(), gameSeries, game);
+            var message = new SaveGameMessage(
+                Guid.NewGuid().ToString(),
+                gameSeries,
+                new Game(
+                    null,
+                    null,
+                    gameSeries.DocumentId,
+                    game.Name,
+                    game.GameTerminations));
             await FunctionTests.HandleAsyncForMessage(message);
         }
 
@@ -43,7 +53,7 @@
             };
 
             var logger = new MemoryLogger<Function>();
-            var provider = new FunctionProviderMock(message);
+            var provider = new FunctionProvider(logger, new GamesDatabaseMock(), new StartSurveyPubSubClientMock());
             var function = new Function(logger, provider);
             await function.HandleAsync(cloudEvent, data, CancellationToken.None);
 

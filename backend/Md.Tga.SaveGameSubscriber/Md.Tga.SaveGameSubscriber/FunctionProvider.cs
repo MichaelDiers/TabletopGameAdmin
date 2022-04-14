@@ -47,9 +47,15 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISaveGameMessage message)
         {
-            var game = new Game(message.GameSeries, message.Game);
+            var game = new Game(
+                Guid.NewGuid().ToString(),
+                DateTime.Now,
+                message.GameSeries.DocumentId,
+                message.Game.Name,
+                message.Game.GameTerminations);
+
             await this.database.InsertAsync(game.DocumentId, game);
-            var startSurveyMessage = new StartSurveyMessage(message.ProcessId, message.GameSeries, message.Game);
+            var startSurveyMessage = new StartSurveyMessage(message.ProcessId, message.GameSeries, game);
             await this.startSurveyPubSubClient.PublishAsync(startSurveyMessage);
         }
     }
