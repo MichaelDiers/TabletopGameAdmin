@@ -5,10 +5,10 @@ on:
       - main
     paths:
       - 'backend/Md.Tga.StartSurveySubscriber/**'
-    workflow_dispatch:
-    workflow_run:
-      workflows: [StartSurveySchema]
-      types: [completed]
+  workflow_dispatch:
+  workflow_run:
+    workflows: [StartSurveySchema]
+    types: [completed]
 jobs:
   BuildAndDeploy:
     uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-deploy-google-cloud-function.yaml@main
@@ -28,4 +28,3 @@ jobs:
       appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_SURVEY }}\"\}'
       appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_SURVEY }}\"\}'
       appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_SAVE_SURVEY }}\"\}'
-
