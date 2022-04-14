@@ -11,6 +11,7 @@
     using Surveys.Common.Contracts;
     using Surveys.Common.Contracts.Messages;
     using Surveys.Common.Messages;
+    using Surveys.Common.Models;
 
     public class TestDataContainer
     {
@@ -35,6 +36,17 @@
                     this.Game,
                     this.Survey)
                 .ToList();
+            this.SurveyResult = new SurveyResult(
+                Guid.NewGuid().ToString(),
+                DateTime.Now,
+                this.Survey.DocumentId,
+                this.Survey.Participants.First().Id,
+                false,
+                this.Survey.Questions.Select(
+                        question => new QuestionReference(
+                            question.Id,
+                            question.Choices.First(choice => choice.Selectable).Id))
+                    .ToArray());
 
             this.GameSeriesDatabaseMock = new GameSeriesDatabaseMock(this.GameSeries, this.Game);
             this.GamesDatabaseMock = new GamesDatabaseMock(this.Game as Game ?? throw new ArgumentNullException());
@@ -53,6 +65,8 @@
         public GameSeriesDatabaseMock GameSeriesDatabaseMock { get; set; }
 
         public ISurvey Survey { get; }
+
+        public ISurveyResult SurveyResult { get; }
 
         public IList<ISurveyResult> SurveyResults { get; }
 
