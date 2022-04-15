@@ -9,6 +9,16 @@
     public interface ISavePlayerMappingsMessage : IMessage
     {
         /// <summary>
+        ///     Gets the game.
+        /// </summary>
+        IGame Game { get; }
+
+        /// <summary>
+        ///     Gets the game series.
+        /// </summary>
+        IGameSeries GameSeries { get; }
+
+        /// <summary>
         ///     Gets the player mappings.
         /// </summary>
         IPlayerMappings PlayerMappings { get; }

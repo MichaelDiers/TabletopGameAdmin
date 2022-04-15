@@ -5,6 +5,7 @@
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
+    using Md.Tga.Common.TestData.Generators;
     using Xunit;
 
     public class SavePlayerMappingsMessageTests
@@ -13,9 +14,12 @@
         public void Ctor()
         {
             var processId = Guid.NewGuid().ToString();
+            var container = new TestDataContainer();
             var playerMapping = new PlayerCountryMapping(Guid.NewGuid().ToString(), Guid.NewGuid().ToString());
             var message = new SavePlayerMappingsMessage(
                 processId,
+                container.GameSeries,
+                container.Game,
                 new PlayerMappings(
                     Guid.NewGuid().ToString(),
                     DateTime.Now,
