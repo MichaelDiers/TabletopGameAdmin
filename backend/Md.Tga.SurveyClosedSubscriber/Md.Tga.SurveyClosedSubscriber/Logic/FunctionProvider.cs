@@ -87,12 +87,6 @@
                         null,
                         game.DocumentId,
                         solution)));
-
-            await this.SendMail(
-                message,
-                gameSeries,
-                game,
-                solution);
         }
 
         private Body CreateBody(
