@@ -1,5 +1,8 @@
 ﻿namespace Md.Tga.CreateGameMailSubscriber
 {
+    using System;
+    using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
@@ -35,14 +38,50 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ICreateGameMailMessage message)
         {
+            switch (message.GameMailType)
+            {
+                case GameMailType.None:
+                    throw new ArgumentException(
+                        $"Cannot handle mail type {message.GameMailType}",
+                        nameof(message.GameMailType));
+                case GameMailType.SurveyResult:
+                    await this.HandleMessageSurveyResultAsync(message);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        private async Task HandleMessageSurveyResultAsync(ICreateGameMailMessage message)
+        {
+            var htmlResult = new StringBuilder();
+            var textResult = new StringBuilder();
+            foreach (var gameSeriesCountry in message.GameSeries.Countries)
+            {
+                var mapping =
+                    message.PlayerMappings.PlayerCountryMappings.First(pcm => pcm.CountryId == gameSeriesCountry.Id);
+                var player = message.GameSeries.Players.First(player => player.Id == mapping.PlayerId);
+                htmlResult.AppendFormat(SurveyResultText.BodyHtmlEntry, gameSeriesCountry.Name, player.Name);
+            }
+
             foreach (var gameSeriesPlayer in message.GameSeries.Players)
             {
                 var sendMailMessage = new SendMailMessage(
                     message.ProcessId,
                     new[] {new Recipient(gameSeriesPlayer.Email, gameSeriesPlayer.Name)},
                     new Recipient(message.GameSeries.Organizer.Email, message.GameSeries.Organizer.Name),
-                    "subject",
-                    new Body("html", "text"));
+                    string.Format(SurveyResultText.Subject, message.Game.Name),
+                    new Body(
+                        string.Format(
+                            SurveyResultText.BodyHtml,
+                            gameSeriesPlayer.Name,
+                            htmlResult,
+                            message.GameSeries.Organizer.Name),
+                        string.Format(
+                            SurveyResultText.BodyText,
+                            gameSeriesPlayer.Name,
+                            textResult,
+                            message.GameSeries.Organizer.Name)));
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }

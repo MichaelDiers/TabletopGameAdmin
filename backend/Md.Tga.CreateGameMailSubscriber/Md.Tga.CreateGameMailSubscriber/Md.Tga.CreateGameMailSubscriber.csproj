@@ -14,4 +14,19 @@
 		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.13" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="SurveyResultText.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>SurveyResultText.resx</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Update="SurveyResultText.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>SurveyResultText.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
+
 </Project>
