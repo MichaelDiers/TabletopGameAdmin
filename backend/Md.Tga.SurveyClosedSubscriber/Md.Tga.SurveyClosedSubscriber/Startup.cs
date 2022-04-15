@@ -6,6 +6,8 @@ namespace Md.Tga.SurveyClosedSubscriber
     using Md.GoogleCloudPubSub.Contracts.Model;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
+    using Md.Tga.Common.PubSub.Logic;
     using Md.Tga.SurveyClosedSubscriber.Contracts;
     using Md.Tga.SurveyClosedSubscriber.Logic;
     using Md.Tga.SurveyClosedSubscriber.Model;
@@ -13,8 +15,6 @@ namespace Md.Tga.SurveyClosedSubscriber
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Surveys.Common.Contracts.Messages;
-    using Surveys.Common.PubSub.Contracts.Logic;
-    using Surveys.Common.PubSub.Logic;
 
     /// <summary>
     ///     Initialize the function.
@@ -39,7 +39,7 @@ namespace Md.Tga.SurveyClosedSubscriber
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
 
             services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
-            services.AddScoped<ISendMailPubSubClient, SendMailPubSubClient>();
+            services.AddScoped<ISavePlayerMappingsPubSubClient, SavePlayerMappingsPubSubClient>();
 
             services.AddScoped<ISurveyEvaluator, SurveyEvaluator>();
 
