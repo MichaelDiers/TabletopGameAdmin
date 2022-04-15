@@ -1,7 +1,7 @@
 syntax = "proto3";
 message CreateGameMailMessage {
     enum GameMailType {
-        SurveyResult = 0;	
+        SURVEY_RESULT = 0;	
     };
 
     message GameSeries {
