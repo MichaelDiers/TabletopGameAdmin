@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Google.Cloud.Functions.Hosting" Version="1.0.0" />
+		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.16" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.58" />
+		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.27" />
+		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.14" />
+		<PackageReference Include="Surveys.Common" Version="1.2.74" />
+		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.13" />
+	</ItemGroup>
+
+</Project>
