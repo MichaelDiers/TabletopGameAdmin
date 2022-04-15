@@ -7,7 +7,6 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Xml.Linq;
-    using Md.Common.Database;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
@@ -65,9 +64,7 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISurveyClosedMessage message)
         {
-            var game = await this.gamesDatabase.ReadOneAsync(
-                DatabaseObject.DocumentIdName,
-                message.Survey.ParentDocumentId);
+            var game = await this.gamesDatabase.ReadByDocumentIdAsync(message.Survey.ParentDocumentId);
             if (game == null)
             {
                 throw new ArgumentException($"No game found for survey id {message.Survey.ParentDocumentId}");
