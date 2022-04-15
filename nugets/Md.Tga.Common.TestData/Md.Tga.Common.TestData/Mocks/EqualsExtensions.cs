@@ -25,7 +25,7 @@
             }
 
             return expected.Survey.CheckEqual(actual.Survey) &&
-                   expected.Results.CheckEqual(actual.Results, true) &&
+                   expected.Results.CheckEqual(actual.Results, false) &&
                    expected.ProcessId.CheckEqual(actual.ProcessId);
         }
 
@@ -130,7 +130,6 @@
 
             return expectedArray.All(expectedResult => actualArray.Any(expectedResult.CheckEqual));
         }
-
 
         public static bool CheckEqual(this IQuestionReference expected, IQuestionReference actual)
         {
