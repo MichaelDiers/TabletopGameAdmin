@@ -15,18 +15,21 @@
         ///     Creates a new instance of <see cref="CreateGameMailMessage" />.
         /// </summary>
         /// <param name="processId">The global process id.</param>
+        /// <param name="gameMailType">The type of the email.</param>
         /// <param name="gameSeries">The <paramref name="game" /> is part of this game series.</param>
         /// <param name="game">The <paramref name="playerMappings" /> are part of this game.</param>
         /// <param name="playerMappings">The player mapping for the game.</param>
         [JsonConstructor]
         public CreateGameMailMessage(
             string processId,
+            GameMailType gameMailType,
             GameSeries gameSeries,
             Game game,
             PlayerMappings playerMappings
         )
             : this(
                 processId,
+                gameMailType,
                 gameSeries,
                 game,
                 playerMappings as IPlayerMappings)
@@ -37,17 +40,20 @@
         ///     Creates a new instance of <see cref="CreateGameMailMessage" />.
         /// </summary>
         /// <param name="processId">The global process id.</param>
+        /// <param name="gameMailType">The type of the email.</param>
         /// <param name="gameSeries">The <paramref name="game" /> is part of this game series.</param>
         /// <param name="game">The <paramref name="playerMappings" /> are part of this game.</param>
         /// <param name="playerMappings">The player mapping for the game.</param>
         public CreateGameMailMessage(
             string processId,
+            GameMailType gameMailType,
             IGameSeries gameSeries,
             IGame game,
             IPlayerMappings playerMappings
         )
             : base(processId)
         {
+            this.GameMailType = gameMailType;
             this.GameSeries = gameSeries;
             this.Game = game;
             this.PlayerMappings = playerMappings;
@@ -58,6 +64,12 @@
         /// </summary>
         [JsonProperty("game", Required = Required.Always, Order = 11)]
         public IGame Game { get; }
+
+        /// <summary>
+        ///     Gets the type of the email.
+        /// </summary>
+        [JsonProperty("gameMailType", Required = Required.Always, Order = 9)]
+        public GameMailType GameMailType { get; }
 
         /// <summary>
         ///     The new game <see cref="Game" /> is linked to this <see cref="IGameSeries" />.

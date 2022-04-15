@@ -14,6 +14,11 @@
         IGame Game { get; }
 
         /// <summary>
+        ///     Gets the type of the email.
+        /// </summary>
+        GameMailType GameMailType { get; }
+
+        /// <summary>
         ///     The new game <see cref="Game" /> is linked to this <see cref="IGameSeries" />.
         /// </summary>
         IGameSeries GameSeries { get; }
