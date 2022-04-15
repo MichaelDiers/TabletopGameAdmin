@@ -5,6 +5,8 @@
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -12,6 +14,8 @@
     /// </summary>
     public class FunctionProvider : PubSubProvider<ISavePlayerMappingsMessage, Function>
     {
+        private readonly ICreateGameMailPubSubClient createGameMailPubSubClient;
+
         /// <summary>
         ///     Access the database.
         /// </summary>
@@ -22,10 +26,16 @@
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="database">Access to the database.</param>
-        public FunctionProvider(ILogger<Function> logger, IPlayerMappingsDatabase database)
+        /// <param name="createGameMailPubSubClient">Access to the pub/sub client.</param>
+        public FunctionProvider(
+            ILogger<Function> logger,
+            IPlayerMappingsDatabase database,
+            ICreateGameMailPubSubClient createGameMailPubSubClient
+        )
             : base(logger)
         {
             this.database = database ?? throw new ArgumentNullException(nameof(database));
+            this.createGameMailPubSubClient = createGameMailPubSubClient;
         }
 
         /// <summary>
@@ -36,6 +46,13 @@
         protected override async Task HandleMessageAsync(ISavePlayerMappingsMessage message)
         {
             await this.database.InsertAsync(message.PlayerMappings);
+            await this.createGameMailPubSubClient.PublishAsync(
+                new CreateGameMailMessage(
+                    message.ProcessId,
+                    GameMailType.SurveyResult,
+                    message.GameSeries,
+                    message.Game,
+                    message.PlayerMappings));
         }
     }
 }

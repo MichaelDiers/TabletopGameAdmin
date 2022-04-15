@@ -3,9 +3,12 @@ namespace Md.Tga.SavePlayerMappingsSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts.Model;
     using Md.GoogleCloudFunctions.Contracts.Logic;
+    using Md.GoogleCloudPubSub.Contracts.Model;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
+    using Md.Tga.Common.PubSub.Logic;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +31,9 @@ namespace Md.Tga.SavePlayerMappingsSubscriber
 
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
             services.AddScoped<IPlayerMappingsDatabase, PlayerMappingsDatabase>();
+
+            services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
+            services.AddScoped<ICreateGameMailPubSubClient, CreateGameMailPubSubClient>();
 
             services.AddScoped<IPubSubProvider<ISavePlayerMappingsMessage>, FunctionProvider>();
         }
