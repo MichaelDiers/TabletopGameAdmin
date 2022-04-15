@@ -151,7 +151,7 @@ Viele Grüße,
 {2}</value>
   </data>
   <data name="BodyTextEntry" xml:space="preserve">
-    <value>\t - {0}: {1}
+    <value>     - {0}: {1}
 </value>
   </data>
   <data name="Subject" xml:space="preserve">

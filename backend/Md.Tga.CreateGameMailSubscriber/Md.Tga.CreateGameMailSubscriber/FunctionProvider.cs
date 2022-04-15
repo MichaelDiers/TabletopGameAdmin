@@ -62,6 +62,7 @@
                     message.PlayerMappings.PlayerCountryMappings.First(pcm => pcm.CountryId == gameSeriesCountry.Id);
                 var player = message.GameSeries.Players.First(player => player.Id == mapping.PlayerId);
                 htmlResult.AppendFormat(SurveyResultText.BodyHtmlEntry, gameSeriesCountry.Name, player.Name);
+                textResult.AppendFormat(SurveyResultText.BodyTextEntry, gameSeriesCountry.Name, player.Name);
             }
 
             foreach (var gameSeriesPlayer in message.GameSeries.Players)
