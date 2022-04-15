@@ -1,0 +1,69 @@
+syntax = "proto3";
+message CreateGameMailMessage {
+    enum GameMailType {
+        SurveyResult = 0;	
+    };
+
+    message GameSeries {
+        message Side {
+            string id = 1;
+            string name = 2;
+        };
+
+        message Countries {
+            string id = 1;
+            string name = 2;
+            string sideId = 3;
+        };
+
+        message Person {
+            string id = 1;
+            string name = 2;
+            string email = 3;
+        };
+        
+        string documentId = 1;
+        string created = 2;
+        string parentDocumentId = 3;
+        string name = 4;
+        repeated Side sides = 5;
+        repeated Countries countries = 6;
+        Person organizer = 7;
+        repeated Person players = 8;
+        string gameType = 9;
+        string gameName = 10;
+        string externalId = 11;
+    };
+
+
+    message Game {
+        message GameTermination {
+            string playerId = 1;
+            string terminationId = 2;
+        };
+
+        string documentId = 1;
+        string created = 2;
+        string parentDocumentId = 3;
+        string name = 4;
+    	repeated GameTermination gameTerminations = 5;
+    };
+
+    message PlayerMappings {
+        message PlayerCountryMapping {
+            string playerId = 1;
+            string countryId = 2;
+        };
+
+        string documentId = 1;
+        string created = 2;
+        string parentDocumentId = 3;
+        repeated PlayerCountryMapping playerCountryMappings = 4;
+    };
+
+    string processId = 1;
+    GameMailType gameMailType = 2;
+    GameSeries gameSeries = 3;
+    Game game = 4;
+    PlayerMappings playerMappings = 5;
+};
