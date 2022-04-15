@@ -1,20 +1,12 @@
 ﻿namespace Md.Tga.SurveyClosedSubscriber.Contracts
 {
     using Md.Common.Contracts.Model;
+    using Md.GoogleCloudPubSub.Contracts.Model;
 
     /// <summary>
     ///     Access the application settings.
     /// </summary>
-    public interface IFunctionConfiguration : IRuntimeEnvironment
+    public interface IFunctionConfiguration : IRuntimeEnvironment, IPubSubClientEnvironment
     {
-        /// <summary>
-        ///     Gets the topic name for saving player mappings.
-        /// </summary>
-        string SavePlayerMappingsTopicName { get; }
-
-        /// <summary>
-        ///     Gets the topic name for sending emails.
-        /// </summary>
-        string SendMailTopicName { get; }
     }
 }

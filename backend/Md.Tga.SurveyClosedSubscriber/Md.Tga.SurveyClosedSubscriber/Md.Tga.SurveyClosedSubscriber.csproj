@@ -17,13 +17,4 @@
 		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.13" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Update="Data\template.html">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Data\template.txt">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
-	</ItemGroup>
-
 </Project>
