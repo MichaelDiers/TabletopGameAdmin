@@ -1,14 +1,11 @@
 namespace Md.Tga.SavePlayerMappingsSubscriber
 {
     using Google.Cloud.Functions.Hosting;
-    using Md.Common.Contracts;
-    using Md.GoogleCloud.Base.Contracts.Logic;
+    using Md.Common.Contracts.Model;
+    using Md.GoogleCloudFunctions.Contracts.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
-    using Md.Tga.SavePlayerMappingsSubscriber.Contracts;
-    using Md.Tga.SavePlayerMappingsSubscriber.Logic;
-    using Md.Tga.SavePlayerMappingsSubscriber.Model;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

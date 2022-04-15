@@ -1,8 +1,8 @@
-﻿namespace Md.Tga.SavePlayerMappingsSubscriber.Logic
+﻿namespace Md.Tga.SavePlayerMappingsSubscriber
 {
     using System;
     using System.Threading.Tasks;
-    using Md.GoogleCloud.Base.Logic;
+    using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Microsoft.Extensions.Logging;

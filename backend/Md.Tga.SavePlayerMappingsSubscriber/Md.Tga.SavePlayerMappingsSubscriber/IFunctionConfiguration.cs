@@ -1,6 +1,6 @@
-﻿namespace Md.Tga.SavePlayerMappingsSubscriber.Contracts
+﻿namespace Md.Tga.SavePlayerMappingsSubscriber
 {
-    using Md.Common.Contracts;
+    using Md.Common.Contracts.Model;
 
     /// <summary>
     ///     Access the application settings.

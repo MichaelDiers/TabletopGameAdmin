@@ -7,7 +7,8 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Xml.Linq;
-    using Md.GoogleCloud.Base.Logic;
+    using Md.Common.Database;
+    using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
@@ -64,20 +65,28 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISurveyClosedMessage message)
         {
-            var game = await this.gamesDatabase.ReadOneAsync(Game.SurveyIdName, message.Survey.Id);
+            var game = await this.gamesDatabase.ReadOneAsync(
+                DatabaseObject.DocumentIdName,
+                message.Survey.ParentDocumentId);
             if (game == null)
             {
-                throw new ArgumentException($"No game found for survey id {message.Survey.Id}");
+                throw new ArgumentException($"No game found for survey id {message.Survey.ParentDocumentId}");
             }
 
-            var gameSeries = await this.gameSeriesDatabase.ReadByDocumentIdAsync(game.InternalGameSeriesId);
+            var gameSeries = await this.gameSeriesDatabase.ReadByDocumentIdAsync(game.ParentDocumentId);
 
             var solution = this.surveyEvaluator.Evaluate(gameSeries, message.Results).ToArray();
 
             await this.savePlayerMappingsPubSubClient.PublishAsync(
                 new SavePlayerMappingsMessage(
                     message.ProcessId,
-                    new PlayerMappings(game.InternalDocumentId, solution)));
+                    gameSeries,
+                    game,
+                    new PlayerMappings(
+                        null,
+                        null,
+                        game.DocumentId,
+                        solution)));
 
             await this.SendMail(
                 message,
@@ -108,7 +117,6 @@
                     plainSolution,
                     gameSeries.Organizer.Name));
         }
-
 
         private (XElement html, string plain) CreateSolutionForBody(
             IGameSeries gameSeries,

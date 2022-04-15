@@ -1,6 +1,6 @@
 ﻿namespace Md.Tga.SurveyClosedSubscriber.Contracts
 {
-    using Md.Common.Contracts;
+    using Md.Common.Contracts.Model;
 
     /// <summary>
     ///     Access the application settings.
@@ -11,7 +11,6 @@
         ///     Gets the topic name for saving player mappings.
         /// </summary>
         string SavePlayerMappingsTopicName { get; }
-
 
         /// <summary>
         ///     Gets the topic name for sending emails.
