@@ -1,11 +1,11 @@
 ﻿namespace Md.Tga.SaveGameSubscriber
 {
-    using Md.GoogleCloudPubSub.Model;
+    using Md.Common.Model;
 
     /// <summary>
     ///     Access the application settings.
     /// </summary>
-    public class FunctionConfiguration : PubSubClientEnvironment, IFunctionConfiguration
+    public class FunctionConfiguration : RuntimeEnvironment, IFunctionConfiguration
     {
     }
 }

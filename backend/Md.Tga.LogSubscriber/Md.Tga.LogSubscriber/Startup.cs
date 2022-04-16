@@ -3,12 +3,9 @@ namespace Md.Tga.SaveGameSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts.Model;
     using Md.GoogleCloudFunctions.Contracts.Logic;
-    using Md.GoogleCloudPubSub.Contracts.Model;
+    using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
-    using Md.Tga.Common.Messages;
-    using Md.Tga.Common.PubSub.Contracts.Logic;
-    using Md.Tga.Common.PubSub.Logic;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -30,12 +27,9 @@ namespace Md.Tga.SaveGameSubscriber
             services.AddScoped<IFunctionConfiguration>(_ => configuration);
 
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
-            services.AddScoped<IGameDatabase, GameDatabase>();
+            services.AddScoped<ILogDatabase, LogDatabase>();
 
-            services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
-            services.AddScoped<IStartSurveyPubSubClient, StartSurveyPubSubClient>();
-
-            services.AddScoped<IPubSubProvider<LogMessage>, FunctionProvider>();
+            services.AddScoped<IPubSubProvider<ILogMessage>, FunctionProvider>();
         }
     }
 }
