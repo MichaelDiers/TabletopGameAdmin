@@ -10,7 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Md.Common" Version="1.2.33" />
     <PackageReference Include="Md.GoogleCloudFirestore" Version="1.2.35" />
-    <PackageReference Include="Md.Tga.Common" Version="1.2.59" />
+    <PackageReference Include="Md.Tga.Common" Version="1.2.61" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
