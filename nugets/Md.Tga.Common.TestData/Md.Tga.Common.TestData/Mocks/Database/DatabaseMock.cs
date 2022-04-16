@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Md.Common.Contracts.Database;
     using Md.Common.Contracts.Model;
     using Md.Common.Database;
     using Md.GoogleCloudFirestore.Contracts.Logic;
@@ -66,14 +68,44 @@
             return await this.ReadManyAsync(fieldPath, value, OrderType.Unsorted);
         }
 
-        public virtual Task<IEnumerable<T>> ReadManyAsync(string fieldPath, object value, OrderType orderType)
+        public virtual async Task<IEnumerable<T>> ReadManyAsync(string fieldPath, object value, OrderType orderType)
         {
+            await Task.CompletedTask;
+            if (this.dictionary.Count == 0)
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            if (this.Values.All(v => v is IDatabaseObject))
+            {
+                if (fieldPath == DatabaseObject.ParentDocumentIdName)
+                {
+                    var result = this.Values.Select(x => (IDatabaseObject) x)
+                        .Where(x => x.ParentDocumentId == (string) value)
+                        .OrderBy(x => x.Created)
+                        .Select(x => (T) x)
+                        .ToArray();
+                    switch (orderType)
+                    {
+                        case OrderType.Undefined:
+                        case OrderType.Unsorted:
+                        case OrderType.Asc:
+                            return result;
+                        case OrderType.Desc:
+                            return result.Reverse().ToArray();
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(orderType), orderType, null);
+                    }
+                }
+            }
+
             throw new NotImplementedException();
         }
 
-        public virtual Task<T?> ReadOneAsync(string fieldPath, object value)
+        public virtual async Task<T?> ReadOneAsync(string fieldPath, object value)
         {
-            throw new NotImplementedException();
+            var result = await this.ReadManyAsync(fieldPath, value, OrderType.Unsorted);
+            return result.FirstOrDefault();
         }
     }
 }

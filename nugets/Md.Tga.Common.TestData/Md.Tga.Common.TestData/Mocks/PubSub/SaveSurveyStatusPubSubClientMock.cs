@@ -17,7 +17,6 @@
         {
         }
 
-
         protected override async Task<bool> CheckMessage(
             ISaveSurveyStatusMessage expected,
             ISaveSurveyStatusMessage actual
