@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.StartGameSeriesSubscriber.Tests.Logic
+﻿namespace Md.Tga.StartGameSeriesSubscriber.Tests
 {
     using Google.Cloud.Functions.Testing;
     using Md.Common.Contracts.Model;
@@ -7,7 +7,6 @@
     using Md.Tga.Common.TestData.Generators;
     using Md.Tga.Common.TestData.Mocks.Database;
     using Md.Tga.Common.TestData.Mocks.PubSub;
-    using Md.Tga.StartGameSeriesSubscriber.Logic;
     using Xunit;
 
     public class FunctionProviderTests

@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.StartGameSeriesSubscriber.Logic
+﻿namespace Md.Tga.StartGameSeriesSubscriber
 {
     using System;
     using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.StartGameSeriesSubscriber.Contracts
+﻿namespace Md.Tga.StartGameSeriesSubscriber
 {
     using Md.Common.Contracts.Model;
     using Md.GoogleCloudPubSub.Contracts.Model;

@@ -1,7 +1,6 @@
-﻿namespace Md.Tga.StartGameSeriesSubscriber.Model
+﻿namespace Md.Tga.StartGameSeriesSubscriber
 {
     using Md.Common.Model;
-    using Md.Tga.StartGameSeriesSubscriber.Contracts;
 
     /// <summary>
     ///     Access the application settings.

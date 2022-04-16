@@ -9,8 +9,6 @@ namespace Md.Tga.StartGameSeriesSubscriber
     using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.Common.PubSub.Logic;
-    using Md.Tga.StartGameSeriesSubscriber.Logic;
-    using Md.Tga.StartGameSeriesSubscriber.Model;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
