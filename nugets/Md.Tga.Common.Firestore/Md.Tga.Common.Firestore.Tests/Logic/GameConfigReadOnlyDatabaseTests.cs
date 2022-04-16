@@ -14,6 +14,7 @@
             var database = new GameConfigReadOnlyDatabase(
                 new RuntimeEnvironment {Environment = Environment.Test, ProjectId = projectId});
             var data = await database.ReadByDocumentIdAsync(documentId);
+            Assert.NotNull(data);
         }
     }
 }
