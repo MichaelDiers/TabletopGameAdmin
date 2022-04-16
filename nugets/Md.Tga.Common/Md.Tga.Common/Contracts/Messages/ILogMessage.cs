@@ -2,11 +2,12 @@
 {
     using System;
     using Md.Common.Contracts.Messages;
+    using Md.Common.Contracts.Model;
 
     /// <summary>
     ///     Message that is sent to save a log message.
     /// </summary>
-    public interface ILogMessage : IMessage
+    public interface ILogMessage : IMessage, IToDictionary
     {
         /// <summary>
         ///     Gets the exception of the log entry.
