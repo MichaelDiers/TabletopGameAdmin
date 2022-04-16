@@ -1,7 +1,6 @@
-﻿namespace Md.Tga.TesterClient.Model
+﻿namespace Md.Tga.TesterClient
 {
     using Md.Common.Model;
-    using Md.Tga.TesterClient.Contracts;
 
     /// <summary>
     ///     Access the application settings.

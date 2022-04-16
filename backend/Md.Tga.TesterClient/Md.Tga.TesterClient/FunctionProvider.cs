@@ -1,10 +1,9 @@
-﻿namespace Md.Tga.TesterClient.Logic
+﻿namespace Md.Tga.TesterClient
 {
     using System;
     using System.Threading.Tasks;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.PubSub.Contracts.Logic;
-    using Md.Tga.TesterClient.Contracts;
 
     /// <summary>
     ///     Provider that handles the business logic of the cloud function.

@@ -4,7 +4,6 @@ namespace Md.Tga.TesterClient
     using System.Threading.Tasks;
     using Google.Cloud.Functions.Hosting;
     using Md.GoogleCloudFunctions.Logic;
-    using Md.Tga.TesterClient.Contracts;
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
 

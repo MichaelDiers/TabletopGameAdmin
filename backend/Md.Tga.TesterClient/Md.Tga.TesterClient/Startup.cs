@@ -7,9 +7,6 @@ namespace Md.Tga.TesterClient
     using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.Common.PubSub.Logic;
-    using Md.Tga.TesterClient.Contracts;
-    using Md.Tga.TesterClient.Logic;
-    using Md.Tga.TesterClient.Model;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;

@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.TesterClient.Contracts
+﻿namespace Md.Tga.TesterClient
 {
     using Md.Common.Contracts.Model;
     using Md.GoogleCloudPubSub.Contracts.Model;
