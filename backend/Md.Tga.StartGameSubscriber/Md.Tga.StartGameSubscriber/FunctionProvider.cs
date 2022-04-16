@@ -17,6 +17,8 @@
     /// </summary>
     public class FunctionProvider : PubSubProvider<IStartGameMessage, Function>
     {
+        private readonly IGameNameReadOnlyDatabase gameNameReadOnlyDatabase;
+
         /// <summary>
         ///     Access the database games collection.
         /// </summary>
@@ -39,11 +41,13 @@
         /// <param name="gameSeriesDatabase">Access to the database collection game-series.</param>
         /// <param name="gameReadOnlyDatabase">Access the games database collection.</param>
         /// <param name="saveGamePubSubClient">Client for accessing pub/sub.</param>
+        /// <param name="gameNameReadOnlyDatabase">Access the game name database collection.</param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
             IGameReadOnlyDatabase gameReadOnlyDatabase,
-            ISaveGamePubSubClient saveGamePubSubClient
+            ISaveGamePubSubClient saveGamePubSubClient,
+            IGameNameReadOnlyDatabase gameNameReadOnlyDatabase
         )
             : base(logger)
         {
@@ -52,6 +56,7 @@
                 gameReadOnlyDatabase ?? throw new ArgumentNullException(nameof(gameReadOnlyDatabase));
             this.saveGamePubSubClient =
                 saveGamePubSubClient ?? throw new ArgumentNullException(nameof(saveGamePubSubClient));
+            this.gameNameReadOnlyDatabase = gameNameReadOnlyDatabase;
         }
 
         /// <summary>
@@ -61,17 +66,16 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(IStartGameMessage message)
         {
-            var gameSeries = await this.ReadGameSeriesAsync(message.GameSeriesDocumentId);
-            var gameNumber = await this.gameReadOnlyDatabase.CountGames(gameSeries.DocumentId);
+            var (gameSeries, gameName) = await this.ReadDataAsync(message.GameSeriesDocumentId);
             var game = new Game(
                 null,
                 null,
                 gameSeries.DocumentId,
-                gameNumber.ToString(),
+                gameName,
                 gameSeries.Players.Select(player => new GameTermination(player.Id, Guid.NewGuid().ToString()))
                     .ToArray());
-            var saveGameMessage = new SaveGameMessage(message.ProcessId, gameSeries, game);
-            await this.saveGamePubSubClient.PublishAsync(saveGameMessage);
+
+            await this.saveGamePubSubClient.PublishAsync(new SaveGameMessage(message.ProcessId, gameSeries, game));
         }
 
         /// <summary>
@@ -79,15 +83,22 @@
         /// </summary>
         /// <param name="gameSeriesDocumentId">The document id of the game series.</param>
         /// <returns>An <see cref="IGameSeries" />.</returns>
-        private async Task<IGameSeries> ReadGameSeriesAsync(string gameSeriesDocumentId)
+        private async Task<(IGameSeries gameSeries, string gameName)> ReadDataAsync(string gameSeriesDocumentId)
         {
-            var gameSeries = await this.gameSeriesDatabase.ReadByDocumentIdAsync(gameSeriesDocumentId);
+            var gameSeriesTask = this.gameSeriesDatabase.ReadByDocumentIdAsync(gameSeriesDocumentId);
+            var gameNumberTask = this.gameReadOnlyDatabase.CountGames(gameSeriesDocumentId);
+
+            var gameSeries = await gameSeriesTask;
             if (gameSeries == null)
             {
                 throw new ArgumentException($"No game series with id {gameSeriesDocumentId} found.");
             }
 
-            return gameSeries;
+            var gameNumber = await gameNumberTask;
+
+            var gameName = await this.gameNameReadOnlyDatabase.ReadByDocumentIdAsync(gameNumber.ToString());
+
+            return (gameSeries, gameName == null ? $"GameName-{gameNumber}" : gameName.Name);
         }
     }
 }

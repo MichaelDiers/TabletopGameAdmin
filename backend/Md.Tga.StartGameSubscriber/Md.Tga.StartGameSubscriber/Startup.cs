@@ -33,6 +33,7 @@ namespace Md.Tga.StartGameSubscriber
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
             services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
+            services.AddScoped<IGameNameReadOnlyDatabase, GameNameReadOnlyDatabase>();
 
             services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
             services.AddScoped<ISaveGamePubSubClient, SaveGamePubSubClient>();
