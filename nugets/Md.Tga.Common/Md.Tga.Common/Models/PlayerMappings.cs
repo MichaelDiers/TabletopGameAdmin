@@ -18,7 +18,6 @@
         /// </summary>
         public const string PlayerCountryMappingsName = "playerCountryMappings";
 
-
         /// <summary>
         ///     Creates a new instance of <see cref="PlayerMappings" />.
         /// </summary>
@@ -79,13 +78,12 @@
             return dictionary;
         }
 
-
         /// <summary>
         ///     Create a <see cref="PlayerMappings" /> from database data.
         /// </summary>
         /// <param name="dictionary">Data from the database.</param>
         /// <returns>An <see cref="IPlayerMappings" />.</returns>
-        public static IPlayerMappings FromDictionary(IDictionary<string, object> dictionary)
+        public new static IPlayerMappings FromDictionary(IDictionary<string, object> dictionary)
         {
             var documentId = dictionary.GetString(DatabaseObject.DocumentIdName);
             var created = dictionary.GetDateTime(DatabaseObject.CreatedName);

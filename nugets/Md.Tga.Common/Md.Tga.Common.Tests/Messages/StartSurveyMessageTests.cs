@@ -2,6 +2,7 @@
 {
     using System;
     using Md.Common.Logic;
+    using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Messages;
     using Md.Tga.Common.TestData.Generators;
     using Xunit;
@@ -12,7 +13,10 @@
         public void Json()
         {
             var container = new TestDataContainer();
-            var message = new StartSurveyMessage(Guid.NewGuid().ToString(), container.GameSeries, container.Game);
+            var message = (IStartSurveyMessage) new StartSurveyMessage(
+                Guid.NewGuid().ToString(),
+                container.GameSeries,
+                container.Game);
             var fromJson = Serializer.DeserializeObject<StartSurveyMessage>(Serializer.SerializeObject(message));
 
             Assert.Equal(message.ProcessId, fromJson.ProcessId);

@@ -16,7 +16,8 @@
         ///     Creates a new instance of <see cref="SavePlayerMappingsMessage" />.
         /// </summary>
         /// <param name="processId">The global process id.</param>
-        /// <param name="gameSeries">The
+        /// <param name="gameSeries">
+        ///     The
         ///     <param name="game"> is part of this game series.</param>
         /// </param>
         /// <param name="game">The <paramref name="playerMappings" /> are stored for this game.</param>
@@ -40,7 +41,8 @@
         ///     Creates a new instance of <see cref="SavePlayerMappingsMessage" />.
         /// </summary>
         /// <param name="processId">The global process id.</param>
-        /// <param name="gameSeries">The
+        /// <param name="gameSeries">
+        ///     The
         ///     <param name="game"> is part of this game series.</param>
         /// </param>
         /// <param name="game">The <paramref name="playerMappings" /> are stored for this game.</param>

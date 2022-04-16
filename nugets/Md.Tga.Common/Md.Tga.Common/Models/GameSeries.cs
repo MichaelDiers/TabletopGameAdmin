@@ -208,7 +208,7 @@
         /// </summary>
         /// <param name="dictionary">The object is initialized from the dictionary.</param>
         /// <returns>An instance of <see cref="GameSeries" />.</returns>
-        public static IGameSeries FromDictionary(IDictionary<string, object> dictionary)
+        public new static IGameSeries FromDictionary(IDictionary<string, object> dictionary)
         {
             var documentId = dictionary.GetString(DatabaseObject.DocumentIdName);
             var created = dictionary.GetDateTime(DatabaseObject.CreatedName);

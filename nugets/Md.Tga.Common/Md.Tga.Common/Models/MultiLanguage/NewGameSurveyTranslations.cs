@@ -36,7 +36,6 @@
         /// </summary>
         private const string SurveyInfoName = "survey-info";
 
-
         /// <summary>
         ///     Creates a new instance of <see cref="NewGameSurveyTranslations" />.
         /// </summary>

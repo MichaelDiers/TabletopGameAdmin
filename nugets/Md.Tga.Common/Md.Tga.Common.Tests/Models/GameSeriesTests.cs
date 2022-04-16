@@ -82,8 +82,7 @@
 
         public static string SerializePlainPartial(IDatabaseObject databaseObject)
         {
-            var parent = databaseObject.ParentDocumentId == null ? "null" : $"\"{databaseObject.ParentDocumentId}\"";
-            Assert.NotNull(databaseObject.Created);
+            var parent = $"\"{databaseObject.ParentDocumentId}\"";
             return
                 $"\"documentId\":\"{databaseObject.DocumentId}\",\"created\":{Serializer.SerializeObject(databaseObject.Created)},\"parentDocumentId\":{parent}";
         }

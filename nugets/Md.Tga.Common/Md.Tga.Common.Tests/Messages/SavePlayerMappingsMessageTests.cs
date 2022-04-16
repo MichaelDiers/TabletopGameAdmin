@@ -34,6 +34,8 @@
             Assert.Equal(processId, iMessage.ProcessId);
             Assert.Equal(iMessage.PlayerMappings.PlayerCountryMappings.Single().PlayerId, playerMapping.PlayerId);
             Assert.Equal(iMessage.PlayerMappings.PlayerCountryMappings.Single().CountryId, playerMapping.CountryId);
+
+            Assert.Equal(container.GameSeries.Name, iMessage.GameSeries.Name);
         }
     }
 }

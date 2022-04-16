@@ -63,7 +63,6 @@
             Assert.Equal(expected.Name, actual.Name);
         }
 
-
         [Fact]
         public void ImplementsINamedBase()
         {

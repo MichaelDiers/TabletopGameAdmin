@@ -55,6 +55,11 @@
         [JsonProperty(GameConfig.NameName, Required = Required.Always, Order = 1)]
         public string Name { get; }
 
+        /// <summary>
+        ///     Create a new instance of <see cref="GameConfig" /> from dictionary data.
+        /// </summary>
+        /// <param name="dictionary">The data of the game configuration.</param>
+        /// <returns>An <see cref="IGameConfig" />.</returns>
         public static IGameConfig FromDictionary(IDictionary<string, object> dictionary)
         {
             var name = dictionary.GetString(GameConfig.NameName);
