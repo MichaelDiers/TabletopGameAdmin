@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.SaveGameSubscriber
+﻿namespace Md.Tga.LogSubscriber
 {
     using Md.Common.Model;
 
