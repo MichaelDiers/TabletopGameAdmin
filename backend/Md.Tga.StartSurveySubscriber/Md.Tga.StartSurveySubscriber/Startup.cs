@@ -1,9 +1,12 @@
 namespace Md.Tga.StartSurveySubscriber
 {
     using Google.Cloud.Functions.Hosting;
+    using Md.Common.Contracts.Model;
     using Md.GoogleCloudFunctions.Contracts.Logic;
     using Md.GoogleCloudPubSub.Contracts.Model;
     using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Firestore.Logic;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +31,10 @@ namespace Md.Tga.StartSurveySubscriber
 
             services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
             services.AddScoped<ISaveSurveyPubSubClient, SaveSurveyPubSubClient>();
+
+            services.AddScoped<IRuntimeEnvironment>(_ => configuration);
+            services.AddScoped<IPlayerMappingsReadOnlyDatabase, PlayerMappingsReadOnlyDatabase>();
+            services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
 
             services.AddScoped<IPubSubProvider<IStartSurveyMessage>, FunctionProvider>();
         }

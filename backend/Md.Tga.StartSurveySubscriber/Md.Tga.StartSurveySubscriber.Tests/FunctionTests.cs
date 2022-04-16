@@ -10,6 +10,7 @@
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Messages;
     using Md.Tga.Common.TestData.Generators;
+    using Md.Tga.Common.TestData.Mocks.Database;
     using Md.Tga.Common.TestData.Mocks.PubSub;
     using Xunit;
 
@@ -41,7 +42,11 @@
             };
 
             var logger = new MemoryLogger<Function>();
-            var provider = new FunctionProvider(logger, new SaveSurveyPubSubClientMock());
+            var provider = new FunctionProvider(
+                logger,
+                new SaveSurveyPubSubClientMock(),
+                new GamesDatabaseMock(),
+                new PlayerMappingsDatabaseMock());
             var function = new Function(logger, provider);
             await function.HandleAsync(cloudEvent, data, CancellationToken.None);
 
