@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.SaveGameSeriesSubscriber.Tests.Logic
+﻿namespace Md.Tga.SaveGameSeriesSubscriber.Tests
 {
     using System;
     using Google.Cloud.Functions.Testing;
@@ -10,7 +10,6 @@
     using Md.Tga.Common.TestData.Generators;
     using Md.Tga.Common.TestData.Mocks.Database;
     using Md.Tga.Common.TestData.Mocks.PubSub;
-    using Md.Tga.SaveGameSeriesSubscriber.Logic;
     using Xunit;
     using Environment = Md.Common.Contracts.Model.Environment;
 

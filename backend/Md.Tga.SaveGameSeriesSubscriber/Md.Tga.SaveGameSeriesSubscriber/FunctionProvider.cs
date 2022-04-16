@@ -1,4 +1,4 @@
-﻿namespace Md.Tga.SaveGameSeriesSubscriber.Logic
+﻿namespace Md.Tga.SaveGameSeriesSubscriber
 {
     using System;
     using System.Threading.Tasks;
@@ -18,7 +18,6 @@
         ///     Access the database.
         /// </summary>
         private readonly IGameSeriesDatabase database;
-
 
         /// <summary>
         ///     Send messages to to pub/sub.
