@@ -1,0 +1,6 @@
+syntax = "proto3";
+message Log {
+    string processId = 1;
+    string message = 2;
+    string exception = 3;
+};
