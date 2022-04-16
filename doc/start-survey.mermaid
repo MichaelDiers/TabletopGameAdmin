@@ -1,0 +1,17 @@
+sequenceDiagram
+    autonumber
+    participant PS as Google Cloud<br>Pub/Sub
+    participant SSS as Md.Tga.StartSurveySubscriber<br>.net core
+    participant FS as Google Cloud<br>Firestore
+    %% START
+    PS--)+SSS: START_SURVEY
+    SSS->>+FS: read all games
+    FS-->>SSS: response
+    deactivate FS
+    SSS->>+FS: read all player<br>mapping for games
+    FS-->>SSS: response
+    deactivate FS
+    %% SAVE
+    SSS--)+PS: SAVE_SURVEY
+    deactivate SSS
+    note left of PS: see surveys repository

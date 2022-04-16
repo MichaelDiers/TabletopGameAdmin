@@ -1,13 +1,10 @@
 # TabletopGameAdmin
 
-## Tester-Client
+## Start a new game series
+![sequence diagram](doc/start-game-series.svg)
 
-![sequence diagram](doc/tester-client.svg)
-
-## Initialize Game Series
-
-![sequence diagram](doc/initialize-game-series.svg)
-
-## Start Game
-
+## Start a new game
 ![sequence diagram](doc/start-game.svg)
+
+## Start a survey for the new game
+![sequence diagram](doc/start-survey.svg)

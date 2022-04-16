@@ -1,0 +1,28 @@
+sequenceDiagram
+    autonumber
+    participant C as Client
+    participant PS as Google Cloud<br>Pub/Sub
+    participant StartGSS as Md.Tga.StartGameSeriesSubscriber<br>.net core
+    participant FS as Google Cloud<br>Firestore
+    participant SaveGSS as Md.Tga.SaveGameSeriesSubscriber<br>.net core
+    %% START
+    C--)+PS: START_GAME_SERIES
+    PS--)StartGSS: START_GAME_SERIES
+    deactivate PS
+    activate StartGSS
+    StartGSS->>+FS: read game config
+    FS-->>StartGSS: response
+    deactivate FS
+    StartGSS--)PS: SAVE_GAME_SERIES
+    deactivate StartGSS
+    activate PS
+    PS--)SaveGSS: SAVE_GAME_SERIES
+    deactivate PS
+    activate SaveGSS
+    SaveGSS->>+FS: save game series
+    FS-->>SaveGSS: response
+    deactivate FS
+    SaveGSS--)PS: START_GAME
+    deactivate SaveGSS
+    activate PS
+    deactivate PS
