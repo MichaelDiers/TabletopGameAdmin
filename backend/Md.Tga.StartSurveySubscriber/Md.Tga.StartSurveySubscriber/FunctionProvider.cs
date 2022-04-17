@@ -182,19 +182,10 @@
 
         private static XElement CreateTable(string headline, List<string> header, List<List<string>> values)
         {
-            var tableBody = new XElement("div", new XAttribute("class", "table-body"));
+            var tableBody = new XElement("div", new XAttribute("class", $"table-body, table-col-{header.Count}"));
 
-            var tableHeader = new XElement("div", new XAttribute("class", "table-header"));
-            header.ForEach(value => tableHeader.Add(new XElement("div", value)));
-            tableBody.Add(tableHeader);
-
-            values.ForEach(
-                row =>
-                {
-                    var tableRow = new XElement("div", new XAttribute("class", "row"));
-                    row.ForEach(value => tableRow.Add(new XElement("div", value)));
-                    tableBody.Add(tableRow);
-                });
+            header.ForEach(value => tableBody.Add(new XElement("div", value, new XAttribute("class", "header"))));
+            values.ForEach(row => { row.ForEach(value => tableBody.Add(new XElement("div", value))); });
 
             var table = new XElement(
                 "div",
