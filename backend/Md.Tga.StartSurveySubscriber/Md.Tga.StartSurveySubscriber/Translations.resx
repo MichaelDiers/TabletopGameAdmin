@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChoicePleaseChoose" xml:space="preserve">
-    <value>bitte auswählen</value>
+  <data name="InfoTableHeadline" xml:space="preserve">
+    <value>Wer spielte was?</value>
   </data>
   <data name="Question1" xml:space="preserve">
     <value>Welche Nation möchtest Du spielen?</value>

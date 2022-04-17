@@ -61,11 +61,11 @@ namespace Md.Tga.StartSurveySubscriber {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to bitte auswählen.
+        ///   Looks up a localized string similar to Wer spielte was?.
         /// </summary>
-        public static string ChoicePleaseChoose {
+        public static string InfoTableHeadline {
             get {
-                return ResourceManager.GetString("ChoicePleaseChoose", resourceCulture);
+                return ResourceManager.GetString("InfoTableHeadline", resourceCulture);
             }
         }
         

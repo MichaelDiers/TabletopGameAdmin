@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using System.Xml.Linq;
     using Md.Common.Database;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
@@ -83,12 +84,25 @@
         /// <summary>
         ///     Create an info for the survey.
         /// </summary>
-        /// <param name="message">The incoming pub/sub message.</param>
         /// <returns>An info <see cref="string" />.</returns>
-        private static async Task<string> CreateInfo(IStartSurveyMessage message)
+        private static string CreateInfo(
+            IGameSeries gameSeries,
+            IDictionary<string, IDictionary<string, int>> statistic
+        )
         {
-            await Task.CompletedTask;
-            return "info";
+            var countries = gameSeries.Countries.OrderBy(country => country.Name).ToArray();
+            var players = gameSeries.Players.OrderBy(player => player.Name).ToArray();
+
+            var header = new[] {string.Empty}.Concat(players.Select(player => player.Name)).ToList();
+            var content = countries.Select(
+                    country => new[] {country.Name}
+                        .Concat(players.Select(player => statistic[player.Id][country.Id].ToString()))
+                        .ToList())
+                .ToList();
+
+            var table = FunctionProvider.CreateTable(Translations.InfoTableHeadline, header, content);
+
+            return table.ToString();
         }
 
         /// <summary>
@@ -150,7 +164,7 @@
             var questions = FunctionProvider.CreateQuestions(message.GameSeries).ToArray();
             var participants = FunctionProvider.CreateParticipants(message.GameSeries.Players, questions, statistic)
                 .ToArray();
-            var info = await FunctionProvider.CreateInfo(message);
+            var info = FunctionProvider.CreateInfo(message.GameSeries, statistic);
             return new Survey(
                 null,
                 null,
@@ -164,6 +178,31 @@
                     message.GameSeries.Organizer.Name),
                 participants,
                 questions);
+        }
+
+        private static XElement CreateTable(string headline, List<string> header, List<List<string>> values)
+        {
+            var tableBody = new XElement("div", new XAttribute("class", "table-body"));
+
+            var tableHeader = new XElement("div", new XAttribute("class", "table-header"));
+            header.ForEach(value => tableHeader.Add(new XElement("div", value)));
+            tableBody.Add(tableHeader);
+
+            values.ForEach(
+                row =>
+                {
+                    var tableRow = new XElement("div", new XAttribute("class", "row"));
+                    row.ForEach(value => tableRow.Add(new XElement("div", value)));
+                    tableBody.Add(tableRow);
+                });
+
+            var table = new XElement(
+                "div",
+                new XAttribute("class", "table"),
+                new XElement("div", new XAttribute("class", "table-headline"), headline),
+                tableBody);
+
+            return table;
         }
 
         /// <summary>
