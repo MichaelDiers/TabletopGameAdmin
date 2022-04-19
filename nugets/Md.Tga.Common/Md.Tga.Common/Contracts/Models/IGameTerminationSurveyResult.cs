@@ -1,9 +1,11 @@
 ﻿namespace Md.Tga.Common.Contracts.Models
 {
+    using Md.Common.Contracts.Database;
+
     /// <summary>
     ///     Describes a game termination result.
     /// </summary>
-    public interface IGameTerminationSurveyResult
+    public interface IGameTerminationSurveyResult : IDatabaseObject
     {
         /// <summary>
         ///     Gets a value that indicates if the player accepts the termination.
