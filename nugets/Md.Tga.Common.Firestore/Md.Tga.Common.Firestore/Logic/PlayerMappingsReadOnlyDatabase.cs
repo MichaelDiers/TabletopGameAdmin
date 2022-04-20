@@ -21,7 +21,7 @@
         /// </summary>
         /// <param name="runtimeEnvironment">The runtime environment.</param>
         public PlayerMappingsReadOnlyDatabase(IRuntimeEnvironment runtimeEnvironment)
-            : base(runtimeEnvironment, GameReadOnlyDatabase.CollectionName, PlayerMappings.FromDictionary)
+            : base(runtimeEnvironment, PlayerMappingsReadOnlyDatabase.CollectionName, PlayerMappings.FromDictionary)
         {
         }
     }
