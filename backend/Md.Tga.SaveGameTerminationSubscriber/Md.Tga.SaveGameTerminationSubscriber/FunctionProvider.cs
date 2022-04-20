@@ -1,5 +1,6 @@
 ﻿namespace Md.Tga.SaveGameTerminationSubscriber
 {
+    using System;
     using System.Threading.Tasks;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
@@ -44,7 +45,9 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISaveGameTerminationResultMessage message)
         {
-            await this.gameTerminationResultDatabase.InsertAsync(message.GameTerminationResult);
+            await this.gameTerminationResultDatabase.InsertAsync(
+                Guid.NewGuid().ToString(),
+                message.GameTerminationResult);
             await this.evaluateGameTerminationPubSubClient.PublishAsync(
                 new EvaluateGameTerminationMessage(message.ProcessId, message.GameTerminationResult.ParentDocumentId));
         }
