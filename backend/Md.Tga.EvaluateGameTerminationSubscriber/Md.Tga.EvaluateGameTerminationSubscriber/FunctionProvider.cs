@@ -9,6 +9,8 @@
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -16,6 +18,8 @@
     /// </summary>
     public class FunctionProvider : PubSubProvider<IEvaluateGameTerminationMessage, Function>
     {
+        private readonly ICreateGameMailPubSubClient createGameMailPubSubClient;
+
         /// <summary>
         ///     Access the database games collection.
         /// </summary>
@@ -31,6 +35,8 @@
         /// </summary>
         private readonly IGameTerminationResultReadOnlyDatabase gameTerminationResultReadOnlyDatabase;
 
+        private readonly IPlayerMappingsReadOnlyDatabase playerMappingsReadOnlyDatabase;
+
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
@@ -38,11 +44,15 @@
         /// <param name="gameTerminationResultReadOnlyDatabase">Access the game termination results.</param>
         /// <param name="gameSeriesDatabase">Access to the database collection game-series.</param>
         /// <param name="gameReadOnlyDatabase">Access the games database collection.</param>
+        /// <param name="playerMappingsReadOnlyDatabase">Read the player mappings of the game.</param>
+        /// <param name="createGameMailPubSubClient">Create a new email.</param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameTerminationResultReadOnlyDatabase gameTerminationResultReadOnlyDatabase,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
-            IGameReadOnlyDatabase gameReadOnlyDatabase
+            IGameReadOnlyDatabase gameReadOnlyDatabase,
+            IPlayerMappingsReadOnlyDatabase playerMappingsReadOnlyDatabase,
+            ICreateGameMailPubSubClient createGameMailPubSubClient
         )
             : base(logger)
         {
@@ -51,6 +61,8 @@
                 gameSeriesDatabase ?? throw new ArgumentNullException(nameof(gameSeriesDatabase));
             this.gameReadOnlyDatabase =
                 gameReadOnlyDatabase ?? throw new ArgumentNullException(nameof(gameReadOnlyDatabase));
+            this.playerMappingsReadOnlyDatabase = playerMappingsReadOnlyDatabase;
+            this.createGameMailPubSubClient = createGameMailPubSubClient;
         }
 
         /// <summary>
@@ -66,10 +78,21 @@
                 return;
             }
 
-            var (gameSeries, results) = data.Value;
+            var (gameSeries, game, playerMappings, results) = data.Value;
 
             if (FunctionProvider.IsGameTerminated(gameSeries, results))
             {
+            }
+            else
+            {
+                await this.createGameMailPubSubClient.PublishAsync(
+                    new CreateGameMailMessage(
+                        message.ProcessId,
+                        GameMailType.GameTerminationUpdate,
+                        gameSeries,
+                        game,
+                        playerMappings,
+                        results.Select(x => x)));
             }
         }
 
@@ -102,10 +125,15 @@
         /// </summary>
         /// <param name="gameId">The id of the game.</param>
         /// <returns>A tuple that contains the requested data.</returns>
-        private async Task<(IGameSeries gameSeries, IList<IGameTerminationResult> results)?> ReadData(string gameId)
+        private async
+            Task<(IGameSeries gameSeries, IGame game, IPlayerMappings playerMappings, IList<IGameTerminationResult>
+                results)?> ReadData(string gameId)
         {
             var gameTask = this.gameReadOnlyDatabase.ReadByDocumentIdAsync(gameId);
             var resultsTask = this.gameTerminationResultReadOnlyDatabase.ReadManyAsync(
+                DatabaseObject.ParentDocumentIdName,
+                gameId);
+            var playerMappingsTask = this.playerMappingsReadOnlyDatabase.ReadOneAsync(
                 DatabaseObject.ParentDocumentIdName,
                 gameId);
 
@@ -123,7 +151,14 @@
                 return null;
             }
 
-            return (gameSeries, (await resultsTask).ToList());
+            var playerMappings = await playerMappingsTask;
+            if (playerMappings == null)
+            {
+                await this.LogErrorAsync($"No player mappings found for game id {gameId}");
+                return null;
+            }
+
+            return (gameSeries, game, playerMappings, (await resultsTask).ToList());
         }
     }
 }
