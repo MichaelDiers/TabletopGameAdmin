@@ -83,7 +83,7 @@ namespace Md.Tga.CreateGameMailSubscriber {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;li&gt;{0}&lt;/li&gt;.
+        ///   Looks up a localized string similar to &lt;li&gt;{0} - {1}&lt;/li&gt;.
         /// </summary>
         public static string BodyHtmlResult {
             get {
@@ -93,6 +93,7 @@ namespace Md.Tga.CreateGameMailSubscriber {
         
         /// <summary>
         ///   Looks up a localized string similar to Hej {0}!
+        ///
         ///Das aktuelle Meinungsbild für eine Beendigung des Spiels {1}.
         ///
         ///{2}
@@ -108,7 +109,7 @@ namespace Md.Tga.CreateGameMailSubscriber {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to - {0}; {1}
+        ///   Looks up a localized string similar to - {0}: {1}
         ///.
         /// </summary>
         public static string BodyTextResult {
