@@ -25,7 +25,16 @@
                     Guid.NewGuid().ToString(),
                     DateTime.Now,
                     Guid.NewGuid().ToString(),
-                    Enumerable.Empty<IPlayerCountryMapping>()));
+                    Enumerable.Empty<IPlayerCountryMapping>()),
+                new[]
+                {
+                    new GameTerminationResult(
+                        Guid.NewGuid().ToString(),
+                        DateTime.Now,
+                        container.Game.DocumentId,
+                        container.GameSeries.Players.First().Id,
+                        container.GameSeries.Sides.First().Id)
+                });
             var actual =
                 (ICreateGameMailMessage) Serializer.DeserializeObject<CreateGameMailMessage>(
                     Serializer.SerializeObject(message));

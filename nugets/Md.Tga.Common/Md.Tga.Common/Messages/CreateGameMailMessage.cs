@@ -1,5 +1,7 @@
 ﻿namespace Md.Tga.Common.Messages
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Md.Common.Messages;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Contracts.Models;
@@ -19,20 +21,23 @@
         /// <param name="gameSeries">The <paramref name="game" /> is part of this game series.</param>
         /// <param name="game">The <paramref name="playerMappings" /> are part of this game.</param>
         /// <param name="playerMappings">The player mapping for the game.</param>
+        /// <param name="gameTerminationResults">The game termination results.</param>
         [JsonConstructor]
         public CreateGameMailMessage(
             string processId,
             GameMailType gameMailType,
             GameSeries gameSeries,
             Game game,
-            PlayerMappings playerMappings
+            PlayerMappings playerMappings,
+            IEnumerable<GameTerminationResult> gameTerminationResults
         )
             : this(
                 processId,
                 gameMailType,
                 gameSeries,
                 game,
-                playerMappings as IPlayerMappings)
+                playerMappings,
+                gameTerminationResults.Select(x => x as IGameTerminationResult))
         {
         }
 
@@ -44,12 +49,14 @@
         /// <param name="gameSeries">The <paramref name="game" /> is part of this game series.</param>
         /// <param name="game">The <paramref name="playerMappings" /> are part of this game.</param>
         /// <param name="playerMappings">The player mapping for the game.</param>
+        /// <param name="gameTerminationResults">The game termination results.</param>
         public CreateGameMailMessage(
             string processId,
             GameMailType gameMailType,
             IGameSeries gameSeries,
             IGame game,
-            IPlayerMappings playerMappings
+            IPlayerMappings playerMappings,
+            IEnumerable<IGameTerminationResult> gameTerminationResults
         )
             : base(processId)
         {
@@ -57,6 +64,7 @@
             this.GameSeries = gameSeries;
             this.Game = game;
             this.PlayerMappings = playerMappings;
+            this.GameTerminationResults = gameTerminationResults;
         }
 
         /// <summary>
@@ -76,6 +84,12 @@
         /// </summary>
         [JsonProperty("gameSeries", Required = Required.Always, Order = 10)]
         public IGameSeries GameSeries { get; }
+
+        /// <summary>
+        ///     Gets the game termination results.
+        /// </summary>
+        [JsonProperty("gameTerminationResults", Required = Required.DisallowNull, Order = 13)]
+        public IEnumerable<IGameTerminationResult> GameTerminationResults { get; }
 
         /// <summary>
         ///     Gets the player mappings for the game.

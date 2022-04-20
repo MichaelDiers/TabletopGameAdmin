@@ -9,6 +9,7 @@
         [Theory]
         [InlineData(GameMailType.None, "None")]
         [InlineData(GameMailType.SurveyResult, "SURVEY_RESULT")]
+        [InlineData(GameMailType.GameTerminationUpdate, "GAME_TERMINATION_UPDATE")]
         public void Serialize(GameMailType actual, string expected)
         {
             Assert.Equal($"\"{expected}\"", Serializer.SerializeObject(actual));

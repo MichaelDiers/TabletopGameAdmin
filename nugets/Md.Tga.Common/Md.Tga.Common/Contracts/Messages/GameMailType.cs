@@ -7,6 +7,9 @@
         None = 0,
 
         [EnumMember(Value = "SURVEY_RESULT")]
-        SurveyResult
+        SurveyResult,
+
+        [EnumMember(Value = "GAME_TERMINATION_UPDATE")]
+        GameTerminationUpdate
     }
 }
