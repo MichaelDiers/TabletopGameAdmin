@@ -1,15 +1,11 @@
 ﻿namespace Md.Tga.StartGameTerminationSubscriber
 {
-    using Md.Common.Model;
+    using Md.GoogleCloudPubSub.Model;
 
     /// <summary>
     ///     Access the application settings.
     /// </summary>
-    public class FunctionConfiguration : RuntimeEnvironment, IFunctionConfiguration
+    public class FunctionConfiguration : PubSubClientEnvironment, IFunctionConfiguration
     {
-        /// <summary>
-        ///     Gets the name of the pub/sub topic.
-        /// </summary>
-        public string TopicName { get; set; } = string.Empty;
     }
 }

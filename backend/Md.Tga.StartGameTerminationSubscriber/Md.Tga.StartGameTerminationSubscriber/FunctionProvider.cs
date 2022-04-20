@@ -7,7 +7,9 @@
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
     using Md.Tga.Common.Models;
+    using Md.Tga.Common.PubSub.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
     /// <summary>
@@ -25,16 +27,20 @@
         /// </summary>
         private readonly IGameSeriesReadOnlyDatabase gameSeriesReadOnlyDatabase;
 
+        private readonly ISaveGameTerminationResultPubSubClient gameTerminationResultPubSubClient;
+
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="gameSeriesDatabase">Access to the database collection game-series.</param>
         /// <param name="gameReadOnlyDatabase">Access the games database collection.</param>
+        /// <param name="gameTerminationResultPubSubClient">Client for saving game termination results.</param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
-            IGameReadOnlyDatabase gameReadOnlyDatabase
+            IGameReadOnlyDatabase gameReadOnlyDatabase,
+            ISaveGameTerminationResultPubSubClient gameTerminationResultPubSubClient
         )
             : base(logger)
         {
@@ -42,6 +48,7 @@
                 gameSeriesDatabase ?? throw new ArgumentNullException(nameof(gameSeriesDatabase));
             this.gameReadOnlyDatabase =
                 gameReadOnlyDatabase ?? throw new ArgumentNullException(nameof(gameReadOnlyDatabase));
+            this.gameTerminationResultPubSubClient = gameTerminationResultPubSubClient;
         }
 
         /// <summary>
@@ -97,6 +104,9 @@
                 game.DocumentId,
                 player.Id,
                 message.WinningSideId);
+
+            await this.gameTerminationResultPubSubClient.PublishAsync(
+                new SaveGameTerminationResultMessage(message.ProcessId, gameTerminationResult));
         }
     }
 }
