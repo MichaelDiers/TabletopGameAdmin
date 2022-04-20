@@ -1,9 +1,11 @@
 ﻿namespace Md.Tga.SavePlayerMappingsSubscriber
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
     using Md.Tga.Common.PubSub.Contracts.Logic;
@@ -52,7 +54,8 @@
                     GameMailType.SurveyResult,
                     message.GameSeries,
                     message.Game,
-                    message.PlayerMappings));
+                    message.PlayerMappings,
+                    Enumerable.Empty<IGameTerminationResult>()));
         }
     }
 }
