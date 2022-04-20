@@ -7,19 +7,19 @@
     using Md.Tga.Common.Models;
 
     /// <summary>
-    ///     Database for <see cref="GameTerminationSurvey" /> collections,
+    ///     Database for <see cref="GameTerminationResult" /> collections,
     /// </summary>
-    public class GameTerminationSurveyDatabase : Database<IGameTerminationSurvey>, IGameTerminationSurveyDatabase
+    public class GameTerminationResultDatabase : Database<IGameTerminationResult>, IGameTerminationResultDatabase
     {
         /// <summary>
-        ///     Creates a new instance of <see cref="GameTerminationSurveyDatabase" />.
+        ///     Creates a new instance of <see cref="GameTerminationResultDatabase" />.
         /// </summary>
         /// <param name="runtimeEnvironment">The runtime environment.</param>
-        public GameTerminationSurveyDatabase(IRuntimeEnvironment runtimeEnvironment)
+        public GameTerminationResultDatabase(IRuntimeEnvironment runtimeEnvironment)
             : base(
                 runtimeEnvironment,
-                GameTerminationSurveyReadOnlyDatabase.CollectionName,
-                GameTerminationSurvey.FromDictionary)
+                GameTerminationResultReadOnlyDatabase.CollectionName,
+                GameTerminationResult.FromDictionary)
         {
         }
     }

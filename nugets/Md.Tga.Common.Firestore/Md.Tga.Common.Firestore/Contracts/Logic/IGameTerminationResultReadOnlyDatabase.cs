@@ -4,9 +4,9 @@
     using Md.Tga.Common.Contracts.Models;
 
     /// <summary>
-    ///     Database operations of game termination survey result collection.
+    ///     Database operations of game termination result collection.
     /// </summary>
-    public interface IGameTerminationSurveyResultReadOnlyDatabase : IReadOnlyDatabase<IGameTerminationSurveyResult>
+    public interface IGameTerminationResultReadOnlyDatabase : IReadOnlyDatabase<IGameTerminationResult>
     {
     }
 }
