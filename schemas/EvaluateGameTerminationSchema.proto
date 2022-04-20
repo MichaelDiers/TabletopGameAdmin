@@ -1,0 +1,5 @@
+syntax = "proto3";
+message EvaluateGameTermination {
+    string processId = 1;
+    string gameId = 2;
+};
