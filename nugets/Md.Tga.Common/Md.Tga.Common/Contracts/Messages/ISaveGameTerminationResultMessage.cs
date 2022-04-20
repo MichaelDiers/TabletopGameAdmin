@@ -4,13 +4,13 @@
     using Md.Tga.Common.Contracts.Models;
 
     /// <summary>
-    ///     Describes a message for saving an <see cref="IGameTerminationSurvey" />.
+    ///     Describes a message for saving an <see cref="IGameTerminationResult" />.
     /// </summary>
-    public interface ISaveGameTerminationSurveyMessage : IMessage
+    public interface ISaveGameTerminationResultMessage : IMessage
     {
         /// <summary>
         ///     Gets the game termination survey data.
         /// </summary>
-        IGameTerminationSurvey GameTerminationSurvey { get; }
+        IGameTerminationResult GameTerminationResult { get; }
     }
 }

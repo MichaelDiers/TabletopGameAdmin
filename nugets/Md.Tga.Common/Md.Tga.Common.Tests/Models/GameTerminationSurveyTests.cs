@@ -9,16 +9,18 @@
         [Fact]
         public void FromToDictionary()
         {
-            var expected = new GameTerminationSurvey(
+            var expected = new GameTerminationResult(
                 Guid.NewGuid().ToString(),
                 DateTime.Now,
                 Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString());
-            var actual = GameTerminationSurvey.FromDictionary(expected.ToDictionary());
+            var actual = GameTerminationResult.FromDictionary(expected.ToDictionary());
 
             Assert.Equal(expected.DocumentId, actual.DocumentId);
             Assert.Equal(expected.Created, actual.Created);
             Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
+            Assert.Equal(expected.PlayerId, actual.PlayerId);
             Assert.Equal(expected.WinningSideId, actual.WinningSideId);
         }
     }
