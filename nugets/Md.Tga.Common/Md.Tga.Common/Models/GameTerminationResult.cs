@@ -5,6 +5,7 @@
     using Md.Common.Database;
     using Md.Common.Extensions;
     using Md.Tga.Common.Contracts.Models;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Describes a game termination result.
@@ -46,11 +47,13 @@
         ///     Gets the id of the player.
         /// </summary>
 
+        [JsonProperty(GameTerminationResult.PlayerIdName, Required = Required.Always, Order = 11)]
         public string PlayerId { get; }
 
         /// <summary>
         ///     Gets the id of the winning side.
         /// </summary>
+        [JsonProperty(GameTerminationResult.WinningSideIdName, Required = Required.Always, Order = 12)]
         public string WinningSideId { get; }
 
         /// <summary>
