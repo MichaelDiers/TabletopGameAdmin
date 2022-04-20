@@ -6,16 +6,16 @@
     using Md.Tga.Common.PubSub.Contracts.Logic;
 
     /// <summary>
-    ///     Google pub/sub client for publishing an <see cref="ISaveGameTerminationSurveyResultMessage" />.
+    ///     Google pub/sub client for publishing an <see cref="ISaveGameTerminationResultMessage" />.
     /// </summary>
-    public class SaveGameTerminationSurveyResultPubSubClient
-        : AbstractPubSubClient<ISaveGameTerminationSurveyResultMessage>, ISaveGameTerminationSurveyResultPubSubClient
+    public class SaveGameTerminationResultPubSubClient
+        : AbstractPubSubClient<ISaveGameTerminationResultMessage>, ISaveGameTerminationResultPubSubClient
     {
         /// <summary>
-        ///     Creates a new instance of <see cref="SaveGameTerminationSurveyResultPubSubClient" />.
+        ///     Creates a new instance of <see cref="SaveGameTerminationResultPubSubClient" />.
         /// </summary>
         /// <param name="environment"></param>
-        public SaveGameTerminationSurveyResultPubSubClient(IPubSubClientEnvironment environment)
+        public SaveGameTerminationResultPubSubClient(IPubSubClientEnvironment environment)
             : base(environment)
         {
         }
