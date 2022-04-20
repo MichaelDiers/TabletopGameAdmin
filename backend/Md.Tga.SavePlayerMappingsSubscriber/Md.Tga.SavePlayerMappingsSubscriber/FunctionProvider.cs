@@ -47,7 +47,7 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISavePlayerMappingsMessage message)
         {
-            await this.database.InsertAsync(message.PlayerMappings);
+            await this.database.InsertAsync(Guid.NewGuid().ToString(), message.PlayerMappings);
             await this.createGameMailPubSubClient.PublishAsync(
                 new CreateGameMailMessage(
                     message.ProcessId,
