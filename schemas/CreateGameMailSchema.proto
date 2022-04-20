@@ -1,7 +1,8 @@
 syntax = "proto3";
 message CreateGameMailMessage {
     enum GameMailType {
-        SURVEY_RESULT = 0;	
+        SURVEY_RESULT = 0;
+        GAME_TERMINATION_UPDATE = 1;	
     };
 
     message GameSeries {
@@ -61,9 +62,18 @@ message CreateGameMailMessage {
         repeated PlayerCountryMapping playerCountryMappings = 4;
     };
 
+    message GameTerminationResult {
+        string documentId = 1;
+        string created = 2;
+        string parentDocumentId = 3;
+        string playerId = 4;
+        string winningSideId = 5;
+    };
+
     string processId = 1;
     GameMailType gameMailType = 2;
     GameSeries gameSeries = 3;
     Game game = 4;
     PlayerMappings playerMappings = 5;
+    repeated GameTerminationResult gameTerminationResults = 6;
 };
