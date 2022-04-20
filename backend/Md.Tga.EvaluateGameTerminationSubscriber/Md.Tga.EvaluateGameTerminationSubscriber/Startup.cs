@@ -31,6 +31,7 @@ namespace Md.Tga.EvaluateGameTerminationSubscriber
             services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
             services.AddScoped<IGameTerminationResultReadOnlyDatabase, GameTerminationResultReadOnlyDatabase>();
+            services.AddScoped<IPlayerMappingsReadOnlyDatabase, PlayerMappingsReadOnlyDatabase>();
 
             services.AddScoped<IPubSubProvider<IEvaluateGameTerminationMessage>, FunctionProvider>();
         }
