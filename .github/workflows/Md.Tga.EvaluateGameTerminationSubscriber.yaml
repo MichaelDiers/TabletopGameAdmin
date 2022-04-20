@@ -1,0 +1,30 @@
+name: Md.Tga.EvaluateGameTerminationSubscriber
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/Md.Tga.EvaluateGameTerminationSubscriber/**'
+  workflow_dispatch:
+  workflow_run:
+    workflows: [EvaluateGameTerminationSchema]
+    types: [completed]
+jobs:
+  BuildAndDeploy:
+    uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-deploy-google-cloud-function.yaml@main
+    with:
+      functionName: EvaluateGameTerminationSubscriber 
+      projectName: Md.Tga.EvaluateGameTerminationSubscriber
+      solutionFolder: backend/Md.Tga.EvaluateGameTerminationSubscriber
+      trigger: pubsub
+    secrets:
+      gcpCredentialsTest: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
+      gcpCredentialsStage: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
+      gcpCredentialsProd: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
+      projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
+      projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
+      appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_EVALAUTE_GAME_TERMINATION }}\"\}'
+      appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\",\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_EVALAUTE_GAME_TERMINATION }}\"\}'
+      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\"\,\"TopicName\": \"${{ secrets.GLOBAL_PUBSUB_TOPIC_EVALAUTE_GAME_TERMINATION }}\"\}'
+      subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_EVALAUTE_GAME_TERMINATION }}
