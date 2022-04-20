@@ -88,7 +88,7 @@
         /// <summary>
         ///     Gets the game termination results.
         /// </summary>
-        [JsonProperty("gameTerminationResults", Required = Required.DisallowNull, Order = 13)]
+        [JsonProperty("gameTerminationResults", Required = Required.AllowNull, Order = 13)]
         public IEnumerable<IGameTerminationResult> GameTerminationResults { get; }
 
         /// <summary>
