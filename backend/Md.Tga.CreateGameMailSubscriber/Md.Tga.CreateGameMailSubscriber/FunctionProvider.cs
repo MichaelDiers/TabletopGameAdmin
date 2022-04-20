@@ -57,7 +57,37 @@
 
         private async Task HandleMessageGameTerminationUpdateAsync(ICreateGameMailMessage message)
         {
-            await Task.CompletedTask;
+            var htmlResult = new StringBuilder();
+            var textResult = new StringBuilder();
+            foreach (var gameSeriesSide in message.GameSeries.Sides)
+            {
+                var count = message.GameTerminationResults.Count(gtr => gtr.WinningSideId == gameSeriesSide.Id);
+                htmlResult.AppendFormat(GameTerminationUpdateText.BodyHtmlResult, gameSeriesSide.Name, count);
+                textResult.AppendFormat(GameTerminationUpdateText.BodyTextResult, gameSeriesSide.Name, count);
+            }
+
+            foreach (var player in message.GameSeries.Players)
+            {
+                var sendMailMessage = new SendMailMessage(
+                    message.ProcessId,
+                    new[] {new Recipient(player.Email, player.Name)},
+                    new Recipient(message.GameSeries.Organizer.Email, message.GameSeries.Organizer.Name),
+                    GameTerminationUpdateText.Subject,
+                    new Body(
+                        string.Format(
+                            GameTerminationUpdateText.BodyHtml,
+                            player.Name,
+                            message.Game.Name,
+                            htmlResult,
+                            message.GameSeries.Organizer.Name),
+                        string.Format(
+                            GameTerminationUpdateText.BodyText,
+                            player.Name,
+                            message.Game.Name,
+                            textResult,
+                            message.GameSeries.Organizer.Name)));
+                await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
+            }
         }
 
         private async Task HandleMessageSurveyResultAsync(ICreateGameMailMessage message)
