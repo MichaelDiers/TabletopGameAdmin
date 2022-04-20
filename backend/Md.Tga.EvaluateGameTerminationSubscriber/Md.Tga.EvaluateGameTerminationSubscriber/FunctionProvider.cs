@@ -79,8 +79,11 @@
             }
 
             var (gameSeries, game, playerMappings, results) = data.Value;
+            var playerResults = results.GroupBy(result => result.PlayerId)
+                .Select(group => group.OrderByDescending(x => x.Created).First())
+                .ToArray();
 
-            if (FunctionProvider.IsGameTerminated(gameSeries, results))
+            if (FunctionProvider.IsGameTerminated(gameSeries, playerResults))
             {
             }
             else
@@ -92,7 +95,7 @@
                         gameSeries,
                         game,
                         playerMappings,
-                        results.Select(x => x)));
+                        playerResults.Select(x => x)));
             }
         }
 
@@ -104,15 +107,12 @@
         /// <returns>True if the game can be terminated and false otherwise.</returns>
         private static bool IsGameTerminated(IGameSeries gameSeries, IList<IGameTerminationResult> results)
         {
-            var playerResults = results.GroupBy(result => result.PlayerId)
-                .Select(group => group.OrderByDescending(x => x.Created).First())
-                .ToArray();
-            if (playerResults.Select(x => x.WinningSideId).Distinct().Count() != 1)
+            if (results.Select(x => x.WinningSideId).Distinct().Count() != 1)
             {
                 return false;
             }
 
-            if (gameSeries.Players.Count() != playerResults.Length)
+            if (gameSeries.Players.Count() != results.Count)
             {
                 return false;
             }
