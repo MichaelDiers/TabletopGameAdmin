@@ -1,0 +1,13 @@
+syntax = "proto3";
+message SaveGameTermination {
+    message GameTerminationResult {
+        string documentId = 1;
+        string created = 2;
+        string parentDocumentId = 3;
+        string playerId = 4;
+        string winningSideId = 5;
+    };
+
+    string processId = 1;
+    GameTerminationResult gameTerminationResult = 2;
+};
