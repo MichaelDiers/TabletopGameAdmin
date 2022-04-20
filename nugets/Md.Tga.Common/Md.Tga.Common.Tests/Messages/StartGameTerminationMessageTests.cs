@@ -15,15 +15,17 @@
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
-                true);
+                Guid.NewGuid().ToString(),
+                Guid.NewGuid().ToString());
             var actual =
                 Serializer.DeserializeObject<StartGameTerminationMessage>(Serializer.SerializeObject(expected)) as
                     IStartGameTerminationMessage;
 
             Assert.Equal(expected.ProcessId, actual.ProcessId);
+            Assert.Equal(expected.GameSeriesDocumentId, actual.GameSeriesDocumentId);
             Assert.Equal(expected.GameDocumentId, actual.GameDocumentId);
             Assert.Equal(expected.TerminationId, actual.TerminationId);
-            Assert.Equal(expected.Surrender, actual.Surrender);
+            Assert.Equal(expected.WinningSideId, actual.WinningSideId);
         }
     }
 }

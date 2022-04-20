@@ -13,35 +13,43 @@
         ///     Creates a new instance of <see cref="StartGameTerminationMessage" />.
         /// </summary>
         /// <param name="processId">The global process id.</param>
+        /// <param name="gameSeriesDocumentId">The document id of the game series.</param>
         /// <param name="gameDocumentId">The document id of the game.</param>
         /// <param name="terminationId">The termination id.</param>
-        /// <param name="surrender">Indicates if a player surrenders or claims the victory.</param>
+        /// <param name="winningSideId">The id of the winning side.</param>
         public StartGameTerminationMessage(
             string processId,
+            string gameSeriesDocumentId,
             string gameDocumentId,
             string terminationId,
-            bool surrender
+            string winningSideId
         )
             : base(processId)
         {
+            this.GameSeriesDocumentId = gameSeriesDocumentId.ValidateIsAGuid(nameof(gameSeriesDocumentId));
             this.GameDocumentId = gameDocumentId.ValidateIsAGuid(nameof(gameDocumentId));
             this.TerminationId = terminationId.ValidateIsAGuid(nameof(terminationId));
-            this.Surrender = surrender;
+            this.WinningSideId = winningSideId.ValidateIsAGuid(nameof(winningSideId));
         }
 
         /// <summary>
-        ///     Gets the id of the document.
+        ///     Gets the id of the game document.
         /// </summary>
         public string GameDocumentId { get; }
 
         /// <summary>
-        ///     Gets a value that indicates if a player surrenders or claims the victory.
+        ///     Gets the id of the game series document.
         /// </summary>
-        public bool Surrender { get; }
+        public string GameSeriesDocumentId { get; }
 
         /// <summary>
         ///     Gets the termination id.
         /// </summary>
         public string TerminationId { get; }
+
+        /// <summary>
+        ///     Gets the id of the winning side.
+        /// </summary>
+        public string WinningSideId { get; }
     }
 }

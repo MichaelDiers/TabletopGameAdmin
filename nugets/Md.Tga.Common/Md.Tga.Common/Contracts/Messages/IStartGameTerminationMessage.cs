@@ -8,18 +8,23 @@
     public interface IStartGameTerminationMessage : IMessage
     {
         /// <summary>
-        ///     Gets the id of the document.
+        ///     Gets the id of the game document.
         /// </summary>
         string GameDocumentId { get; }
 
         /// <summary>
-        ///     Gets a value that indicates if a player surrenders or claims the victory.
+        ///     Gets the id of the game series document.
         /// </summary>
-        bool Surrender { get; }
+        string GameSeriesDocumentId { get; }
 
         /// <summary>
         ///     Gets the termination id.
         /// </summary>
         string TerminationId { get; }
+
+        /// <summary>
+        ///     Gets the id of the winning side.
+        /// </summary>
+        string WinningSideId { get; }
     }
 }
