@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Google.Cloud.Functions.Testing" Version="1.0.0" />
     <PackageReference Include="Md.Tga.Common" Version="1.2.71" />
-    <PackageReference Include="Md.Tga.Common.TestData" Version="1.2.47" />
+    <PackageReference Include="Md.Tga.Common.TestData" Version="1.2.48" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
