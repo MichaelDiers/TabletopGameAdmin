@@ -26,5 +26,5 @@ jobs:
       projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
       appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\"\}'
       appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\"\}'
-      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\"\\}'
+      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\"\}'
       subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_LOG }}
