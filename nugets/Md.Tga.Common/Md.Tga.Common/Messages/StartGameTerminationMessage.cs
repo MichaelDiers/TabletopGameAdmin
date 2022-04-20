@@ -3,6 +3,7 @@
     using Md.Common.Extensions;
     using Md.Common.Messages;
     using Md.Tga.Common.Contracts.Messages;
+    using Newtonsoft.Json;
 
     /// <summary>
     ///     Start the termination of a game.
@@ -35,21 +36,25 @@
         /// <summary>
         ///     Gets the id of the game document.
         /// </summary>
+        [JsonProperty("gameId", Required = Required.Always, Order = 12)]
         public string GameDocumentId { get; }
 
         /// <summary>
         ///     Gets the id of the game series document.
         /// </summary>
+        [JsonProperty("gameSeriesId", Required = Required.Always, Order = 11)]
         public string GameSeriesDocumentId { get; }
 
         /// <summary>
         ///     Gets the termination id.
         /// </summary>
+        [JsonProperty("terminationId", Required = Required.Always, Order = 13)]
         public string TerminationId { get; }
 
         /// <summary>
         ///     Gets the id of the winning side.
         /// </summary>
+        [JsonProperty("winningSideId", Required = Required.Always, Order = 14)]
         public string WinningSideId { get; }
     }
 }
