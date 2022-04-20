@@ -59,12 +59,23 @@
         {
             var htmlResult = new StringBuilder();
             var textResult = new StringBuilder();
+            var neutral = message.GameSeries.Players.Count();
             foreach (var gameSeriesSide in message.GameSeries.Sides)
             {
                 var count = message.GameTerminationResults.Count(gtr => gtr.WinningSideId == gameSeriesSide.Id);
+                neutral -= count;
                 htmlResult.AppendFormat(GameTerminationUpdateText.BodyHtmlResult, gameSeriesSide.Name, count);
                 textResult.AppendFormat(GameTerminationUpdateText.BodyTextResult, gameSeriesSide.Name, count);
             }
+
+            htmlResult.AppendFormat(
+                GameTerminationUpdateText.BodyHtmlResult,
+                GameTerminationUpdateText.Neutral,
+                neutral);
+            textResult.AppendFormat(
+                GameTerminationUpdateText.BodyTextResult,
+                GameTerminationUpdateText.Neutral,
+                neutral);
 
             foreach (var player in message.GameSeries.Players)
             {

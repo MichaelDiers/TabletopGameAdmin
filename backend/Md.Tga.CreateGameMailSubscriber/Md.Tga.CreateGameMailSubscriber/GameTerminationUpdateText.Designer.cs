@@ -119,6 +119,15 @@ namespace Md.Tga.CreateGameMailSubscriber {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nicht abgestimmt.
+        /// </summary>
+        public static string Neutral {
+            get {
+                return ResourceManager.GetString("Neutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Neues aus der Diplomatie.
         /// </summary>
         public static string Subject {

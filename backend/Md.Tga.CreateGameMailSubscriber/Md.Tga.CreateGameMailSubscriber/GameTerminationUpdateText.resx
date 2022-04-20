@@ -151,6 +151,9 @@ Viele Grüße,
     <value>- {0}: {1}
 </value>
   </data>
+  <data name="Neutral" xml:space="preserve">
+    <value>Nicht abgestimmt</value>
+  </data>
   <data name="Subject" xml:space="preserve">
     <value>Neues aus der Diplomatie</value>
   </data>
