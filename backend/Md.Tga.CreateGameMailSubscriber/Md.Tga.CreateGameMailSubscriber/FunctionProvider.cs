@@ -47,9 +47,17 @@
                 case GameMailType.SurveyResult:
                     await this.HandleMessageSurveyResultAsync(message);
                     break;
+                case GameMailType.GameTerminationUpdate:
+                    await this.HandleMessageGameTerminationUpdateAsync(message);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private async Task HandleMessageGameTerminationUpdateAsync(ICreateGameMailMessage message)
+        {
+            await Task.CompletedTask;
         }
 
         private async Task HandleMessageSurveyResultAsync(ICreateGameMailMessage message)
