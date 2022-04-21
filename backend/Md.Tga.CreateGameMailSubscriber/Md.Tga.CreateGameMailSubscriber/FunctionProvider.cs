@@ -51,10 +51,35 @@
                     await this.HandleMessageGameTerminationUpdateAsync(message);
                     break;
                 case GameMailType.GameTerminated:
+                    await this.HandleMessageGameTerminatedAsync(message);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private async Task HandleMessageGameTerminatedAsync(ICreateGameMailMessage message)
+        {
+            var winningSideId = message.GameTerminationResults.First().WinningSideId;
+            var winningSideName = message.GameSeries.Sides.First(side => side.Id == winningSideId).Name;
+
+            var sendMailMessage = new SendMailMessage(
+                message.ProcessId,
+                message.GameSeries.Players.Select(player => new Recipient(player.Email, player.Name)).ToArray(),
+                new Recipient(message.GameSeries.Organizer.Email, message.GameSeries.Organizer.Name),
+                GameTerminatedText.Subject,
+                new Body(
+                    string.Format(
+                        GameTerminatedText.BodyHtml,
+                        message.Game.Name,
+                        winningSideName,
+                        message.GameSeries.Organizer.Name),
+                    string.Format(
+                        GameTerminatedText.BodyHtml,
+                        message.Game.Name,
+                        winningSideName,
+                        message.GameSeries.Organizer.Name)));
+            await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
         }
 
         private async Task HandleMessageGameTerminationUpdateAsync(ICreateGameMailMessage message)

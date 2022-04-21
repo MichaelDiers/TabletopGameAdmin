@@ -15,6 +15,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="GameTerminatedText.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>GameTerminatedText.resx</DependentUpon>
+	  </Compile>
 	  <Compile Update="GameTerminationUpdateText.Designer.cs">
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
@@ -28,6 +33,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Update="GameTerminatedText.resx">
+	    <Generator>PublicResXFileCodeGenerator</Generator>
+	    <LastGenOutput>GameTerminatedText.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="GameTerminationUpdateText.resx">
 	    <Generator>PublicResXFileCodeGenerator</Generator>
 	    <LastGenOutput>GameTerminationUpdateText.Designer.cs</LastGenOutput>
