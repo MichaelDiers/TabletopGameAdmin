@@ -21,5 +21,10 @@
         ///     Gets the name of the topic of the pub/sub message.
         /// </summary>
         string StartGameSeriesTopicName { get; }
+
+        /// <summary>
+        ///     Gets the name of the topic of the pub/sub message.
+        /// </summary>
+        string StartGameTerminationTopicName { get; }
     }
 }

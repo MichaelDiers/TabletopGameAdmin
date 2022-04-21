@@ -24,6 +24,7 @@
         private readonly IGameReadOnlyDatabase gameReadOnlyDatabase;
 
         private readonly IGameSeriesReadOnlyDatabase gameSeriesReadOnlyDatabase;
+        private readonly IPlayerMappingsReadOnlyDatabase playerMappingsReadOnlyDatabase;
 
         /// <summary>
         ///     Client for sending a message to pub/sub.
@@ -31,6 +32,7 @@
         private readonly IStartGameSeriesPubSubClient pubSubClient;
 
         private readonly ISaveSurveyResultPubSubClient saveSurveyResultPubSubClient;
+        private readonly IStartGameTerminationPubSubClient startGameTerminationPubSubClient;
 
         private readonly ISurveyReadOnlyDatabase surveyReadOnlyDatabase;
 
@@ -50,11 +52,15 @@
             IGameSeriesReadOnlyDatabase gameSeriesReadOnlyDatabase,
             IGameReadOnlyDatabase gameReadOnlyDatabase,
             ISurveyReadOnlyDatabase surveyReadOnlyDatabase,
-            ISaveSurveyResultPubSubClient saveSurveyResultPubSubClient
+            ISaveSurveyResultPubSubClient saveSurveyResultPubSubClient,
+            IPlayerMappingsReadOnlyDatabase playerMappingsReadOnlyDatabase,
+            IStartGameTerminationPubSubClient startGameTerminationPubSubClient
         )
 
         {
             this.saveSurveyResultPubSubClient = saveSurveyResultPubSubClient;
+            this.playerMappingsReadOnlyDatabase = playerMappingsReadOnlyDatabase;
+            this.startGameTerminationPubSubClient = startGameTerminationPubSubClient;
             this.pubSubClient = pubSubClient ?? throw new ArgumentNullException(nameof(pubSubClient));
             this.testDataReadOnlyDatabase = testDataReadOnlyDatabase ??
                                             throw new ArgumentNullException(nameof(testDataReadOnlyDatabase));
@@ -71,9 +77,18 @@
         {
             var externalId = Guid.NewGuid().ToString();
             var gameSeries = await this.InitializeGameSeries(externalId);
+            Console.WriteLine($"GameSeries: {gameSeries.DocumentId}");
             var game = await this.ReadGame(gameSeries);
+            Console.WriteLine($"Game: {game.DocumentId}");
             var survey = await this.ReadSurvey(game);
+            Console.WriteLine($"Survey: {survey.DocumentId}");
             await this.SubmitSurveyResults(survey);
+            Console.WriteLine("survey results submitted");
+            var playerMappings = await this.ReadPlayerMappings(game);
+            Console.WriteLine($"PlayerMappings: {playerMappings.DocumentId}");
+            await this.TerminateGame(gameSeries, game);
+            Console.WriteLine("game terminated");
+            Console.WriteLine("TESTS OK");
         }
 
         private async Task<IGameSeries> InitializeGameSeries(string externalId)
@@ -128,6 +143,26 @@
             throw new Exception($"Cannot read game for game series {gameSeries.DocumentId}");
         }
 
+        private async Task<IPlayerMappings> ReadPlayerMappings(IGame game)
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var playerMappings = await this.playerMappingsReadOnlyDatabase.ReadOneAsync(
+                    DatabaseObject.ParentDocumentIdName,
+                    game.DocumentId);
+                if (playerMappings == null)
+                {
+                    Thread.Sleep(1000);
+                }
+                else
+                {
+                    return playerMappings;
+                }
+            }
+
+            throw new Exception($"Cannot read player mappings for game {game.DocumentId}");
+        }
+
         private async Task<ISurvey> ReadSurvey(IGame game)
         {
             for (var i = 0; i < 10; i++)
@@ -163,6 +198,20 @@
                             false,
                             survey.Questions.Select(q => new QuestionReference(q.Id, q.Choices.First().Id))
                                 .ToArray())));
+            }
+        }
+
+        private async Task TerminateGame(IGameSeries gameSeries, IGame game)
+        {
+            foreach (var gameTermination in game.GameTerminations)
+            {
+                await this.startGameTerminationPubSubClient.PublishAsync(
+                    new StartGameTerminationMessage(
+                        Guid.NewGuid().ToString(),
+                        gameSeries.DocumentId,
+                        game.DocumentId,
+                        gameTermination.TerminationId,
+                        gameSeries.Sides.First().Id));
             }
         }
     }

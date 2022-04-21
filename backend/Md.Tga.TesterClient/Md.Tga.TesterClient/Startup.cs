@@ -36,6 +36,7 @@ namespace Md.Tga.TesterClient
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
             services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
             services.AddScoped<ISurveyReadOnlyDatabase, SurveyReadOnlyDatabase>();
+            services.AddScoped<IPlayerMappingsReadOnlyDatabase, PlayerMappingsReadOnlyDatabase>();
 
             services.AddScoped<IStartGameSeriesPubSubClient>(
                 _ => new StartGameSeriesPubSubClient(
@@ -49,6 +50,12 @@ namespace Md.Tga.TesterClient
                         configuration.Environment,
                         configuration.ProjectId,
                         configuration.SaveSurveyResultTopicName)));
+            services.AddScoped<IStartGameTerminationPubSubClient>(
+                _ => new StartGameTerminationPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.StartGameTerminationTopicName)));
 
             services.AddScoped<IFunctionProvider, FunctionProvider>();
         }
