@@ -90,7 +90,7 @@
             IDictionary<string, IDictionary<string, int>> statistic
         )
         {
-            var countries = gameSeries.Countries.OrderBy(country => country.Name).ToArray();
+            var countries = gameSeries.Countries.ToArray();
             var players = gameSeries.Players.OrderBy(player => player.Name).ToArray();
 
             var header = new[] {string.Empty}.Concat(players.Select(player => player.Name)).ToList();
