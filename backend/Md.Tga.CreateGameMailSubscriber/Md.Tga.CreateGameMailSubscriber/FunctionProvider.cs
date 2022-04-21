@@ -75,7 +75,7 @@
                         winningSideName,
                         message.GameSeries.Organizer.Name),
                     string.Format(
-                        GameTerminatedText.BodyHtml,
+                        GameTerminatedText.BodyText,
                         message.Game.Name,
                         winningSideName,
                         message.GameSeries.Organizer.Name)));
