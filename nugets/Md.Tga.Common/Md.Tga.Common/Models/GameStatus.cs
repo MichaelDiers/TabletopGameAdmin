@@ -48,7 +48,7 @@
         /// <returns>The given <paramref name="dictionary" />.</returns>
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
-            dictionary.Add(GameStatus.StatusName, this.Status);
+            dictionary.Add(GameStatus.StatusName, this.Status.ToString());
             return base.AddToDictionary(dictionary);
         }
 
