@@ -13,8 +13,13 @@
         public string DocumentId { get; set; } = "";
 
         /// <summary>
+        ///     Gets the name of the pub/sub topic.
+        /// </summary>
+        public string SaveSurveyResultTopicName { get; set; } = string.Empty;
+
+        /// <summary>
         ///     Gets the name of the topic of the pub/sub message.
         /// </summary>
-        public string TopicName { get; set; } = "";
+        public string StartGameSeriesTopicName { get; set; } = "";
     }
 }

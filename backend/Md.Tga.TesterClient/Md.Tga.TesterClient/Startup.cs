@@ -2,7 +2,7 @@ namespace Md.Tga.TesterClient
 {
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts.Model;
-    using Md.GoogleCloudPubSub.Contracts.Model;
+    using Md.GoogleCloudPubSub.Model;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
     using Md.Tga.Common.PubSub.Contracts.Logic;
@@ -10,6 +10,10 @@ namespace Md.Tga.TesterClient
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Surveys.Common.Firestore.Contracts;
+    using Surveys.Common.Firestore.Models;
+    using Surveys.Common.PubSub.Contracts.Logic;
+    using Surveys.Common.PubSub.Logic;
 
     /// <summary>
     ///     Initialize the function.
@@ -29,9 +33,22 @@ namespace Md.Tga.TesterClient
 
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
             services.AddScoped<ITestDataReadOnlyDatabase, TestDataReadOnlyDatabase>();
+            services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
+            services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
+            services.AddScoped<ISurveyReadOnlyDatabase, SurveyReadOnlyDatabase>();
 
-            services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
-            services.AddScoped<IStartGameSeriesPubSubClient, StartGameSeriesPubSubClient>();
+            services.AddScoped<IStartGameSeriesPubSubClient>(
+                _ => new StartGameSeriesPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.StartGameSeriesTopicName)));
+            services.AddScoped<ISaveSurveyResultPubSubClient>(
+                _ => new SaveSurveyResultPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.SaveSurveyResultTopicName)));
 
             services.AddScoped<IFunctionProvider, FunctionProvider>();
         }
