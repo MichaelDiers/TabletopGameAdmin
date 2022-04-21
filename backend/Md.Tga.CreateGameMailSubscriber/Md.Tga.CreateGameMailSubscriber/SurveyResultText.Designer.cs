@@ -72,10 +72,8 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///        &lt;h1&gt;Hej {0}!&lt;/h1&gt;
         ///        &lt;p&gt;Die Seiten wurden ausgewählt und es kann endlich wieder losgehen.&lt;/p&gt;
         ///        &lt;h2&gt;Wer spielt was?&lt;/h2&gt;
-        ///           &lt;ul&gt;{1}&lt;/ul&gt;
-        ///        &lt;p&gt;Viele Grüße,&lt;br&gt;&lt;br&gt;{2}&lt;/p&gt;
-        ///    &lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///        &lt;ul&gt;{1}&lt;/ul&gt;
+        ///        &lt;p&gt;Mit diesem &lt;a href=&quot;{3}&quot;&gt;Link&lt;/a&gt; kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst d [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BodyHtml {
             get {
@@ -100,6 +98,10 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///Wer spielt was?
         ///
         ///{1}
+        ///
+        ///Über den folgenden Link kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst dem Link für dieses Spiel beliebig oft nutzen bis alle Spieler sich auf eine Seite geeignet haben:
+        ///
+        ///{3}
         ///
         ///Viele Grüße,
         ///

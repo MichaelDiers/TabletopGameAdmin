@@ -15,6 +15,8 @@
     /// </summary>
     public class FunctionProvider : PubSubProvider<ICreateGameMailMessage, Function>
     {
+        private readonly IFunctionConfiguration configuration;
+
         /// <summary>
         ///     Access pub/sub for sending messages.
         /// </summary>
@@ -25,10 +27,16 @@
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="sendMailPubSubClient">Send a new email.</param>
-        public FunctionProvider(ILogger<Function> logger, ISendMailPubSubClient sendMailPubSubClient)
+        /// <param name="configuration"></param>
+        public FunctionProvider(
+            ILogger<Function> logger,
+            ISendMailPubSubClient sendMailPubSubClient,
+            IFunctionConfiguration configuration
+        )
             : base(logger)
         {
             this.sendMailPubSubClient = sendMailPubSubClient;
+            this.configuration = configuration;
         }
 
         /// <summary>
@@ -143,6 +151,8 @@
 
             foreach (var gameSeriesPlayer in message.GameSeries.Players)
             {
+                var terminationId = message.Game.GameTerminations.First(gt => gt.PlayerId == gameSeriesPlayer.Id)
+                    .TerminationId;
                 var sendMailMessage = new SendMailMessage(
                     message.ProcessId,
                     new[] {new Recipient(gameSeriesPlayer.Email, gameSeriesPlayer.Name)},
@@ -153,12 +163,20 @@
                             SurveyResultText.BodyHtml,
                             gameSeriesPlayer.Name,
                             htmlResult,
-                            message.GameSeries.Organizer.Name),
+                            message.GameSeries.Organizer.Name,
+                            string.Format(
+                                this.configuration.TerminateLinkFormat,
+                                message.Game.DocumentId,
+                                terminationId)),
                         string.Format(
                             SurveyResultText.BodyText,
                             gameSeriesPlayer.Name,
                             textResult,
-                            message.GameSeries.Organizer.Name)));
+                            message.GameSeries.Organizer.Name,
+                            string.Format(
+                                this.configuration.TerminateLinkFormat,
+                                message.Game.DocumentId,
+                                terminationId))));
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }

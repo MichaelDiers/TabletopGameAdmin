@@ -8,5 +8,9 @@
     /// </summary>
     public interface IFunctionConfiguration : IRuntimeEnvironment, IPubSubClientEnvironment
     {
+        /// <summary>
+        ///     Gets the format string for the terminate link.
+        /// </summary>
+        string TerminateLinkFormat { get; }
     }
 }

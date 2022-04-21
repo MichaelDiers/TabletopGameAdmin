@@ -7,5 +7,9 @@
     /// </summary>
     public class FunctionConfiguration : PubSubClientEnvironment, IFunctionConfiguration
     {
+        /// <summary>
+        ///     Gets the format string for the terminate link.
+        /// </summary>
+        public string TerminateLinkFormat { get; set; }
     }
 }
