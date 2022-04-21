@@ -3,8 +3,8 @@ message SaveGameStatusMessage {
   message CreateGameMailMessage {
       enum GameMailType {
           SURVEY_RESULT = 0;
-          GAME_TERMINATION_UPDATE = 1;	
-          GAME_TERMINATED = 2;
+          GAME_TERMINATION_UPDATE = 1;
+          GAME_TERMINATED = 2;	
       };
 
       message GameSeries {
@@ -82,16 +82,16 @@ message SaveGameStatusMessage {
 
   message GameStatus {
     enum Status {
-      CLOSED = 0;	
+      CLOSED = 0;
     };
 
     string documentId = 1;
     string created = 2;
     string parentDocumentId = 3;
-    Status status = 4;
+    Status status = 4;      
   };
 
   string processId = 1;
   GameStatus gameStatus = 2;
-  SaveGameStatusMessage createGameMailMessage = 3;
+  CreateGameMailMessage createGameMailMessage = 3;
 };
