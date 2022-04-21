@@ -9,6 +9,7 @@
     using Surveys.Common.Contracts;
     using Surveys.Common.Contracts.Messages;
     using IPerson = Surveys.Common.Contracts.IPerson;
+    using Status = Surveys.Common.Contracts.Status;
 
     public static class EqualsExtensions
     {
