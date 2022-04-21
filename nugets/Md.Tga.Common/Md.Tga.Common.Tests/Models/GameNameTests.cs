@@ -15,7 +15,6 @@
             Assert.Equal(expected.Name, actual.Name);
             Assert.Equal(expected.DocumentId, actual.DocumentId);
             Assert.Equal(expected.Created, actual.Created);
-            Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
         }
     }
 }
