@@ -73,7 +73,7 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///        &lt;p&gt;Die Seiten wurden ausgewählt und es kann endlich wieder losgehen.&lt;/p&gt;
         ///        &lt;h2&gt;Wer spielt was?&lt;/h2&gt;
         ///        &lt;ul&gt;{1}&lt;/ul&gt;
-        ///        &lt;p&gt;Mit diesem &lt;a href=&quot;{3}&quot;&gt;Link&lt;/a&gt; kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst d [rest of string was truncated]&quot;;.
+        ///        &lt;p&gt;Über diesem &lt;a href=&quot;{3}&quot;&gt;Link&lt;/a&gt; kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst  [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BodyHtml {
             get {

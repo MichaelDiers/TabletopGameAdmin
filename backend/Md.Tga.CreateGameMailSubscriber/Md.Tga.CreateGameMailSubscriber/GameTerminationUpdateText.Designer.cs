@@ -72,9 +72,7 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///        &lt;h1&gt;Hej {0}!&lt;/h1&gt;
         ///        &lt;p&gt;Das aktuelle Meinungsbild für eine Beendigung des Spiels {1}..&lt;/p&gt;
         ///        &lt;ul&gt;{2}&lt;/ul&gt;
-        ///        &lt;p&gt;Viele Grüße,&lt;br&gt;&lt;br&gt;{3}&lt;/p&gt;
-        ///    &lt;/body&gt;
-        ///&lt;/html&gt;.
+        ///&lt;p&gt;Über diesem &lt;a href=&quot;{4}&quot;&gt;Link&lt;/a&gt; kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst den &lt;a href=&quot;{4}&quot;&gt;Link&lt;/a&gt; für dieses Spiel b [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BodyHtml {
             get {
@@ -97,6 +95,10 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///Das aktuelle Meinungsbild für eine Beendigung des Spiels {1}.
         ///
         ///{2}
+        ///
+        ///Über den folgenden Link kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst dem Link für dieses Spiel beliebig oft nutzen bis alle Spieler sich auf eine Seite geeignet haben:
+        ///
+        ///{4}
         ///
         ///Viele Grüße,
         ///

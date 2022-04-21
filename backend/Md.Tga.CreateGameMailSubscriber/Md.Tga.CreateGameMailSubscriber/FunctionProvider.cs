@@ -114,6 +114,8 @@
 
             foreach (var player in message.GameSeries.Players)
             {
+                var terminationId = message.Game.GameTerminations.First(gt => gt.PlayerId == player.Id).TerminationId;
+
                 var sendMailMessage = new SendMailMessage(
                     message.ProcessId,
                     new[] {new Recipient(player.Email, player.Name)},
@@ -125,13 +127,21 @@
                             player.Name,
                             message.Game.Name,
                             htmlResult,
-                            message.GameSeries.Organizer.Name),
+                            message.GameSeries.Organizer.Name,
+                            string.Format(
+                                this.configuration.TerminateLinkFormat,
+                                message.Game.DocumentId,
+                                terminationId)),
                         string.Format(
                             GameTerminationUpdateText.BodyText,
                             player.Name,
                             message.Game.Name,
                             textResult,
-                            message.GameSeries.Organizer.Name)));
+                            message.GameSeries.Organizer.Name,
+                            string.Format(
+                                this.configuration.TerminateLinkFormat,
+                                message.Game.DocumentId,
+                                terminationId))));
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }
