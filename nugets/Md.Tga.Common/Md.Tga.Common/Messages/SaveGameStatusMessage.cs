@@ -16,9 +16,14 @@
         /// </summary>
         /// <param name="processId">The global process id.</param>
         /// <param name="gameStatus">The status of the game.</param>
+        /// <param name="createGameMailMessage">An optional create mail message.</param>
         [JsonConstructor]
-        public SaveGameStatusMessage(string processId, GameStatus gameStatus)
-            : this(processId, gameStatus as IGameStatus)
+        public SaveGameStatusMessage(
+            string processId,
+            GameStatus gameStatus,
+            CreateGameMailMessage? createGameMailMessage
+        )
+            : this(processId, gameStatus, createGameMailMessage as ICreateGameMailMessage)
         {
         }
 
@@ -27,11 +32,22 @@
         /// </summary>
         /// <param name="processId">The global process id.</param>
         /// <param name="gameStatus">The status of the game.</param>
-        public SaveGameStatusMessage(string processId, IGameStatus gameStatus)
+        /// <param name="createGameMailMessage">An optional create mail message.</param>
+        public SaveGameStatusMessage(
+            string processId,
+            IGameStatus gameStatus,
+            ICreateGameMailMessage? createGameMailMessage
+        )
             : base(processId)
         {
             this.GameStatus = gameStatus;
+            this.CreateGameMailMessage = createGameMailMessage;
         }
+
+        /// <summary>
+        ///     Gets an optional message that is created by the receiver of the <see cref="ISaveGameStatusMessage" />.
+        /// </summary>
+        public ICreateGameMailMessage? CreateGameMailMessage { get; }
 
         /// <summary>
         ///     Gets the game status.

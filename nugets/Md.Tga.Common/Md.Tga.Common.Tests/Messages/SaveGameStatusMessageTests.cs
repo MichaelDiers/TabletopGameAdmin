@@ -19,7 +19,8 @@
                     Guid.NewGuid().ToString(),
                     DateTime.Now,
                     Guid.NewGuid().ToString(),
-                    Status.Closed));
+                    Status.Closed),
+                null);
             var actual =
                 Serializer.DeserializeObject<SaveGameStatusMessage>(Serializer.SerializeObject(expected)) as
                     ISaveGameStatusMessage;
