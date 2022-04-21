@@ -50,6 +50,8 @@
                 case GameMailType.GameTerminationUpdate:
                     await this.HandleMessageGameTerminationUpdateAsync(message);
                     break;
+                case GameMailType.GameTerminated:
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
