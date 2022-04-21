@@ -10,11 +10,11 @@
         /// <summary>
         ///     Gets the topic name for creating mails.
         /// </summary>
-        public string CreateGameMailTopicName { get; } = string.Empty;
+        public string CreateGameMailTopicName { get; set; } = string.Empty;
 
         /// <summary>
         ///     Gets the topic name for starting a new game.
         /// </summary>
-        public string StartGameTopicName { get; } = string.Empty;
+        public string StartGameTopicName { get; set; } = string.Empty;
     }
 }
