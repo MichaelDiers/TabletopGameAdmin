@@ -1,11 +1,20 @@
 ﻿namespace Md.Tga.SaveGameStatusSubscriber
 {
-    using Md.GoogleCloudPubSub.Model;
+    using Md.Common.Model;
 
     /// <summary>
     ///     Access the application settings.
     /// </summary>
-    public class FunctionConfiguration : PubSubClientEnvironment, IFunctionConfiguration
+    public class FunctionConfiguration : RuntimeEnvironment, IFunctionConfiguration
     {
+        /// <summary>
+        ///     Gets the topic name for creating mails.
+        /// </summary>
+        public string CreateGameMailTopicName { get; } = string.Empty;
+
+        /// <summary>
+        ///     Gets the topic name for starting a new game.
+        /// </summary>
+        public string StartGameTopicName { get; } = string.Empty;
     }
 }

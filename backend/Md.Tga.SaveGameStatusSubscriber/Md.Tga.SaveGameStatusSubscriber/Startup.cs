@@ -3,7 +3,7 @@ namespace Md.Tga.SaveGameStatusSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts.Model;
     using Md.GoogleCloudFunctions.Contracts.Logic;
-    using Md.GoogleCloudPubSub.Contracts.Model;
+    using Md.GoogleCloudPubSub.Model;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
@@ -32,8 +32,18 @@ namespace Md.Tga.SaveGameStatusSubscriber
             services.AddScoped<IRuntimeEnvironment>(_ => configuration);
             services.AddScoped<IGameStatusDatabase, GameStatusDatabase>();
 
-            services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
-            services.AddScoped<ICreateGameMailPubSubClient, CreateGameMailPubSubClient>();
+            services.AddScoped<ICreateGameMailPubSubClient>(
+                _ => new CreateGameMailPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.CreateGameMailTopicName)));
+            services.AddScoped<IStartGamePubSubClient>(
+                _ => new StartGamePubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.StartGameTopicName)));
 
             services.AddScoped<IPubSubProvider<ISaveGameStatusMessage>, FunctionProvider>();
         }
