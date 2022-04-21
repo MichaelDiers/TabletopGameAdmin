@@ -4,7 +4,9 @@
     using System.Threading.Tasks;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
+    using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
+    using Md.Tga.Common.Messages;
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
@@ -20,22 +22,27 @@
         /// </summary>
         private readonly IGameStatusDatabase gameStatusDatabase;
 
+        private readonly IStartGamePubSubClient startGamePubSubClient;
+
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
         /// <param name="logger">An error logger.</param>
         /// <param name="gameStatusDatabase">Access to the database.</param>
         /// <param name="createGameMailPubSubClient">Start a new survey.</param>
+        /// <param name="startGamePubSubClient"></param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameStatusDatabase gameStatusDatabase,
-            ICreateGameMailPubSubClient createGameMailPubSubClient
+            ICreateGameMailPubSubClient createGameMailPubSubClient,
+            IStartGamePubSubClient startGamePubSubClient
         )
             : base(logger)
         {
             this.gameStatusDatabase = gameStatusDatabase ?? throw new ArgumentNullException(nameof(gameStatusDatabase));
             this.createGameMailPubSubClient = createGameMailPubSubClient ??
                                               throw new ArgumentNullException(nameof(createGameMailPubSubClient));
+            this.startGamePubSubClient = startGamePubSubClient;
         }
 
         /// <summary>
@@ -50,6 +57,11 @@
             if (message.CreateGameMailMessage != null)
             {
                 await this.createGameMailPubSubClient.PublishAsync(message.CreateGameMailMessage);
+                if (message.GameStatus.Status == Status.Closed)
+                {
+                    await this.startGamePubSubClient.PublishAsync(
+                        new StartGameMessage(message.ProcessId, message.CreateGameMailMessage.GameSeries.DocumentId));
+                }
             }
         }
     }
