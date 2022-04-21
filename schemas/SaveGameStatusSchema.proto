@@ -4,6 +4,7 @@ message SaveGameStatusMessage {
       enum GameMailType {
           SURVEY_RESULT = 0;
           GAME_TERMINATION_UPDATE = 1;	
+          GAME_TERMINATED = 2;
       };
 
       message GameSeries {
