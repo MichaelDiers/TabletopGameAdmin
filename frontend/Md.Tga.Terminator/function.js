@@ -8,7 +8,7 @@ const {
   ENV_START_GAME_TERMINATION_TOPIC: startGameTerminationTopic,
 } = process.env;
 
-exports.vote = app(
+exports.terminate = app(
   config({
     baseName: 'terminate',
     gamesCollectionName,

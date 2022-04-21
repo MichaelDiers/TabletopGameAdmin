@@ -1,7 +1,7 @@
 const uuid = require('uuid');
 
 /**
- * Initializes the vote controller.
+ * Initializes the terminate controller.
  * @param {object} config A configuration object.
  * @param {object} config.database Access the surveys database.
  * @param {object} config.pubSubClient Access the google cloud pub/sub.

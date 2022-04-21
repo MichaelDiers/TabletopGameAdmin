@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-console.log('runs vote');
+console.log('runs terminate');
