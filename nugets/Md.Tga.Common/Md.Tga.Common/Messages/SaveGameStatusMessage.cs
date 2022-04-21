@@ -47,11 +47,13 @@
         /// <summary>
         ///     Gets an optional message that is created by the receiver of the <see cref="ISaveGameStatusMessage" />.
         /// </summary>
+        [JsonProperty("createGameMailMessage", Required = Required.AllowNull, Order = 12)]
         public ICreateGameMailMessage? CreateGameMailMessage { get; }
 
         /// <summary>
         ///     Gets the game status.
         /// </summary>
+        [JsonProperty("gameStatus", Required = Required.Always, Order = 11)]
         public IGameStatus GameStatus { get; }
     }
 }
