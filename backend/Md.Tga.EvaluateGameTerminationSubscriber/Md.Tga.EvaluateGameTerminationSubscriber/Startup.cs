@@ -3,7 +3,7 @@ namespace Md.Tga.EvaluateGameTerminationSubscriber
     using Google.Cloud.Functions.Hosting;
     using Md.Common.Contracts.Model;
     using Md.GoogleCloudFunctions.Contracts.Logic;
-    using Md.GoogleCloudPubSub.Contracts.Model;
+    using Md.GoogleCloudPubSub.Model;
     using Md.Tga.Common.Contracts.Messages;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Firestore.Logic;
@@ -36,8 +36,18 @@ namespace Md.Tga.EvaluateGameTerminationSubscriber
             services.AddScoped<IGameTerminationResultReadOnlyDatabase, GameTerminationResultReadOnlyDatabase>();
             services.AddScoped<IPlayerMappingsReadOnlyDatabase, PlayerMappingsReadOnlyDatabase>();
 
-            services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
-            services.AddScoped<ICreateGameMailPubSubClient, CreateGameMailPubSubClient>();
+            services.AddScoped<ICreateGameMailPubSubClient>(
+                _ => new CreateGameMailPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.CreateGameMailTopicName)));
+            services.AddScoped<ISaveGameStatusPubSubClient>(
+                _ => new SaveGameStatusPubSubClient(
+                    new PubSubClientEnvironment(
+                        configuration.Environment,
+                        configuration.ProjectId,
+                        configuration.SaveGameStatusTopicName)));
 
             services.AddScoped<IPubSubProvider<IEvaluateGameTerminationMessage>, FunctionProvider>();
         }

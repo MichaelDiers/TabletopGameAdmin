@@ -10,6 +10,7 @@
     using Md.Tga.Common.Contracts.Models;
     using Md.Tga.Common.Firestore.Contracts.Logic;
     using Md.Tga.Common.Messages;
+    using Md.Tga.Common.Models;
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Microsoft.Extensions.Logging;
 
@@ -36,6 +37,7 @@
         private readonly IGameTerminationResultReadOnlyDatabase gameTerminationResultReadOnlyDatabase;
 
         private readonly IPlayerMappingsReadOnlyDatabase playerMappingsReadOnlyDatabase;
+        private readonly ISaveGameStatusPubSubClient saveGameStatusPubSubClient;
 
         /// <summary>
         ///     Creates a new instance of <see cref="FunctionProvider" />.
@@ -46,13 +48,15 @@
         /// <param name="gameReadOnlyDatabase">Access the games database collection.</param>
         /// <param name="playerMappingsReadOnlyDatabase">Read the player mappings of the game.</param>
         /// <param name="createGameMailPubSubClient">Create a new email.</param>
+        /// <param name="saveGameStatusPubSubClient"></param>
         public FunctionProvider(
             ILogger<Function> logger,
             IGameTerminationResultReadOnlyDatabase gameTerminationResultReadOnlyDatabase,
             IGameSeriesReadOnlyDatabase gameSeriesDatabase,
             IGameReadOnlyDatabase gameReadOnlyDatabase,
             IPlayerMappingsReadOnlyDatabase playerMappingsReadOnlyDatabase,
-            ICreateGameMailPubSubClient createGameMailPubSubClient
+            ICreateGameMailPubSubClient createGameMailPubSubClient,
+            ISaveGameStatusPubSubClient saveGameStatusPubSubClient
         )
             : base(logger)
         {
@@ -63,6 +67,7 @@
                 gameReadOnlyDatabase ?? throw new ArgumentNullException(nameof(gameReadOnlyDatabase));
             this.playerMappingsReadOnlyDatabase = playerMappingsReadOnlyDatabase;
             this.createGameMailPubSubClient = createGameMailPubSubClient;
+            this.saveGameStatusPubSubClient = saveGameStatusPubSubClient;
         }
 
         /// <summary>
@@ -85,6 +90,21 @@
 
             if (FunctionProvider.IsGameTerminated(gameSeries, playerResults))
             {
+                await this.saveGameStatusPubSubClient.PublishAsync(
+                    new SaveGameStatusMessage(
+                        message.ProcessId,
+                        new GameStatus(
+                            null,
+                            DateTime.Now,
+                            game.DocumentId,
+                            Status.Closed),
+                        new CreateGameMailMessage(
+                            message.ProcessId,
+                            GameMailType.GameTerminated,
+                            gameSeries,
+                            game,
+                            playerMappings,
+                            playerResults)));
             }
             else
             {
