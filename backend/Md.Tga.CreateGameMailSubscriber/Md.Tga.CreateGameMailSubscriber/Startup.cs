@@ -25,6 +25,7 @@ namespace Md.Tga.CreateGameMailSubscriber
             var configuration = new FunctionConfiguration();
             context.Configuration.Bind(configuration);
 
+            services.AddScoped<IFunctionConfiguration>(_ => configuration);
             services.AddScoped<IPubSubClientEnvironment>(_ => configuration);
             services.AddScoped<ISendMailPubSubClient, SendMailPubSubClient>();
 
