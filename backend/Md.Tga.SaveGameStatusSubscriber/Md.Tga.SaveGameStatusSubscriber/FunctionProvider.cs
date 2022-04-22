@@ -52,15 +52,19 @@
         /// <returns>A <see cref="Task" />.</returns>
         protected override async Task HandleMessageAsync(ISaveGameStatusMessage message)
         {
-            await this.gameStatusDatabase.InsertAsync(Guid.NewGuid().ToString(), message.GameStatus);
-
-            if (message.CreateGameMailMessage != null)
+            // prevent race conditions
+            if (await this.gameStatusDatabase.InsertIfNotExistsAsync(message.GameStatus) != null)
             {
-                await this.createGameMailPubSubClient.PublishAsync(message.CreateGameMailMessage);
-                if (message.GameStatus.Status == Status.Closed)
+                if (message.CreateGameMailMessage != null)
                 {
-                    await this.startGamePubSubClient.PublishAsync(
-                        new StartGameMessage(message.ProcessId, message.CreateGameMailMessage.GameSeries.DocumentId));
+                    await this.createGameMailPubSubClient.PublishAsync(message.CreateGameMailMessage);
+                    if (message.GameStatus.Status == Status.Closed)
+                    {
+                        await this.startGamePubSubClient.PublishAsync(
+                            new StartGameMessage(
+                                message.ProcessId,
+                                message.CreateGameMailMessage.GameSeries.DocumentId));
+                    }
                 }
             }
         }
