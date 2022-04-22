@@ -1,6 +1,9 @@
 ﻿namespace Md.Tga.Common.Firestore.Logic
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Google.Cloud.Firestore;
     using Md.Common.Contracts.Model;
     using Md.Common.Database;
     using Md.GoogleCloudFirestore.Logic;
@@ -20,6 +23,37 @@
         public GameStatusDatabase(IRuntimeEnvironment runtimeEnvironment)
             : base(runtimeEnvironment, GameStatusReadOnlyDatabase.CollectionName, GameStatus.FromDictionary)
         {
+        }
+
+        public async Task<string?> InsertIfNotExistsAsync(IGameStatus gameStatus)
+        {
+            var documentData = gameStatus.ToDictionary();
+            var _ = documentData.Remove(DatabaseObject.DocumentIdName);
+            if (!documentData.TryAdd(DatabaseObject.CreatedName, FieldValue.ServerTimestamp))
+            {
+                documentData[DatabaseObject.CreatedName] = FieldValue.ServerTimestamp;
+            }
+
+            var documentId = Guid.NewGuid().ToString();
+            var documentReference = this.Collection().Document(documentId);
+            var created = false;
+
+            await this.Collection()
+                .Database.RunTransactionAsync(
+                    async transaction =>
+                    {
+                        var result = await transaction.GetSnapshotAsync(
+                            this.Collection()
+                                .WhereEqualTo(DatabaseObject.ParentDocumentIdName, gameStatus.ParentDocumentId)
+                                .WhereEqualTo(GameStatus.StatusName, Status.Closed.ToString())
+                                .Limit(1));
+                        if (result.Count == 0)
+                        {
+                            transaction.Create(documentReference, documentData);
+                            created = true;
+                        }
+                    });
+            return created ? documentId : null;
         }
 
         /// <summary>
