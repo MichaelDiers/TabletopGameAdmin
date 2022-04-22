@@ -9,14 +9,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Md.Common" Version="1.2.33" />
-		<PackageReference Include="Md.Tga.Common" Version="1.2.77" />
-		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.38" />
-		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.26" />
+		<PackageReference Include="Md.Common" Version="1.2.35" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.79" />
+		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.39" />
+		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.27" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="Surveys.Common" Version="1.2.75" />
-		<PackageReference Include="Surveys.Common.Firestore" Version="1.2.19" />
-		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.14" />
+		<PackageReference Include="Surveys.Common" Version="1.2.77" />
+		<PackageReference Include="Surveys.Common.Firestore" Version="1.2.20" />
+		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.15" />
 	</ItemGroup>
 
 </Project>
