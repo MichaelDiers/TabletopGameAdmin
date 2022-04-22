@@ -1,6 +1,7 @@
 ﻿namespace Md.Tga.TesterClient
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
@@ -24,6 +25,16 @@
     /// </summary>
     public class FunctionProvider : IFunctionProvider
     {
+        /// <summary>
+        ///     Max iterations for waiting on results.
+        /// </summary>
+        private const int MaxIterations = 20;
+
+        /// <summary>
+        ///     The sleep value in ms.
+        /// </summary>
+        private const int Sleep = 1000;
+
         /// <summary>
         ///     Access the game database collection.
         /// </summary>
@@ -198,7 +209,7 @@
                     startGameSeriesMessage.GameSeries.Players));
             await this.pubSubClient.PublishAsync(message);
 
-            for (var i = 1; i < 10; ++i)
+            foreach (var i in FunctionProvider.Wait())
             {
                 var gameSeries = await this.gameSeriesReadOnlyDatabase.ReadOneAsync(
                     GameSeries.ExternalIdName,
@@ -223,7 +234,7 @@
         /// <returns>A <see cref="Task{TResult}" /> whose result is the created <see cref="IGame" />.</returns>
         private async Task<IGame> ReadGame(IGameSeries gameSeries)
         {
-            for (var i = 0; i < 10; i++)
+            foreach (var i in FunctionProvider.Wait())
             {
                 var game = await this.gameReadOnlyDatabase.ReadOneAsync(
                     DatabaseObject.ParentDocumentIdName,
@@ -248,7 +259,7 @@
         /// <returns>A <see cref="Task{TResult}" /> whose result is the created <see cref="IGameStatus" />.</returns>
         private async Task<IGameStatus> ReadGameStatus(IGame game)
         {
-            for (var i = 0; i < 10; i++)
+            foreach (var i in FunctionProvider.Wait())
             {
                 var gameStatus = (await this.gameStatusReadOnlyDatabase.ReadManyAsync(
                     DatabaseObject.ParentDocumentIdName,
@@ -274,7 +285,7 @@
         /// <returns>The created <see cref="IPlayerMappings" />.</returns>
         private async Task<IPlayerMappings> ReadPlayerMappings(IGame game)
         {
-            for (var i = 0; i < 10; i++)
+            foreach (var i in FunctionProvider.Wait())
             {
                 var playerMappings = await this.playerMappingsReadOnlyDatabase.ReadOneAsync(
                     DatabaseObject.ParentDocumentIdName,
@@ -299,7 +310,7 @@
         /// <returns>The created <see cref="IPlayerMappings" />.</returns>
         private async Task<ISurvey> ReadSurvey(IGame game)
         {
-            for (var i = 0; i < 10; i++)
+            foreach (var i in FunctionProvider.Wait())
             {
                 var survey = await this.surveyReadOnlyDatabase.ReadOneAsync(
                     DatabaseObject.ParentDocumentIdName,
@@ -324,7 +335,7 @@
         /// <returns>The created <see cref="ISurveyStatus" />.</returns>
         private async Task<ISurveyStatus> ReadSurveyStatusClosed(ISurvey survey)
         {
-            for (var i = 0; i < 10; i++)
+            foreach (var i in FunctionProvider.Wait())
             {
                 var surveyStatus = (await this.surveyStatusReadOnlyDatabase.ReadManyAsync(
                     DatabaseObject.ParentDocumentIdName,
@@ -383,6 +394,19 @@
                         game.DocumentId,
                         gameTermination.TerminationId,
                         gameSeries.Sides.First().Id));
+            }
+        }
+
+        /// <summary>
+        ///     Waiter method.
+        /// </summary>
+        /// <returns>The current iteration.</returns>
+        private static IEnumerable<int> Wait()
+        {
+            for (var i = 0; i < FunctionProvider.MaxIterations; i++)
+            {
+                yield return i;
+                Thread.Sleep(FunctionProvider.Sleep);
             }
         }
     }
