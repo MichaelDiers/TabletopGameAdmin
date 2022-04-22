@@ -1,30 +1,33 @@
 ﻿namespace Md.Tga.TesterClient
 {
+    using System.ComponentModel.DataAnnotations;
+    using Md.Common.DataAnnotations;
     using Md.Common.Model;
 
     /// <summary>
-    ///     Access the application settings.
+    ///     Describes the application settings.
     /// </summary>
-    public class FunctionConfiguration : RuntimeEnvironment, IFunctionConfiguration
+    public class FunctionConfiguration : RuntimeEnvironment
     {
         /// <summary>
-        ///     Gets the name of the topic of the pub/sub message.
+        ///     Gets or sets the name of the pub/sub topic for saving surveys.
         /// </summary>
-        public string StartGameTerminationTopicName { get; set; } = string.Empty;
-
-        /// <summary>
-        ///     Gets the id of the document id of the test case.
-        /// </summary>
-        public string DocumentId { get; set; } = "";
-
-        /// <summary>
-        ///     Gets the name of the pub/sub topic.
-        /// </summary>
+        [Required]
+        [TopicName]
         public string SaveSurveyResultTopicName { get; set; } = string.Empty;
 
         /// <summary>
-        ///     Gets the name of the topic of the pub/sub message.
+        ///     Gets or sets the name of the pub/sub topic for starting a new game series.
         /// </summary>
-        public string StartGameSeriesTopicName { get; set; } = "";
+        [Required]
+        [TopicName]
+        public string StartGameSeriesTopicName { get; set; } = string.Empty;
+
+        /// <summary>
+        ///     Gets or sets the name of the pub/sub topic for starting the game termination process.
+        /// </summary>
+        [Required]
+        [TopicName]
+        public string StartGameTerminationTopicName { get; set; } = string.Empty;
     }
 }

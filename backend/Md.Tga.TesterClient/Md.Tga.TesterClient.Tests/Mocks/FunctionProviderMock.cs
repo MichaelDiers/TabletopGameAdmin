@@ -4,9 +4,9 @@
 
     internal class FunctionProviderMock : IFunctionProvider
     {
-        public Task InitializeGameSeries()
+        public Task<string> InitializeGameSeries()
         {
-            return Task.CompletedTask;
+            return Task.FromResult(string.Empty);
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Md.Tga.TesterClient
     using Microsoft.Extensions.Logging;
 
     /// <summary>
-    ///     Google cloud function that handles Pub/Sub messages.
+    ///     Google cloud http function.
     /// </summary>
     [FunctionsStartup(typeof(Startup))]
     public class Function : HttpFunction<Function>
@@ -38,8 +38,8 @@ namespace Md.Tga.TesterClient
         /// <returns>A task to indicate when the request is complete.</returns>
         protected override async Task HandleGetAsync(HttpContext context, object? content)
         {
-            await this.functionProvider.InitializeGameSeries();
-            await this.SetJsonResponse(context, HttpStatusCode.OK, "{\"test\": \"ok\" }");
+            var json = await this.functionProvider.InitializeGameSeries();
+            await this.SetJsonResponse(context, HttpStatusCode.OK, json);
         }
     }
 }

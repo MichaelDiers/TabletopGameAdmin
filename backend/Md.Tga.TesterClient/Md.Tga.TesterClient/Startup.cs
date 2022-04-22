@@ -8,8 +8,8 @@ namespace Md.Tga.TesterClient
     using Md.Tga.Common.PubSub.Contracts.Logic;
     using Md.Tga.Common.PubSub.Logic;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Options;
     using Surveys.Common.Firestore.Contracts;
     using Surveys.Common.Firestore.Models;
     using Surveys.Common.PubSub.Contracts.Logic;
@@ -27,35 +27,51 @@ namespace Md.Tga.TesterClient
         /// <param name="services">Add services to this collection used in dependency injection context.</param>
         public override void ConfigureServices(WebHostBuilderContext context, IServiceCollection services)
         {
-            var configuration = new FunctionConfiguration() as IFunctionConfiguration;
-            context.Configuration.Bind(configuration);
-            services.AddScoped(_ => configuration);
+            services.AddOptions<FunctionConfiguration>().Bind(context.Configuration).ValidateDataAnnotations();
 
-            services.AddScoped<IRuntimeEnvironment>(_ => configuration);
+            services.AddScoped<IRuntimeEnvironment>(
+                provider => provider.GetService<IOptions<FunctionConfiguration>>().Value);
+
             services.AddScoped<ITestDataReadOnlyDatabase, TestDataReadOnlyDatabase>();
             services.AddScoped<IGameSeriesReadOnlyDatabase, GameSeriesReadOnlyDatabase>();
             services.AddScoped<IGameReadOnlyDatabase, GameReadOnlyDatabase>();
             services.AddScoped<ISurveyReadOnlyDatabase, SurveyReadOnlyDatabase>();
             services.AddScoped<IPlayerMappingsReadOnlyDatabase, PlayerMappingsReadOnlyDatabase>();
+            services.AddScoped<ISurveyStatusReadOnlyDatabase, SurveyStatusReadOnlyDatabase>();
+            services.AddScoped<IGameStatusReadOnlyDatabase, GameStatusReadOnlyDatabase>();
 
             services.AddScoped<IStartGameSeriesPubSubClient>(
-                _ => new StartGameSeriesPubSubClient(
-                    new PubSubClientEnvironment(
-                        configuration.Environment,
-                        configuration.ProjectId,
-                        configuration.StartGameSeriesTopicName)));
+                provider =>
+                {
+                    var config = provider.GetService<IOptions<FunctionConfiguration>>();
+                    return new StartGameSeriesPubSubClient(
+                        new PubSubClientEnvironment(
+                            config.Value.Environment,
+                            config.Value.ProjectId,
+                            config.Value.StartGameSeriesTopicName));
+                });
+
             services.AddScoped<ISaveSurveyResultPubSubClient>(
-                _ => new SaveSurveyResultPubSubClient(
-                    new PubSubClientEnvironment(
-                        configuration.Environment,
-                        configuration.ProjectId,
-                        configuration.SaveSurveyResultTopicName)));
+                provider =>
+                {
+                    var config = provider.GetService<IOptions<FunctionConfiguration>>();
+                    return new SaveSurveyResultPubSubClient(
+                        new PubSubClientEnvironment(
+                            config.Value.Environment,
+                            config.Value.ProjectId,
+                            config.Value.SaveSurveyResultTopicName));
+                });
+
             services.AddScoped<IStartGameTerminationPubSubClient>(
-                _ => new StartGameTerminationPubSubClient(
-                    new PubSubClientEnvironment(
-                        configuration.Environment,
-                        configuration.ProjectId,
-                        configuration.StartGameTerminationTopicName)));
+                provider =>
+                {
+                    var config = provider.GetService<IOptions<FunctionConfiguration>>();
+                    return new StartGameTerminationPubSubClient(
+                        new PubSubClientEnvironment(
+                            config.Value.Environment,
+                            config.Value.ProjectId,
+                            config.Value.StartGameTerminationTopicName));
+                });
 
             services.AddScoped<IFunctionProvider, FunctionProvider>();
         }

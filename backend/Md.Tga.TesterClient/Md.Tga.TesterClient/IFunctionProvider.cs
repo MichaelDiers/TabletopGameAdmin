@@ -10,7 +10,7 @@
         /// <summary>
         ///     Read the test case from the database and publish the message to pub/sub to start the process.
         /// </summary>
-        /// <returns>A <see cref="Task" />.</returns>
-        Task InitializeGameSeries();
+        /// <returns>A <see cref="Task" /> whose result is a json formatted string.</returns>
+        Task<string> InitializeGameSeries();
     }
 }
