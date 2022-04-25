@@ -1,11 +1,13 @@
 const uuid = require('uuid');
 
-const readData = async ({ database, gameId, terminationId, winningSideId }) => {
+const readData = async ({
+  database, gameId, terminationId, winningSideId,
+}) => {
   const gameStatusPromise = database.isClosed({ documentId: gameId });
   const gamePromise = database.readGame({ documentId: gameId });
   const playerMappingsPromise = database.readPlayerMappings({ parentDocumentId: gameId });
 
-  var gameStatusIsClosed = await gameStatusPromise;
+  const gameStatusIsClosed = await gameStatusPromise;
   if (gameStatusIsClosed === true) {
     return { valid: false, view: 'terminate/closed' };
   }
@@ -24,7 +26,7 @@ const readData = async ({ database, gameId, terminationId, winningSideId }) => {
     return { valid: false, view: 'terminate/unknown' };
   }
 
-  const player = gameSeries.players.find((player) => player.id === gameTermination.playerId);
+  const player = gameSeries.players.find((p) => p.id === gameTermination.playerId);
 
   const playerMappings = await playerMappingsPromise;
   if (!player || !playerMappings) {
@@ -39,7 +41,7 @@ const readData = async ({ database, gameId, terminationId, winningSideId }) => {
     ({ id }) => id === playerMapping.countryId,
   );
 
-  if (!playerMapping || !country){
+  if (!playerMapping || !country) {
     return { valid: false, view: 'terminate/unknown' };
   }
 
@@ -109,8 +111,8 @@ const initialize = (config = {}) => {
           formId: uuid.v4(),
           sides,
         };
-  
-        res.render('terminate/index', options);  
+
+        res.render('terminate/index', options);
       }
     },
 
@@ -126,7 +128,9 @@ const initialize = (config = {}) => {
         winningSideId,
       } = req.body;
 
-      var data = await readData({ gameId, terminationId, database, winningSideId });
+      const data = await readData({
+        gameId, terminationId, database, winningSideId,
+      });
       const { valid, view } = data;
       if (valid === false) {
         res.render(view);
@@ -142,13 +146,13 @@ const initialize = (config = {}) => {
           gameId,
           terminationId,
           winningSideId,
-        }); 
+        });
 
         res.render(
           'terminate/thankyou',
           {
-            pushStateUrl: `../../thankyou`,
-          }
+            pushStateUrl: '../../thankyou',
+          },
         );
       }
     },

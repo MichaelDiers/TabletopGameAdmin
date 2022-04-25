@@ -43,16 +43,18 @@ const initialize = (config = {}) => {
 
   middlewares.baseMiddleware({ router, requestLogging });
   routers.publicRoute({ router });
-  middlewares.pugMiddleware({ router, lang, files, baseName, gatewayAddress });
+  middlewares.pugMiddleware({
+    router, lang, files, baseName, gatewayAddress,
+  });
   middlewares.csurfMiddleware({ router, csurfCookieName });
 
   routers.footerRoute({
-    router: router,
+    router,
     controller: controllers.footerController(),
   });
 
   routers.headerRoute({
-    router: router,
+    router,
     controller: controllers.headerController(),
   });
 

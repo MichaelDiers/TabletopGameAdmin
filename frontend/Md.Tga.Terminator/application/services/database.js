@@ -28,7 +28,7 @@ const initialize = (config) => {
         .where('status', '==', 'Closed')
         .limit(1)
         .get();
-      return snapshot.size == 1;
+      return snapshot.size === 1;
     },
 
     /**
