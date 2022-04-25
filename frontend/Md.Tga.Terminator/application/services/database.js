@@ -45,6 +45,7 @@ const initialize = (config) => {
       const snapshot = await firestore.collection(gamesCollectionName).doc(documentId).get();
       if (snapshot.exists) {
         const document = snapshot.data();
+        document.documentId = documentId;
         return document;
       }
 
@@ -65,6 +66,7 @@ const initialize = (config) => {
       const snapshot = await firestore.collection(gameSeriesCollectionName).doc(documentId).get();
       if (snapshot.exists) {
         const document = snapshot.data();
+        document.documentId = documentId;
         return document;
       }
 

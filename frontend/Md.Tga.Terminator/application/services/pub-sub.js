@@ -30,6 +30,7 @@ const initialize = (options) => {
       } = message;
 
       const json = `{"processId":"${uuid.v4()}","gameSeriesId":"${gameSeriesId}","gameId":"${gameId}","terminationId":"${terminationId}","winningSideId":"${winningSideId}"}`;
+
       const data = Buffer.from(json);
       await pubSubClient
         .topic(topicName)

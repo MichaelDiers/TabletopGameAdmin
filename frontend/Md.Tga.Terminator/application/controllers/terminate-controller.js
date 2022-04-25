@@ -132,13 +132,11 @@ const initialize = (config = {}) => {
         res.render(view);
       } else {
         const {
-          game: {
-            id: gameId,
-          },
           gameSeries: {
-            id: gameSeriesId,
+            documentId: gameSeriesId,
           },
         } = data;
+
         await pubSubClient.publish({
           gameSeriesId,
           gameId,
