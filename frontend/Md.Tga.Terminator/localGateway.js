@@ -9,6 +9,7 @@ const application = app(
     requestLogging: true,
     gamesCollectionName: 'games-test',
     gameSeriesCollectionName: 'game-series-test',
+    gameStatusCollectionName: 'game-status-test',
     playerMappingsCollectionName: 'player-mappings-test',
     startGameTerminationTopic: 'START_GAME_TERMINATION_TEST',
   }),

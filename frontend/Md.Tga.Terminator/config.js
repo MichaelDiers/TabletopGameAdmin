@@ -13,6 +13,7 @@ const initialize = (options = {}) => {
     lang = 'de',
     gamesCollectionName,
     gameSeriesCollectionName,
+    gameStatusCollectionName,
     playerMappingsCollectionName,
     startGameTerminationTopic,
   } = options;
@@ -24,6 +25,7 @@ const initialize = (options = {}) => {
 
   const config = {
     appRoute,
+    baseName,
     gatewayAddress,
     publicLocalFolder,
     publicRoute,
@@ -38,6 +40,7 @@ const initialize = (options = {}) => {
     lang,
     gamesCollectionName,
     gameSeriesCollectionName,
+    gameStatusCollectionName,
     playerMappingsCollectionName,
     csurfCookieName,
     startGameTerminationTopic,

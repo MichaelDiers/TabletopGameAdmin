@@ -1,5 +1,63 @@
 const uuid = require('uuid');
 
+const readData = async ({ database, gameId, terminationId, winningSideId }) => {
+  const gameStatusPromise = database.isClosed({ documentId: gameId });
+  const gamePromise = database.readGame({ documentId: gameId });
+  const playerMappingsPromise = database.readPlayerMappings({ parentDocumentId: gameId });
+
+  var gameStatusIsClosed = await gameStatusPromise;
+  if (gameStatusIsClosed === true) {
+    return { valid: false, view: 'terminate/closed' };
+  }
+
+  const game = await gamePromise;
+  if (!game || game.gameTerminations.every((gt) => gt.terminationId !== terminationId)) {
+    return { valid: false, view: 'terminate/unknown' };
+  }
+
+  const gameSeriesPromise = database.readGameSeries({ documentId: game.parentDocumentId });
+
+  const gameTermination = game.gameTerminations.find((gt) => gt.terminationId === terminationId);
+
+  const gameSeries = await gameSeriesPromise;
+  if (!gameTermination || !gameSeries) {
+    return { valid: false, view: 'terminate/unknown' };
+  }
+
+  const player = gameSeries.players.find((player) => player.id === gameTermination.playerId);
+
+  const playerMappings = await playerMappingsPromise;
+  if (!player || !playerMappings) {
+    return { valid: false, view: 'terminate/unknown' };
+  }
+
+  const playerMapping = playerMappings.playerCountryMappings.find(
+    ({ playerId }) => playerId === player.id,
+  );
+
+  const country = gameSeries.countries.find(
+    ({ id }) => id === playerMapping.countryId,
+  );
+
+  if (!playerMapping || !country){
+    return { valid: false, view: 'terminate/unknown' };
+  }
+
+  if (winningSideId && gameSeries.sides.every(({ id }) => winningSideId !== id)) {
+    return { valid: false, view: 'terminate/unknown' };
+  }
+
+  return {
+    game,
+    gameSeries,
+    gameStatusIsClosed,
+    playerMapping,
+    country,
+    player,
+    valid: true,
+  };
+};
+
 /**
  * Initializes the terminate controller.
  * @param {object} config A configuration object.
@@ -23,43 +81,37 @@ const initialize = (config = {}) => {
     index: async (req, res) => {
       const { gameId, terminationId } = req.params;
 
-      const game = await database.readGame({ documentId: gameId });
-      if (!game || game.gameTerminations.every((gt) => gt.terminationId !== terminationId)) {
-        res.render('terminate/unknown');
-        return;
+      const data = await readData({ gameId, terminationId, database });
+      const { valid, view } = data;
+      if (valid === false) {
+        res.render(view);
+      } else {
+        const {
+          country: {
+            name: countryName,
+          },
+          game: {
+            name: gameName,
+          },
+          gameSeries: {
+            sides,
+          },
+          player: {
+            name: playerName,
+          },
+        } = data;
+        const options = {
+          playerName,
+          countryName,
+          gameId,
+          gameName,
+          terminationId,
+          formId: uuid.v4(),
+          sides,
+        };
+  
+        res.render('terminate/index', options);  
       }
-
-      const gameSeriesPromise = database.readGameSeries({ documentId: game.parentDocumentId });
-      const playerMappingsPromise = database.readPlayerMappings({ parentDocumentId: gameId });
-
-      const gameSeries = await gameSeriesPromise;
-      const playerMappings = await playerMappingsPromise;
-
-      if (!gameSeries || !playerMappings) {
-        res.render('terminate/unknown');
-        return;
-      }
-
-      const { playerId } = game.gameTerminations.find((gt) => gt.terminationId === terminationId);
-      const { name: playerName } = gameSeries.players.find((player) => player.id === playerId);
-      const { countryId } = playerMappings.playerCountryMappings.find(
-        (mapping) => mapping.playerId === playerId,
-      );
-      const { name: countryName } = gameSeries.countries.find(
-        (country) => country.id === countryId,
-      );
-
-      const options = {
-        playerName,
-        countryName,
-        gameId,
-        gameName: game.name,
-        terminationId,
-        formId: uuid.v4(),
-        sides: gameSeries.sides,
-      };
-
-      res.render('terminate/index', options);
     },
 
     /**
@@ -74,41 +126,33 @@ const initialize = (config = {}) => {
         winningSideId,
       } = req.body;
 
-      const game = await database.readGame({ documentId: gameId });
-      if (!game) {
-        res.render('terminate/unknown');
-        return;
+      var data = await readData({ gameId, terminationId, database, winningSideId });
+      const { valid, view } = data;
+      if (valid === false) {
+        res.render(view);
+      } else {
+        const {
+          game: {
+            id: gameId,
+          },
+          gameSeries: {
+            id: gameSeriesId,
+          },
+        } = data;
+        await pubSubClient.publish({
+          gameSeriesId,
+          gameId,
+          terminationId,
+          winningSideId,
+        }); 
+
+        res.render(
+          'terminate/thankyou',
+          {
+            pushStateUrl: `../../thankyou`,
+          }
+        );
       }
-
-      const { playerId } = game.gameTerminations.find(
-        (terminations) => terminations.terminationId === terminationId,
-      );
-      if (!playerId) {
-        res.render('terminate/unknown');
-        return;
-      }
-
-      const gameSeries = await database.readGameSeries({ documentId: game.parentDocumentId });
-      if (!gameSeries) {
-        res.render('terminate/unknown');
-        return;
-      }
-
-      if (gameSeries.sides.every(({ id }) => id !== winningSideId)) {
-        res.render('terminate/unknown');
-        return;
-      }
-
-      await pubSubClient.publish({
-        gameSeriesId: game.parentDocumentId,
-        gameId,
-        terminationId,
-        winningSideId,
-      });
-
-      res.render(
-        'terminate/thankyou',
-      );
     },
 
     /**

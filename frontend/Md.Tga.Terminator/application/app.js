@@ -17,6 +17,8 @@ const initialize = (config = {}) => {
   const {
     app = express(),
     router = express.Router(),
+    baseName,
+    gatewayAddress,
     viewEngine,
     viewLocalFolder,
     appRoute,
@@ -26,10 +28,12 @@ const initialize = (config = {}) => {
     files,
     gamesCollectionName,
     gameSeriesCollectionName,
+    gameStatusCollectionName,
     playerMappingsCollectionName,
     database = databaseInit({
       gamesCollectionName,
       gameSeriesCollectionName,
+      gameStatusCollectionName,
       playerMappingsCollectionName,
     }),
     csurfCookieName,
@@ -39,8 +43,23 @@ const initialize = (config = {}) => {
 
   middlewares.baseMiddleware({ router, requestLogging });
   routers.publicRoute({ router });
-  middlewares.pugMiddleware({ router, lang, files });
+  middlewares.pugMiddleware({ router, lang, files, baseName, gatewayAddress });
   middlewares.csurfMiddleware({ router, csurfCookieName });
+
+  routers.footerRoute({
+    router: router,
+    controller: controllers.footerController(),
+  });
+
+  routers.headerRoute({
+    router: router,
+    controller: controllers.headerController(),
+  });
+
+  routers.terminateRoute({
+    router: middlewares.terminateMiddleware({ router }),
+    controller: controllers.terminateController({ database, pubSubClient }),
+  });
 
   routers.terminateRoute({
     router: middlewares.terminateMiddleware({ router }),

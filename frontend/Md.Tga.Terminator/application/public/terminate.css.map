@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "mappings": "ACAA,OAAO,CAAC,oEAAI;ACAZ,AAAA,EAAE,CAAC;EACD,WAAW,EAAE,kBAAkB;CAChC;;ACFD,AAAA,MAAM,CAAC;EACL,gBAAgB,EAAE,gCAAgC;EAClD,iBAAiB,EAAE,QAAQ;EAC3B,eAAe,EAAE,OAAO;CACzB",
+    "sources": [
+        "../../client/scss/terminate.scss",
+        "../../client/scss/base/_fonts.scss",
+        "../../client/scss/base/_typographie.scss",
+        "../../client/scss/layout/_header.scss"
+    ],
+    "names": [],
+    "file": "terminate.css"
+}

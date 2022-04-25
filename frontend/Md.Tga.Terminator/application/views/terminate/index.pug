@@ -1,11 +1,15 @@
-h1 Hallo #{playerName}! Hallo #{countryName}!
-h2 Welche Seite gewinnt das Spiel #{gameName}?
-form(id=formId, method='POST', action='../../../../terminate/submit')
-  input(type='hidden', name='_csrf', value=csurfToken)
-  input(type='hidden', name='gameId', value=gameId)
-  input(type='hidden', name='terminationId', value=terminationId)
-  label(for=winningSide) Gewinnner
-  select#winningSide(name='winningSideId', required='true')
-    each side in sides
-      option(value=side.id)= side.name
-  button(type='submit') Abstimmen
+.container
+  h1 This is the end ...
+  p 
+    | Wie entscheiden sich die Weisen aus #{countryName}, #{playerName}?
+    | Welche Seite hat das Spiel #{gameName} gewonnen?
+  form(id=formId, method='POST', action='../../../../terminate/submit')
+    input(type='hidden', name='_csrf', value=csurfToken)
+    input(type='hidden', name='gameId', value=gameId)
+    input(type='hidden', name='terminationId', value=terminationId)
+    label(for=winningSide) Gewinnner
+    select#winningSide(name='winningSideId', required='true')
+      each side in sides
+        option(value=side.id)= side.name
+    div
+    button(type='submit') Abstimmen

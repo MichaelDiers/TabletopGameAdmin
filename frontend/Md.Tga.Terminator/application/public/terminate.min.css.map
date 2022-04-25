@@ -1,0 +1,12 @@
+{
+    "version": 3,
+    "mappings": "ACAA,OAAO,CAAC,oEAAI,CCAZ,AAAA,EAAE,AAAC,CACD,WAAW,CAAE,kBAAkB,CAChC,ACFD,AAAA,MAAM,AAAC,CACL,gBAAgB,CAAE,gCAAgC,CAClD,iBAAiB,CAAE,QAAQ,CAC3B,eAAe,CAAE,OAAO,CACzB",
+    "sources": [
+        "../../client/scss/terminate.scss",
+        "../../client/scss/base/_fonts.scss",
+        "../../client/scss/base/_typographie.scss",
+        "../../client/scss/layout/_header.scss"
+    ],
+    "names": [],
+    "file": "terminate.min.css"
+}

@@ -13,10 +13,13 @@ const initialize = (config = {}) => {
     router = Router(),
     lang,
     files,
+    baseName,
+    gatewayAddress,
   } = config;
 
   router.use((req, res, next) => {
     res.locals.pubLocals = {
+      imageUrl: `${gatewayAddress}/${baseName}/public/peace-gd81eb6308_1280.jpg`,
       lang,
       files,
     };

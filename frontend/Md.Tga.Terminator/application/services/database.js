@@ -12,10 +12,25 @@ const initialize = (config) => {
   const {
     gamesCollectionName,
     gameSeriesCollectionName,
+    gameStatusCollectionName,
     playerMappingsCollectionName,
   } = config;
 
   const database = {
+
+    isClosed: async (options) => {
+      const {
+        documentId,
+      } = options;
+
+      const snapshot = await firestore.collection(gameStatusCollectionName)
+        .where('parentDocumentId', '==', documentId)
+        .where('status', '==', 'Closed')
+        .limit(1)
+        .get();
+      return snapshot.size == 1;
+    },
+
     /**
      * Read a game by its document id.
      * @param {object} options An options object.
