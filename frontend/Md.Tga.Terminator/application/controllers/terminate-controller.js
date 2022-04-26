@@ -126,8 +126,8 @@ const initialize = (config = {}) => {
         gameId,
         terminationId,
         winningSideId,
+        reason,
       } = req.body;
-
       const data = await readData({
         gameId, terminationId, database, winningSideId,
       });
@@ -146,6 +146,7 @@ const initialize = (config = {}) => {
           gameId,
           terminationId,
           winningSideId,
+          reason,
         });
 
         res.render(
