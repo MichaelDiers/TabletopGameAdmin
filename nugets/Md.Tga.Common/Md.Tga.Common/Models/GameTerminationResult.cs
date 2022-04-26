@@ -93,7 +93,7 @@
             var baseObject = DatabaseObject.FromDictionary(dictionary);
             var playerId = dictionary.GetString(GameTerminationResult.PlayerIdName);
             var winningSideId = dictionary.GetString(GameTerminationResult.WinningSideIdName);
-            var reason = dictionary.GetString(GameTerminationResult.ReasonName);
+            var reason = dictionary.GetString(GameTerminationResult.ReasonName, string.Empty);
             return new GameTerminationResult(
                 baseObject.DocumentId,
                 baseObject.Created,
