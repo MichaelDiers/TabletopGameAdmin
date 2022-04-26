@@ -12,6 +12,10 @@
       each side in sides
         option(value=side.id)= side.name
     label(for='reason') Begründung
-    textarea#reason(name="reason", cols="30", rows="10", placeholder='Eine optionale Begründung für die Beendigung des Spiels.')
+    textarea#reason(
+      name='reason'
+      cols='30'
+      rows='10'
+      placeholder='Eine optionale Begründung für die Beendigung des Spiels.')
     div
     button(type='submit') Abstimmen

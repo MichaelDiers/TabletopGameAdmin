@@ -63,11 +63,6 @@ const initialize = (config = {}) => {
     controller: controllers.terminateController({ database, pubSubClient }),
   });
 
-  routers.terminateRoute({
-    router: middlewares.terminateMiddleware({ router }),
-    controller: controllers.terminateController({ database, pubSubClient }),
-  });
-
   app.set('views', viewLocalFolder);
   app.set('view engine', viewEngine);
 

@@ -2,16 +2,18 @@ const { Router } = require('express');
 const uuid = require('uuid');
 const { body, param, validationResult } = require('express-validator');
 
-const isUuid = (chain) => chain.exists().custom((value) => uuid.validate(value) && uuid.version(value) === 4);
+const isUuid = (chain) => chain.exists().custom(
+  (value) => uuid.validate(value) && uuid.version(value) === 4,
+);
 
 const middlewareFunc = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    return res.render('terminate/unknown');
+    res.render('terminate/unknown');
   } else {
     next();
   }
-}
+};
 
 /**
  * Initializes the middleware for the index route.
@@ -25,7 +27,7 @@ const initialize = (config = {}) => {
   } = config;
 
   router.use(
-    '/game/:gameId/:terminationId', 
+    '/game/:gameId/:terminationId',
     isUuid(param('gameId')),
     isUuid(param('terminationId')),
     middlewareFunc,
