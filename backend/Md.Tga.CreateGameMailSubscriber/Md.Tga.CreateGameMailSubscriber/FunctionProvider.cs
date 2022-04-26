@@ -115,9 +115,12 @@
             foreach (var player in message.GameSeries.Players)
             {
                 var terminationId = message.Game.GameTerminations.First(gt => gt.PlayerId == player.Id).TerminationId;
-                var reason =
-                    message.GameTerminationResults.OrderByDescending(x => x.Created).FirstOrDefault()?.Reason ??
-                    GameTerminationUpdateText.NoStatement;
+                var terminationResult = message.GameTerminationResults.OrderByDescending(x => x.Created).First();
+                var reason = string.IsNullOrWhiteSpace(terminationResult.Reason)
+                    ? GameTerminationUpdateText.NoStatement
+                    : terminationResult.Reason;
+                var diplomat = message.GameSeries.Players.First(p => p.Id == terminationResult.PlayerId).Name;
+
                 var sendMailMessage = new SendMailMessage(
                     message.ProcessId,
                     new[] {new Recipient(player.Email, player.Name)},
@@ -134,7 +137,8 @@
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
                                 terminationId),
-                            reason),
+                            reason,
+                            diplomat),
                         string.Format(
                             GameTerminationUpdateText.BodyText,
                             player.Name,
@@ -145,7 +149,8 @@
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
                                 terminationId),
-                            reason)));
+                            reason,
+                            diplomat)));
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }
