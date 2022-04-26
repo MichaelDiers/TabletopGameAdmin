@@ -18,6 +18,11 @@
         string GameSeriesDocumentId { get; }
 
         /// <summary>
+        ///     Gets a reason for the termination of a game.
+        /// </summary>
+        string Reason { get; }
+
+        /// <summary>
         ///     Gets the termination id.
         /// </summary>
         string TerminationId { get; }

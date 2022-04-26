@@ -33,7 +33,8 @@
                         DateTime.Now,
                         container.Game.DocumentId,
                         container.GameSeries.Players.First().Id,
-                        container.GameSeries.Sides.First().Id)
+                        container.GameSeries.Sides.First().Id,
+                        "A reason.")
                 });
             var actual =
                 (ICreateGameMailMessage) Serializer.DeserializeObject<CreateGameMailMessage>(

@@ -13,6 +13,11 @@
         string PlayerId { get; }
 
         /// <summary>
+        ///     Gets a reason for terminating the game.
+        /// </summary>
+        string Reason { get; }
+
+        /// <summary>
         ///     Gets the id of the winning side.
         /// </summary>
         string WinningSideId { get; }

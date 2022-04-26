@@ -14,7 +14,8 @@
                 DateTime.Now,
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
-                Guid.NewGuid().ToString());
+                Guid.NewGuid().ToString(),
+                "A reason");
             var actual = GameTerminationResult.FromDictionary(expected.ToDictionary());
 
             Assert.Equal(expected.DocumentId, actual.DocumentId);
@@ -22,6 +23,7 @@
             Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
             Assert.Equal(expected.PlayerId, actual.PlayerId);
             Assert.Equal(expected.WinningSideId, actual.WinningSideId);
+            Assert.Equal(expected.Reason, actual.Reason);
         }
     }
 }
