@@ -69,6 +69,7 @@ message CreateGameMailMessage {
         string parentDocumentId = 3;
         string playerId = 4;
         string winningSideId = 5;
+        string reason = 6;
     };
 
     string processId = 1;
