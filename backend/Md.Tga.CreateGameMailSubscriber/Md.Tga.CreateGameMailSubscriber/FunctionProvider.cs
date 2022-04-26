@@ -115,7 +115,9 @@
             foreach (var player in message.GameSeries.Players)
             {
                 var terminationId = message.Game.GameTerminations.First(gt => gt.PlayerId == player.Id).TerminationId;
-
+                var reason =
+                    message.GameTerminationResults.OrderByDescending(x => x.Created).FirstOrDefault()?.Reason ??
+                    GameTerminationUpdateText.NoStatement;
                 var sendMailMessage = new SendMailMessage(
                     message.ProcessId,
                     new[] {new Recipient(player.Email, player.Name)},
@@ -131,7 +133,8 @@
                             string.Format(
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
-                                terminationId)),
+                                terminationId),
+                            reason),
                         string.Format(
                             GameTerminationUpdateText.BodyText,
                             player.Name,
@@ -141,7 +144,8 @@
                             string.Format(
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
-                                terminationId))));
+                                terminationId),
+                            reason)));
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }

@@ -72,7 +72,9 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///        &lt;h1&gt;Hej {0}!&lt;/h1&gt;
         ///        &lt;p&gt;Das aktuelle Meinungsbild für eine Beendigung des Spiels {1}..&lt;/p&gt;
         ///        &lt;ul&gt;{2}&lt;/ul&gt;
-        ///&lt;p&gt;Über diesem &lt;a href=&quot;{4}&quot;&gt;Link&lt;/a&gt; kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst den &lt;a href=&quot;{4}&quot;&gt;Link&lt;/a&gt; für dieses Spiel b [rest of string was truncated]&quot;;.
+        ///        &lt;h2&gt;Offizielles Stattement des Chef-Diplomaten&lt;/h2&gt;
+        ///        &lt;p&gt;{5}&lt;/p&gt;
+        ///&lt;p&gt;Über diesem &lt;a href=&quot;{4}&quot;&gt;Link&lt;/a&gt; kannst den Sieg für Dich rekla [rest of string was truncated]&quot;;.
         /// </summary>
         public static string BodyHtml {
             get {
@@ -95,6 +97,10 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///Das aktuelle Meinungsbild für eine Beendigung des Spiels {1}.
         ///
         ///{2}
+        ///
+        ///Offizielles Stattement des Chef-Diplomaten:
+        ///
+        ///{5}
         ///
         ///Über den folgenden Link kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst dem Link für dieses Spiel beliebig oft nutzen bis alle Spieler sich auf eine Seite geeignet haben:
         ///
@@ -126,6 +132,15 @@ namespace Md.Tga.CreateGameMailSubscriber {
         public static string Neutral {
             get {
                 return ResourceManager.GetString("Neutral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to keine Begründung.
+        /// </summary>
+        public static string NoStatement {
+            get {
+                return ResourceManager.GetString("NoStatement", resourceCulture);
             }
         }
         
