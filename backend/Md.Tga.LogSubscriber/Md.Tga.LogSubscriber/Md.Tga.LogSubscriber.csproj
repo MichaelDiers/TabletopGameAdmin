@@ -7,9 +7,9 @@
 	<ItemGroup>
 		<PackageReference Include="Google.Cloud.Functions.Hosting" Version="1.0.0" />
 		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.18" />
-		<PackageReference Include="Md.Tga.Common" Version="1.2.79" />
-		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.39" />
-		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.27" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.82" />
+		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.42" />
+		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.29" />
 	</ItemGroup>
 
 </Project>

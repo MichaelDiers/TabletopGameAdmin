@@ -6,12 +6,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="Google.Cloud.Functions.Hosting" Version="1.0.0" />
-		<PackageReference Include="Md.GoogleCloudFirestore" Version="1.2.35" />
-		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.17" />
-		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.2.31" />
-		<PackageReference Include="Md.Tga.Common" Version="1.2.77" />
-		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.38" />
-		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.26" />
+		<PackageReference Include="Md.GoogleCloudFirestore" Version="1.2.36" />
+		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.18" />
+		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.2.32" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.82" />
+		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.42" />
+		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.29" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
 	</ItemGroup>
 
