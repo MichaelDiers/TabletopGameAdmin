@@ -45,5 +45,10 @@
 
             throw new NotImplementedException();
         }
+
+        public Task<string?> InsertIfNotExistsAsync(ISurveyStatus surveyStatus)
+        {
+            return Task.FromResult<string?>(Guid.NewGuid().ToString());
+        }
     }
 }
