@@ -393,7 +393,8 @@
                         gameSeries.DocumentId,
                         game.DocumentId,
                         gameTermination.TerminationId,
-                        gameSeries.Sides.First().Id));
+                        gameSeries.Sides.First().Id,
+                        string.Empty));
             }
         }
 
