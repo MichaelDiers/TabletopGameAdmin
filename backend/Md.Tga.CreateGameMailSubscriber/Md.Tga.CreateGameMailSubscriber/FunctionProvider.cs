@@ -2,11 +2,14 @@
 {
     using System;
     using System.Linq;
+    using System.Net;
     using System.Text;
     using System.Threading.Tasks;
+    using Google.Protobuf;
     using Md.GoogleCloudFunctions.Logic;
     using Md.Tga.Common.Contracts.Messages;
     using Microsoft.Extensions.Logging;
+    using Surveys.Common.Contracts.Messages;
     using Surveys.Common.Messages;
     using Surveys.Common.PubSub.Contracts.Logic;
 
@@ -170,6 +173,8 @@
                 textResult.AppendFormat(SurveyResultText.BodyTextEntry, gameSeriesCountry.Name, player.Name);
             }
 
+            var attachment = await this.ReadSurveyResultAttachmentAsync();
+
             foreach (var gameSeriesPlayer in message.GameSeries.Players)
             {
                 var terminationId = message.Game.GameTerminations.First(gt => gt.PlayerId == gameSeriesPlayer.Id)
@@ -198,9 +203,22 @@
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
                                 terminationId))),
-                    Enumerable.Empty<Attachment>());
+                    new[] {attachment});
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
+        }
+
+        /// <summary>
+        ///     Read the mail attachment used for <see cref="GameMailType.SurveyResult" />.
+        /// </summary>
+        /// <returns>The data of the attachment.</returns>
+        private async Task<IAttachment> ReadSurveyResultAttachmentAsync()
+        {
+            var webRequest = (HttpWebRequest) WebRequest.Create(this.configuration.StartGameAttachmentUrl);
+            var response = webRequest.GetResponse();
+            var responseStream = response.GetResponseStream();
+            var byteString = await ByteString.FromStreamAsync(responseStream);
+            return new Attachment(this.configuration.StartGameAttachmentName, byteString.ToByteArray());
         }
     }
 }
