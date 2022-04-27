@@ -103,6 +103,10 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///
         ///{3}
         ///
+        ///Ein paar Statistiken zu den bisheringen Spielen, kannst du hier einsehen:
+        ///
+        ///{4}
+        /// 
         ///Viele Grüße,
         ///
         ///{2}.

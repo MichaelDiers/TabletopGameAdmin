@@ -133,7 +133,10 @@
         &lt;p&gt;{5}&lt;/p&gt;
          &lt;h2&gt;Abstimmen&lt;/h2&gt;
 &lt;p&gt;Über diesem &lt;a href="{4}"&gt;Link&lt;/a&gt; kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst den &lt;a href="{4}"&gt;Link&lt;/a&gt; für dieses Spiel beliebig oft nutzen bis alle Spieler sich auf eine Seite geeignet haben.&lt;/p&gt;
-        &lt;p&gt;Viele Grüße,&lt;br&gt;&lt;br&gt;{3}&lt;/p&gt;
+        &lt;h1&gt;Spielstatistik&lt;/h1&gt;
+        &lt;p&gt;Ein paar Statistiken zu den bisheringen Spielen, kannst du &lt;a href='{6}'&gt;hier&lt;/a&gt; einsehen.&lt;/p&gt;
+       
+ &lt;p&gt;Viele Grüße,&lt;br&gt;&lt;br&gt;{3}&lt;/p&gt;
     &lt;/body&gt;
 &lt;/html&gt;</value>
   </data>
@@ -156,6 +159,10 @@ Abstimmen
 Über den folgenden Link kannst den Sieg für Dich reklamieren oder kapitulieren. Du kannst dem Link für dieses Spiel beliebig oft nutzen bis alle Spieler sich auf eine Seite geeignet haben:
 
 {4}
+
+Ein paar Statistiken zu den bisheringen Spielen, kannst du hier einsehen:
+
+{6}
 
 Viele Grüße,
 

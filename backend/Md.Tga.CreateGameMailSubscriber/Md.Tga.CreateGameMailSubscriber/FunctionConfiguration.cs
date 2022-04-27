@@ -8,6 +8,11 @@
     public class FunctionConfiguration : PubSubClientEnvironment, IFunctionConfiguration
     {
         /// <summary>
+        ///     Gets or sets the format of the statistics link.
+        /// </summary>
+        public string StatisticsLinkFormat { get; set; }
+
+        /// <summary>
         ///     Gets or sets the name for the start game attachment.
         /// </summary>
         public string StartGameAttachmentName { get; set; }

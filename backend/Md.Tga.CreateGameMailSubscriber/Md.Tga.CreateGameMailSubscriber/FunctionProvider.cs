@@ -73,6 +73,7 @@
         {
             var winningSideId = message.GameTerminationResults.First().WinningSideId;
             var winningSideName = message.GameSeries.Sides.First(side => side.Id == winningSideId).Name;
+            var statisticsLink = string.Format(this.configuration.StatisticsLinkFormat, message.GameSeries.DocumentId);
 
             var sendMailMessage = new SendMailMessage(
                 message.ProcessId,
@@ -84,12 +85,14 @@
                         GameTerminatedText.BodyHtml,
                         message.Game.Name,
                         winningSideName,
-                        message.GameSeries.Organizer.Name),
+                        message.GameSeries.Organizer.Name,
+                        statisticsLink),
                     string.Format(
                         GameTerminatedText.BodyText,
                         message.Game.Name,
                         winningSideName,
-                        message.GameSeries.Organizer.Name)),
+                        message.GameSeries.Organizer.Name,
+                        statisticsLink)),
                 Enumerable.Empty<Attachment>());
             await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
         }
@@ -99,6 +102,8 @@
             var htmlResult = new StringBuilder();
             var textResult = new StringBuilder();
             var neutral = message.GameSeries.Players.Count();
+            var statisticsLink = string.Format(this.configuration.StatisticsLinkFormat, message.GameSeries.DocumentId);
+
             foreach (var gameSeriesSide in message.GameSeries.Sides)
             {
                 var count = message.GameTerminationResults.Count(gtr => gtr.WinningSideId == gameSeriesSide.Id);
@@ -142,7 +147,8 @@
                                 message.Game.DocumentId,
                                 terminationId),
                             reason,
-                            diplomat),
+                            diplomat,
+                            statisticsLink),
                         string.Format(
                             GameTerminationUpdateText.BodyText,
                             player.Name,
@@ -154,7 +160,8 @@
                                 message.Game.DocumentId,
                                 terminationId),
                             reason,
-                            diplomat)),
+                            diplomat,
+                            statisticsLink)),
                     Enumerable.Empty<Attachment>());
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
@@ -174,6 +181,7 @@
             }
 
             var attachment = await this.ReadSurveyResultAttachmentAsync();
+            var statisticsLink = string.Format(this.configuration.StatisticsLinkFormat, message.GameSeries.DocumentId);
 
             foreach (var gameSeriesPlayer in message.GameSeries.Players)
             {
@@ -193,7 +201,8 @@
                             string.Format(
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
-                                terminationId)),
+                                terminationId),
+                            statisticsLink),
                         string.Format(
                             SurveyResultText.BodyText,
                             gameSeriesPlayer.Name,
@@ -202,7 +211,8 @@
                             string.Format(
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
-                                terminationId))),
+                                terminationId),
+                            statisticsLink)),
                     new[] {attachment});
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }

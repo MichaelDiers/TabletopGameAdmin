@@ -128,6 +128,8 @@
     &lt;body&gt;
         &lt;h1&gt;Hej zusammen!&lt;/h1&gt;
         &lt;p&gt;Am Runden Tisch wurde das Spiel {0} beendet: {1} zum Sieger erklärt!&lt;/p&gt;
+        &lt;h1&gt;Spielstatistik&lt;/h1&gt;
+        &lt;p&gt;Ein paar Statistiken zu den bisheringen Spielen, kannst du &lt;a href='{3}'&gt;hier&lt;/a&gt; einsehen.&lt;/p&gt;
         &lt;p&gt;Viele Grüße,&lt;br&gt;&lt;br&gt;{2}&lt;/p&gt;
     &lt;/body&gt;
 &lt;/html&gt;</value>
@@ -137,6 +139,10 @@
 
 Am Runden Tisch wurde das Spiel {0} beendet: {1} zum Sieger erklärt!
 
+Ein paar Statistiken zu den bisheringen Spielen, kannst du hier einsehen:
+
+{3}
+ 
 Viele Grüße,
 
 {2}</value>

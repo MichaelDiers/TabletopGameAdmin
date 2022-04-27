@@ -19,6 +19,11 @@
         string StartGameAttachmentUrl { get; }
 
         /// <summary>
+        ///     Gets the format of the statistics link.
+        /// </summary>
+        string StatisticsLinkFormat { get; }
+
+        /// <summary>
         ///     Gets the format string for the terminate link.
         /// </summary>
         string TerminateLinkFormat { get; }
