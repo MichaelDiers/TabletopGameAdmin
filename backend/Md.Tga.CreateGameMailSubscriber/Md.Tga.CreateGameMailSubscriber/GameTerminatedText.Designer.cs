@@ -69,7 +69,7 @@ namespace Md.Tga.CreateGameMailSubscriber {
         ///        &lt;meta name=&quot;google&quot; content=&quot;notranslate&quot;&gt;
         ///    &lt;/head&gt;
         ///    &lt;body&gt;
-        ///        &lt;h1&gt;Hej {0}!&lt;/h1&gt;
+        ///        &lt;h1&gt;Hej zusammen!&lt;/h1&gt;
         ///        &lt;p&gt;Am Runden Tisch wurde das Spiel {0} beendet: {1} zum Sieger erklärt!&lt;/p&gt;
         ///        &lt;p&gt;Viele Grüße,&lt;br&gt;&lt;br&gt;{2}&lt;/p&gt;
         ///    &lt;/body&gt;

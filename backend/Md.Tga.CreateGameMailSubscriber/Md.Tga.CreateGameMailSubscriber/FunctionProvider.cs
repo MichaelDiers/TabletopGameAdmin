@@ -86,7 +86,8 @@
                         GameTerminatedText.BodyText,
                         message.Game.Name,
                         winningSideName,
-                        message.GameSeries.Organizer.Name)));
+                        message.GameSeries.Organizer.Name)),
+                Enumerable.Empty<Attachment>());
             await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
         }
 
@@ -150,7 +151,8 @@
                                 message.Game.DocumentId,
                                 terminationId),
                             reason,
-                            diplomat)));
+                            diplomat)),
+                    Enumerable.Empty<Attachment>());
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }
@@ -195,7 +197,8 @@
                             string.Format(
                                 this.configuration.TerminateLinkFormat,
                                 message.Game.DocumentId,
-                                terminationId))));
+                                terminationId))),
+                    Enumerable.Empty<Attachment>());
                 await this.sendMailPubSubClient.PublishAsync(sendMailMessage);
             }
         }
