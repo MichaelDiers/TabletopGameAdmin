@@ -1,0 +1,27 @@
+name: Md.Tga.Statistics
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/Md.Tga.Statistics/**'
+  workflow_dispatch:
+  workflow_run:
+    workflows: [GoLive]
+    types: [completed]
+jobs:
+  deployGoogleCloudFunction:
+    uses: MichaelDiers/shared-workflows/.github/workflows/node-deploy-google-cloud-function.yaml@main
+    with:
+      functionName: statistics
+      sourceDirectory: frontend/Md.Tga.Statistics
+    secrets:
+      gcpCredentialsTest: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
+      gcpCredentialsStage: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
+      gcpCredentialsProd: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
+      projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
+      projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
+      envVarsTest: ENV_GAMES_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAMES }}-test,ENV_GAME_SERIES_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_SERIES }}-test,ENV_PLAYER_MAPPINGS_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_PLAYER_MAPPINGS }}-test,ENV_GAME_STATUS_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_STATUS }}-test,ENV_GAME_TERMINATION_RESULT_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_TERMINATION_RESULT }}-test
+      envVarsStage: ENV_GAMES_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAMES }}-stage,ENV_GAME_SERIES_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_SERIES }}-stage,ENV_PLAYER_MAPPINGS_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_PLAYER_MAPPINGS }}-stage,ENV_GAME_STATUS_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_STATUS }}-stage,ENV_GAME_TERMINATION_RESULT_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_TERMINATION_RESULT }}-stage
+      envVarsProd: ENV_GAMES_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAMES }}-prod,ENV_GAME_SERIES_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_SERIES }}-prod,ENV_PLAYER_MAPPINGS_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_PLAYER_MAPPINGS }}-prod,ENV_GAME_STATUS_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_STATUS }}-prod,ENV_GAME_TERMINATION_RESULT_COLLECTION_NAME=${{ secrets.GLOBAL_COLLECTION_GAME_TERMINATION_RESULT }}-prod

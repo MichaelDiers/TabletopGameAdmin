@@ -1,0 +1,11 @@
+{
+    "version": 3,
+    "mappings": "AEAA,AAAA,IAAI,AAAC,CACH,KAAK,CDDK,OAAkB,CCE7B",
+    "sources": [
+        "../../client/scss/statistics.scss",
+        "../../client/scss/abstracts/_variables.scss",
+        "../../client/scss/pages/_history.scss"
+    ],
+    "names": [],
+    "file": "statistics.min.css"
+}
