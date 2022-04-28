@@ -1,10 +1,11 @@
 {
     "version": 3,
-    "mappings": "AEAA,AAAA,IAAI,AAAC,CACH,KAAK,CDDK,OAAkB,CCE7B",
+    "mappings": "AEAA,AAAA,IAAI,AAAC,CACH,KAAK,CDDK,OAAkB,CCE7B,ACFD,AAAA,gBAAgB,AAAC,CACf,GAAG,CAAE,GAAG,CACR,WAAW,CAAE,OAAO,CACrB,AAED,AAAA,gBAAgB,CAAC,QAAQ,AAAC,CACxB,gBAAgB,CFNN,OAAkB,CEO5B,UAAU,CAAE,IAAI,CAChB,SAAS,CAAE,IAAI,CACf,OAAO,CAAE,IAAI,CACd,AAED,AAAA,gBAAgB,CAAC,CAAC,AAAC,CACjB,UAAU,CAAE,MAAM,CACnB",
     "sources": [
         "../../client/scss/statistics.scss",
         "../../client/scss/abstracts/_variables.scss",
-        "../../client/scss/pages/_history.scss"
+        "../../client/scss/pages/_history.scss",
+        "../../client/scss/pages/_winning-history.scss"
     ],
     "names": [],
     "file": "statistics.min.css"

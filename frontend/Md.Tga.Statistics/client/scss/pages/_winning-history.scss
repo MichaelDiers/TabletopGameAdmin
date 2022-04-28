@@ -1,14 +1,10 @@
-.win {
-  color: #54be23;
-}
-
 #winning-history {
   gap: 5px;
   place-items: stretch;
 }
 
 #winning-history .victory {
-  background-color: #54be23;
+  background-color: $win-color;
   min-height: 15px;
   min-width: 75px;
   padding: 10px;
@@ -17,4 +13,3 @@
 #winning-history * {
   text-align: center;
 }
-/*# sourceMappingURL=statistics.css.map */

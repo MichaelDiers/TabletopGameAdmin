@@ -1,0 +1,5 @@
+.container
+  h1 Gewonnene Spiele
+  #winning-history(class='grid-' + winningHistory.cols)
+    each element in winningHistory.entries
+      div(class=element.class)= element.value

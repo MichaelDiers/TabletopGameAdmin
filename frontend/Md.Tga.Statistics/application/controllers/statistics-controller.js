@@ -31,6 +31,39 @@ const createHistory = (data) => {
   return { entries: history, cols: gameSeries.players.length + 1 };
 };
 
+const createWinningHistory = ({ gameSeries, playerMappings, winningSideIds }) => {
+  const counter = {};
+  gameSeries.players.forEach(({ id }) => { counter[id] = 0; });
+
+  winningSideIds.forEach(({ gameId, winningSideId }) => {
+    const { playerCountryMappings } = playerMappings.find(
+      ({ parentDocumentId }) => parentDocumentId === gameId,
+    );
+    playerCountryMappings.forEach(({ countryId, playerId }) => {
+      const { sideId } = gameSeries.countries.find(({ id }) => id === countryId);
+      if (sideId === winningSideId) {
+        counter[playerId] += 1;
+      }
+    });
+  });
+
+  const data = [];
+  for (let i = Math.max(...Object.values(counter)); i > 0; i -= 1) {
+    gameSeries.players.forEach(({ name, id }) => {
+      if (counter[id] === i) {
+        data.push({ value: i, class: 'victory table-header', name });
+      } else if (counter[id] > i) {
+        data.push({ value: '', class: 'victory' });
+      } else {
+        data.push({ value: '' });
+      }
+    });
+  }
+
+  gameSeries.players.forEach(({ name }) => data.push({ value: name, class: 'table-header' }));
+  return { entries: data, cols: gameSeries.players.length };
+};
+
 const readData = async ({ database, gameSeriesId }) => {
   const gameSeriesPromise = database.readGameSeries({ documentId: gameSeriesId });
   const gamesPromise = database.readGames({ parentDocumentId: gameSeriesId });
@@ -79,9 +112,10 @@ const initialize = (config = {}) => {
       const data = await readData({ database, gameSeriesId });
 
       const history = createHistory(data);
-
+      const winningHistory = createWinningHistory(data);
       const options = {
         history,
+        winningHistory,
       };
 
       res.render('statistics/index', options);
