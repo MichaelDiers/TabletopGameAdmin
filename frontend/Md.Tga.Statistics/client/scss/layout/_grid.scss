@@ -4,7 +4,7 @@
 }
 
 .bar-chart .victory {
-  background-color: #54be23;
+  background-color: $win-color;
   min-height: 15px;
   min-width: 75px;
   padding: 10px;
@@ -15,6 +15,5 @@
 }
 
 .win {
-  color: #54be23;
+  color: $win-color;
 }
-/*# sourceMappingURL=statistics.css.map */

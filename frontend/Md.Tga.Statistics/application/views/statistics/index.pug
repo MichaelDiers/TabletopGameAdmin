@@ -1,6 +1,15 @@
-.container
-  h1 Statistics
+mixin barChart(headline, data)
+  .container
+    h1= headline
+    .bar-chart(class='grid-' + data.cols)
+      each element in data.entries
+        div(class=element.class)= element.value
 
-  include includes/history
-  include includes/winningHistory
-  include includes/winningHistoryBySide
+.container
+  h1 Statistik-Zentrale
+
+  +barChart('Spiel-Historie', gameHistory)
+  +barChart('Gewonnene Spiele je Seite', winningBySide)
+  +barChart('Gewonnene Spiele je Spieler', winningByPlayers)
+  +barChart('Gespielte Seiten', playedSides)
+  +barChart('Gespielte Nationen', playedCountries)

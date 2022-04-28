@@ -1,95 +1,119 @@
-const createHistory = (data) => {
-  const {
-    gameSeries,
-    playerMappings,
-    winningSideIds,
-  } = data;
+const formatData = (data, baseData, cols, captions) => {
+  const formatted = { entries: [], cols };
+  for (let i = Math.max(...Object.values(data)); i > 0; i -= 1) {
+    baseData.forEach(({ id }) => {
+      if (data[id] === i) {
+        formatted.entries.push({ value: i, class: 'victory table-header' });
+      } else if (data[id] > i) {
+        formatted.entries.push({ value: '', class: 'victory table-header' });
+      } else {
+        formatted.entries.push({ value: '', class: '' });
+      }
+    });
+  }
 
-  const history = [{ value: 'Game', class: 'table-header' }];
-  gameSeries.players.forEach(({ name }) => {
-    const element = { value: name, class: 'table-header' };
-    history.push(element);
-  });
+  captions.forEach((value) => { formatted.entries.push({ value, class: 'table-header' }); });
+  return formatted;
+};
 
-  playerMappings.sort((a, b) => a.created - b.created);
-  playerMappings.forEach(({ parentDocumentId, playerCountryMappings }, index) => {
-    history.push({ value: index + 1, class: '' });
-    const { winningSideId } = winningSideIds.find(({ gameId }) => gameId === parentDocumentId);
-
-    gameSeries.players.forEach(({ id: playerId }) => {
-      const { countryId } = playerCountryMappings.find((value) => value.playerId === playerId);
-      const { sideId } = gameSeries.countries.find(({ id }) => id === countryId);
-      const element = {
-        value: gameSeries.countries.find(({ id }) => id === countryId).name,
-        class: winningSideId === sideId ? 'win' : '',
-      };
-
-      history.push(element);
+const formatMatrixData = (data, baseDataDim1, baseDataDim2, cols, captionsDim1, captionsDim2) => {
+  const formatted = { entries: captionsDim1.map((value) => ({ value, class: 'table-header' })), cols };
+  baseDataDim2.forEach(({ id: dim2Id }, index) => {
+    formatted.entries.push({ value: captionsDim2[index], class: '' });
+    baseDataDim1.forEach(({ id: dim1Id }) => {
+      formatted.entries.push({ value: data[dim1Id][dim2Id], class: '' });
     });
   });
 
-  return { entries: history, cols: gameSeries.players.length + 1 };
+  return formatted;
 };
 
-const createWinningHistoryBySide = ({ gameSeries, winningSideIds }) => {
-  const counter = {};
-  gameSeries.sides.forEach(({ id }) => { counter[id] = 0; });
-  winningSideIds.forEach(({ winningSideId }) => {
+const evaluateData = ({ gameSeries, games }) => {
+  const gameHistory = { entries: [{ value: 'Spiel', class: 'table-header' }, ...gameSeries.players.map(({ name }) => ({ value: name, class: 'table-header' })), { value: 'Runden', class: 'table-header' }], cols: gameSeries.players.length + 2 };
+
+  const winningSidesData = {};
+  gameSeries.sides.forEach(({ id }) => {
+    winningSidesData[id] = 0;
+  });
+
+  const playedCountriesData = {};
+  const playedSidesData = {};
+  const winningPlayersData = {};
+  gameSeries.players.forEach(({ id }) => {
+    playedCountriesData[id] = {};
+    playedSidesData[id] = {};
+    winningPlayersData[id] = 0;
+
+    gameSeries.countries.forEach(({ id: countryId }) => {
+      playedCountriesData[id][countryId] = 0;
+    });
+    gameSeries.sides.forEach(({ id: sideId }) => {
+      playedSidesData[id][sideId] = 0;
+    });
+  });
+
+  games.sort((a, b) => a.created - b.created);
+  games.forEach(({ winningSideId, playerCountryMappings, rounds }, index) => {
     if (winningSideId) {
-      counter[winningSideId] += 1;
+      winningSidesData[winningSideId] += 1;
+    }
+
+    if (playerCountryMappings) {
+      const countries = gameSeries.countries.filter(({ sideId }) => sideId === winningSideId)
+        .map(({ id }) => id);
+      playerCountryMappings.filter(({ countryId }) => countries.includes(countryId))
+        .forEach(({ playerId }) => { winningPlayersData[playerId] += 1; });
+
+      gameHistory.entries.push({ value: index + 1, class: '' });
+      gameSeries.players.forEach(({ id }) => {
+        const { countryId } = playerCountryMappings.find(({ playerId }) => playerId === id);
+        playedCountriesData[id][countryId] += 1;
+
+        const { name, sideId } = gameSeries.countries.find((country) => country.id === countryId);
+        gameHistory.entries.push({ value: name, class: (sideId === winningSideId ? 'win' : '') });
+        playedSidesData[id][sideId] += 1;
+      });
+      gameHistory.entries.push({ value: rounds, class: '' });
     }
   });
 
-  const entries = [];
-  for (let i = Math.max(...Object.values(counter)); i > 0; i -= 1) {
-    gameSeries.sides.forEach(({ id }) => {
-      const entry = { value: '' };
-      if (counter[id] === i) {
-        entry.value = i;
-        entry.class = 'victory table-header';
-      } else if (counter[id] > i) {
-        entry.class = 'victory';
-      }
+  // format data
+  const playedCountries = formatMatrixData(
+    playedCountriesData,
+    gameSeries.players,
+    gameSeries.countries,
+    gameSeries.players.length + 1,
+    ['', ...gameSeries.players.map(({ name }) => name)],
+    gameSeries.countries.map(({ name }) => name),
+  );
+  const playedSides = formatMatrixData(
+    playedSidesData,
+    gameSeries.players,
+    gameSeries.sides,
+    gameSeries.players.length + 1,
+    ['', ...gameSeries.players.map(({ name }) => name)],
+    gameSeries.sides.map(({ name }) => name),
+  );
+  const winningBySide = formatData(
+    winningSidesData,
+    gameSeries.sides,
+    gameSeries.sides.length,
+    gameSeries.sides.map(({ name }) => name),
+  );
+  const winningByPlayers = formatData(
+    winningPlayersData,
+    gameSeries.players,
+    gameSeries.players.length,
+    gameSeries.players.map(({ name }) => name),
+  );
 
-      entries.push(entry);
-    });
-  }
-
-  gameSeries.sides.forEach(({ name }) => { entries.push({ value: name, class: 'table-header' }); });
-  return { entries, cols: gameSeries.sides.length };
-};
-
-const createWinningHistory = ({ gameSeries, playerMappings, winningSideIds }) => {
-  const counter = {};
-  gameSeries.players.forEach(({ id }) => { counter[id] = 0; });
-
-  winningSideIds.forEach(({ gameId, winningSideId }) => {
-    const { playerCountryMappings } = playerMappings.find(
-      ({ parentDocumentId }) => parentDocumentId === gameId,
-    );
-    playerCountryMappings.forEach(({ countryId, playerId }) => {
-      const { sideId } = gameSeries.countries.find(({ id }) => id === countryId);
-      if (sideId === winningSideId) {
-        counter[playerId] += 1;
-      }
-    });
-  });
-
-  const data = [];
-  for (let i = Math.max(...Object.values(counter)); i > 0; i -= 1) {
-    gameSeries.players.forEach(({ name, id }) => {
-      if (counter[id] === i) {
-        data.push({ value: i, class: 'victory table-header', name });
-      } else if (counter[id] > i) {
-        data.push({ value: '', class: 'victory' });
-      } else {
-        data.push({ value: '' });
-      }
-    });
-  }
-
-  gameSeries.players.forEach(({ name }) => data.push({ value: name, class: 'table-header' }));
-  return { entries: data, cols: gameSeries.players.length };
+  return {
+    gameHistory,
+    winningBySide,
+    winningByPlayers,
+    playedSides,
+    playedCountries,
+  };
 };
 
 const readData = async ({ database, gameSeriesId }) => {
@@ -97,22 +121,33 @@ const readData = async ({ database, gameSeriesId }) => {
   const gamesPromise = database.readGames({ parentDocumentId: gameSeriesId });
 
   const games = await gamesPromise;
+
   const gameIds = games.map(({ documentId }) => documentId);
   const gameStatusPromise = database.readGameStatus({ gameIds });
   const playerMappingsPromise = database.readPlayerMappings({ gameIds });
-  const winningSideIdsPromise = database.readWinningSideIds({ gameIds });
+
+  const gameStatus = await gameStatusPromise;
+
+  gameStatus.forEach(({ rounds, winningSideId, parentDocumentId }) => {
+    const game = games.find(({ documentId }) => documentId === parentDocumentId);
+    if (game) {
+      game.rounds = rounds;
+      game.winningSideId = winningSideId;
+    }
+  });
 
   const gameSeries = await gameSeriesPromise;
-  const gameStatus = await gameStatusPromise;
   const playerMappings = await playerMappingsPromise;
-  const winningSideIds = await winningSideIdsPromise;
+  playerMappings.forEach(({ parentDocumentId, playerCountryMappings }) => {
+    const game = games.find(({ documentId }) => documentId === parentDocumentId);
+    if (game) {
+      game.playerCountryMappings = playerCountryMappings;
+    }
+  });
 
   return {
     gameSeries,
     games,
-    gameStatus,
-    playerMappings,
-    winningSideIds,
   };
 };
 
@@ -139,16 +174,7 @@ const initialize = (config = {}) => {
 
       const data = await readData({ database, gameSeriesId });
 
-      const history = createHistory(data);
-      const winningHistory = createWinningHistory(data);
-      const winningHistoryBySide = createWinningHistoryBySide(data);
-
-      const options = {
-        history,
-        winningHistory,
-        winningHistoryBySide,
-      };
-
+      const options = evaluateData(data);
       res.render('statistics/index', options);
     },
   };

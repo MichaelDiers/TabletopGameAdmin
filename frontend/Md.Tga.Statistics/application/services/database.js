@@ -30,12 +30,14 @@ const initialize = (config) => {
         parentDocumentId,
       } = options;
 
-      const snapshot = await firestore.collection(gamesCollectionName).where('parentDocumentId', '==', parentDocumentId).get();
+      const snapshot = await firestore.collection(gamesCollectionName)
+        .where('parentDocumentId', '==', parentDocumentId).get();
       const documents = [];
       if (snapshot.size > 0) {
         snapshot.forEach((documentSnapshot) => {
           const document = documentSnapshot.data();
           document.documentId = documentSnapshot.id;
+          document.created = document.created.toDate();
           documents.push(document);
         });
       }
@@ -58,6 +60,7 @@ const initialize = (config) => {
       if (snapshot.exists) {
         const document = snapshot.data();
         document.documentId = documentId;
+        document.created = document.created.toDate();
         return document;
       }
 
@@ -68,11 +71,12 @@ const initialize = (config) => {
       const { gameIds } = options;
       const snapshot = await firestore.collection(gameStatusCollectionName).get();
       const documents = [];
-      if (snapshot.count > 0) {
+      if (snapshot.size > 0) {
         snapshot.forEach((documentSnapshot) => {
           const document = documentSnapshot.data();
           if (gameIds.includes(document.parentDocumentId)) {
             document.documentId = documentSnapshot.id;
+            document.created = document.created.toDate();
             documents.push(document);
           }
         });
@@ -99,6 +103,7 @@ const initialize = (config) => {
           const document = snapshot.data();
           if (gameIds.includes(document.parentDocumentId)) {
             document.documentId = snapshot.id;
+            document.created = document.created.toDate();
             documents.push(document);
           }
         });
@@ -107,7 +112,7 @@ const initialize = (config) => {
       return documents;
     },
 
-    readWinningSideIds: async (options) => {
+    readGameTerminations: async (options) => {
       const { gameIds } = options;
       const querySnapshot = await firestore.collection(gameTerminationResultsCollectionName).get();
       const documents = [];
@@ -115,21 +120,14 @@ const initialize = (config) => {
         querySnapshot.forEach((snapshot) => {
           const document = snapshot.data();
           document.documentId = snapshot.id;
+          document.created = document.created.toDate();
           if (gameIds.includes(document.parentDocumentId)) {
             documents.push(document);
           }
         });
       }
 
-      documents.sort((a, b) => b.created - a.created);
-      const results = [];
-      gameIds.forEach((gameId) => {
-        const result = documents.find(({ parentDocumentId }) => gameId === parentDocumentId);
-        const winningSideId = result ? result.winningSideId : '';
-        results.push({ gameId, winningSideId });
-      });
-
-      return results;
+      return documents;
     },
   };
 

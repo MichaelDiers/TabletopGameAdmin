@@ -1,11 +1,10 @@
 {
     "version": 3,
-    "mappings": "AEAA,AAAA,IAAI,CAAC;EACH,KAAK,EDDK,OAAkB;CCE7B;;ACFD,AAAA,gBAAgB;AAChB,wBAAwB,CAAC;EACvB,GAAG,EAAE,GAAG;EACR,WAAW,EAAE,OAAO;CACrB;;AAED,AAAA,gBAAgB,CAAC,QAAQ;AACzB,wBAAwB,CAAC,QAAQ,CAAC;EAChC,gBAAgB,EFRN,OAAkB;EES5B,UAAU,EAAE,IAAI;EAChB,SAAS,EAAE,IAAI;EACf,OAAO,EAAE,IAAI;CACd;;AAED,AAAA,gBAAgB,CAAC,CAAC;AAClB,wBAAwB,CAAC,CAAC,CAAC;EACzB,UAAU,EAAE,MAAM;CACnB",
+    "mappings": "AEAA,AAAA,UAAU,CAAC;EACT,GAAG,EAAE,GAAG;EACR,WAAW,EAAE,OAAO;CACrB;;AAED,AAAA,UAAU,CAAC,QAAQ,CAAC;EAClB,gBAAgB,EDNN,OAAkB;ECO5B,UAAU,EAAE,IAAI;EAChB,SAAS,EAAE,IAAI;EACf,OAAO,EAAE,IAAI;CACd;;AAED,AAAA,UAAU,CAAC,CAAC,CAAC;EACX,UAAU,EAAE,MAAM;CACnB;;AAED,AAAA,IAAI,CAAC;EACH,KAAK,EDjBK,OAAkB;CCkB7B",
     "sources": [
         "../../client/scss/statistics.scss",
         "../../client/scss/abstracts/_variables.scss",
-        "../../client/scss/pages/_history.scss",
-        "../../client/scss/pages/_winning-history.scss"
+        "../../client/scss/layout/_grid.scss"
     ],
     "names": [],
     "file": "statistics.css"
