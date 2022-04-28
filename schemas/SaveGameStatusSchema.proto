@@ -92,6 +92,7 @@ message SaveGameStatusMessage {
     string parentDocumentId = 3;
     Status status = 4;      
     string winningSideId = 5;
+    int32 rounds = 6;
   };
 
   string processId = 1;
