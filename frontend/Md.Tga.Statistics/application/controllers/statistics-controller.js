@@ -46,7 +46,7 @@ const createWinningHistoryBySide = ({ gameSeries, winningSideIds }) => {
       const entry = { value: '' };
       if (counter[id] === i) {
         entry.value = i;
-        entry.classs = 'victory table-header';
+        entry.class = 'victory table-header';
       } else if (counter[id] > i) {
         entry.class = 'victory';
       }
