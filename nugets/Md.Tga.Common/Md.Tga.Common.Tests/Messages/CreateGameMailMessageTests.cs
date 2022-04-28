@@ -34,7 +34,8 @@
                         container.Game.DocumentId,
                         container.GameSeries.Players.First().Id,
                         container.GameSeries.Sides.First().Id,
-                        "A reason.")
+                        "A reason.",
+                        10)
                 });
             var actual =
                 (ICreateGameMailMessage) Serializer.DeserializeObject<CreateGameMailMessage>(

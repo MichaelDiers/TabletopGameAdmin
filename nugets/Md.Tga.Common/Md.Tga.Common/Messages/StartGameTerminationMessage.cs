@@ -19,13 +19,15 @@
         /// <param name="terminationId">The termination id.</param>
         /// <param name="winningSideId">The id of the winning side.</param>
         /// <param name="reason">A reason for terminating the game.</param>
+        /// <param name="rounds">The number of played rounds.</param>
         public StartGameTerminationMessage(
             string processId,
             string gameSeriesDocumentId,
             string gameDocumentId,
             string terminationId,
             string winningSideId,
-            string reason
+            string reason,
+            int rounds
         )
             : base(processId)
         {
@@ -34,6 +36,7 @@
             this.TerminationId = terminationId.ValidateIsAGuid(nameof(terminationId));
             this.WinningSideId = winningSideId.ValidateIsAGuid(nameof(winningSideId));
             this.Reason = reason;
+            this.Rounds = rounds;
         }
 
         /// <summary>
@@ -53,6 +56,12 @@
         /// </summary>
         [JsonProperty("reason", Required = Required.Always, Order = 15)]
         public string Reason { get; }
+
+        /// <summary>
+        ///     Gets the number of played rounds.
+        /// </summary>
+        [JsonProperty("rounds", Required = Required.Always, Order = 16)]
+        public int Rounds { get; }
 
         /// <summary>
         ///     Gets the termination id.

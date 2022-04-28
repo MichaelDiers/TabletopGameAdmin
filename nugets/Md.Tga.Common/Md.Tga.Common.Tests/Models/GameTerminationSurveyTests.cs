@@ -15,7 +15,8 @@
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
-                "A reason");
+                "A reason",
+                11);
             var actual = GameTerminationResult.FromDictionary(expected.ToDictionary());
 
             Assert.Equal(expected.DocumentId, actual.DocumentId);
@@ -24,6 +25,7 @@
             Assert.Equal(expected.PlayerId, actual.PlayerId);
             Assert.Equal(expected.WinningSideId, actual.WinningSideId);
             Assert.Equal(expected.Reason, actual.Reason);
+            Assert.Equal(expected.Rounds, actual.Rounds);
         }
     }
 }

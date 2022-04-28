@@ -23,6 +23,11 @@
         string Reason { get; }
 
         /// <summary>
+        ///     Gets the number of played rounds.
+        /// </summary>
+        int Rounds { get; }
+
+        /// <summary>
         ///     Gets the termination id.
         /// </summary>
         string TerminationId { get; }

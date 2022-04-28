@@ -17,7 +17,8 @@
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
                 Guid.NewGuid().ToString(),
-                "A reason.");
+                "A reason.",
+                7);
             var actual =
                 Serializer.DeserializeObject<StartGameTerminationMessage>(Serializer.SerializeObject(expected)) as
                     IStartGameTerminationMessage;
@@ -28,6 +29,7 @@
             Assert.Equal(expected.TerminationId, actual.TerminationId);
             Assert.Equal(expected.WinningSideId, actual.WinningSideId);
             Assert.Equal(expected.Reason, actual.Reason);
+            Assert.Equal(expected.Rounds, actual.Rounds);
         }
     }
 }

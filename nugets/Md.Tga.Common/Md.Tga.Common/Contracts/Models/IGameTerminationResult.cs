@@ -18,6 +18,11 @@
         string Reason { get; }
 
         /// <summary>
+        ///     Gets the number of played rounds.
+        /// </summary>
+        int Rounds { get; }
+
+        /// <summary>
         ///     Gets the id of the winning side.
         /// </summary>
         string WinningSideId { get; }

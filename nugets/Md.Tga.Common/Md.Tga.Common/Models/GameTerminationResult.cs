@@ -23,6 +23,11 @@
         public const string ReasonName = "reason";
 
         /// <summary>
+        ///     The json name of <see cref="Rounds" />.
+        /// </summary>
+        public const string RoundsName = "rounds";
+
+        /// <summary>
         ///     The json name of <see cref="WinningSideId" />.
         /// </summary>
         public const string WinningSideIdName = "winningSideId";
@@ -36,19 +41,22 @@
         /// <param name="playerId">The id of the player.</param>
         /// <param name="winningSideId">The id of the winning side.</param>
         /// <param name="reason">A reason for terminating the game.</param>
+        /// <param name="rounds">The number of played rounds.</param>
         public GameTerminationResult(
             string? documentId,
             DateTime? created,
             string? parentDocumentId,
             string playerId,
             string winningSideId,
-            string reason
+            string reason,
+            int rounds
         )
             : base(documentId, created, parentDocumentId)
         {
             this.PlayerId = playerId.ValidateIsAGuid(nameof(playerId));
             this.WinningSideId = winningSideId.ValidateIsAGuid(nameof(winningSideId));
             this.Reason = reason;
+            this.Rounds = rounds;
         }
 
         /// <summary>
@@ -63,6 +71,12 @@
         /// </summary>
         [JsonProperty(GameTerminationResult.ReasonName, Required = Required.Always, Order = 13)]
         public string Reason { get; }
+
+        /// <summary>
+        ///     Gets the number of played rounds.
+        /// </summary>
+        [JsonProperty(GameTerminationResult.RoundsName, Required = Required.Always, Order = 14)]
+        public int Rounds { get; }
 
         /// <summary>
         ///     Gets the id of the winning side.
@@ -80,6 +94,7 @@
             dictionary.Add(GameTerminationResult.PlayerIdName, this.PlayerId);
             dictionary.Add(GameTerminationResult.WinningSideIdName, this.WinningSideId);
             dictionary.Add(GameTerminationResult.ReasonName, this.Reason);
+            dictionary.Add(GameTerminationResult.RoundsName, this.Rounds);
             return base.AddToDictionary(dictionary);
         }
 
@@ -94,13 +109,15 @@
             var playerId = dictionary.GetString(GameTerminationResult.PlayerIdName);
             var winningSideId = dictionary.GetString(GameTerminationResult.WinningSideIdName);
             var reason = dictionary.GetString(GameTerminationResult.ReasonName, string.Empty);
+            var rounds = dictionary.GetInt(GameTerminationResult.RoundsName);
             return new GameTerminationResult(
                 baseObject.DocumentId,
                 baseObject.Created,
                 baseObject.ParentDocumentId,
                 playerId,
                 winningSideId,
-                reason);
+                reason,
+                rounds);
         }
     }
 }
