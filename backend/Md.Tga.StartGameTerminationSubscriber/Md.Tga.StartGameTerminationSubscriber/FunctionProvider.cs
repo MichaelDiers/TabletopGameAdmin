@@ -104,7 +104,8 @@
                 game.DocumentId,
                 player.Id,
                 message.WinningSideId,
-                message.Reason);
+                message.Reason,
+                message.Rounds);
 
             await this.gameTerminationResultPubSubClient.PublishAsync(
                 new SaveGameTerminationResultMessage(message.ProcessId, gameTerminationResult));

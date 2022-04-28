@@ -10,11 +10,11 @@
 		<PackageReference Include="Md.Common" Version="1.2.35" />
 		<PackageReference Include="Md.GoogleCloudFunctions" Version="1.2.18" />
 		<PackageReference Include="Md.GoogleCloudPubSub" Version="1.2.32" />
-		<PackageReference Include="Md.Tga.Common" Version="1.2.82" />
-		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.42" />
-		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.29" />
-		<PackageReference Include="Surveys.Common" Version="1.2.79" />
-		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.16" />
+		<PackageReference Include="Md.Tga.Common" Version="1.2.83" />
+		<PackageReference Include="Md.Tga.Common.Firestore" Version="1.2.43" />
+		<PackageReference Include="Md.Tga.Common.PubSub" Version="1.2.30" />
+		<PackageReference Include="Surveys.Common" Version="1.2.80" />
+		<PackageReference Include="Surveys.Common.PubSub" Version="1.2.17" />
 	</ItemGroup>
 
 </Project>
