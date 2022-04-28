@@ -6,4 +6,5 @@ message StartGameTermination {
     string terminationId = 4;
     string winningSideId = 5;
     string reason = 6;
+    int32 rounds = 7;
 };
