@@ -20,7 +20,8 @@
                     DateTime.Now,
                     Guid.NewGuid().ToString(),
                     Status.Closed,
-                    string.Empty),
+                    string.Empty,
+                    22),
                 null);
             var actual =
                 Serializer.DeserializeObject<SaveGameStatusMessage>(Serializer.SerializeObject(expected)) as
@@ -32,6 +33,7 @@
             Assert.Equal(expected.GameStatus.ParentDocumentId, actual.GameStatus.ParentDocumentId);
             Assert.Equal(expected.GameStatus.Status, actual.GameStatus.Status);
             Assert.Equal(expected.GameStatus.WinningSideId, actual.GameStatus.WinningSideId);
+            Assert.Equal(expected.GameStatus.Rounds, actual.GameStatus.Rounds);
         }
     }
 }

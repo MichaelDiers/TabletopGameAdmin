@@ -13,6 +13,11 @@
     public class GameStatus : DatabaseObject, IGameStatus
     {
         /// <summary>
+        ///     The json name of <see cref="Rounds" />.
+        /// </summary>
+        public const string RoundsName = "rounds";
+
+        /// <summary>
         ///     The json name of <see cref="Status" />.
         /// </summary>
         public const string StatusName = "status";
@@ -30,18 +35,27 @@
         /// <param name="parentDocumentId">The id of the parent document.</param>
         /// <param name="status">The status of the game.</param>
         /// <param name="winningSideId">The id of the winning side.</param>
+        /// <param name="rounds">The played rounds of the game.</param>
         public GameStatus(
             string? documentId,
             DateTime? created,
             string? parentDocumentId,
             Status status,
-            string winningSideId
+            string winningSideId,
+            int rounds
         )
             : base(documentId, created, parentDocumentId)
         {
             this.Status = status;
             this.WinningSideId = winningSideId;
+            this.Rounds = rounds;
         }
+
+        /// <summary>
+        ///     Gets the played rounds of the game.
+        /// </summary>
+        [JsonProperty(GameStatus.RoundsName, Required = Required.Always, Order = 13)]
+        public int Rounds { get; }
 
         /// <summary>
         ///     Gets the status.
@@ -64,6 +78,7 @@
         {
             dictionary.Add(GameStatus.StatusName, this.Status.ToString());
             dictionary.Add(GameStatus.WinningSideIdName, this.WinningSideId);
+            dictionary.Add(GameStatus.RoundsName, this.Rounds);
             return base.AddToDictionary(dictionary);
         }
 
@@ -77,12 +92,14 @@
             var baseObject = DatabaseObject.FromDictionary(dictionary);
             var status = dictionary.GetEnumValue<Status>(GameStatus.StatusName);
             var winningSideId = dictionary.GetString(GameStatus.WinningSideIdName);
+            var rounds = dictionary.GetInt(GameStatus.RoundsName);
             return new GameStatus(
                 baseObject.DocumentId,
                 baseObject.Created,
                 baseObject.ParentDocumentId,
                 status,
-                winningSideId);
+                winningSideId,
+                rounds);
         }
     }
 }
