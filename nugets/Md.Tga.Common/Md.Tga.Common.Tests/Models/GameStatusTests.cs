@@ -15,13 +15,15 @@
                 Guid.NewGuid().ToString(),
                 DateTime.Now,
                 Guid.NewGuid().ToString(),
-                Status.Closed);
+                Status.Closed,
+                Guid.NewGuid().ToString());
             var actual = GameStatus.FromDictionary(expected.ToDictionary());
 
             Assert.Equal(expected.DocumentId, actual.DocumentId);
             Assert.Equal(expected.Created, actual.Created);
             Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
             Assert.Equal(expected.Status, actual.Status);
+        Assert.Equal(expected.WinningSideId, actual.WinningSideId);
         }
 
         [Fact]
@@ -31,13 +33,15 @@
                 Guid.NewGuid().ToString(),
                 DateTime.Now,
                 Guid.NewGuid().ToString(),
-                Status.Closed);
+                Status.Closed,
+                Guid.NewGuid().ToString());
             var actual = Serializer.DeserializeObject<GameStatus>(Serializer.SerializeObject(expected));
 
             Assert.Equal(expected.DocumentId, actual.DocumentId);
             Assert.Equal(expected.Created, actual.Created);
             Assert.Equal(expected.ParentDocumentId, actual.ParentDocumentId);
             Assert.Equal(expected.Status, actual.Status);
+            Assert.Equal(expected.WinningSideId, actual.WinningSideId);
         }
     }
 }

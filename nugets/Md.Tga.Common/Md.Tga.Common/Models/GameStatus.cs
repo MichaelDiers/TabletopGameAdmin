@@ -18,21 +18,30 @@
         public const string StatusName = "status";
 
         /// <summary>
+        ///     The json name of <see cref="WinningSideId" />.
+        /// </summary>
+        public const string WinningSideIdName = "winningSideId";
+
+
+        /// <summary>
         ///     Creates a new instance of <see cref="GameStatus" />.
         /// </summary>
         /// <param name="documentId">The id of the document.</param>
         /// <param name="created">The creation time of the entity.</param>
         /// <param name="parentDocumentId">The id of the parent document.</param>
         /// <param name="status">The status of the game.</param>
+        /// <param name="winningSideId">The id of the winning side.</param>
         public GameStatus(
             string? documentId,
             DateTime? created,
             string? parentDocumentId,
-            Status status
+            Status status,
+            string winningSideId
         )
             : base(documentId, created, parentDocumentId)
         {
             this.Status = status;
+            this.WinningSideId = winningSideId;
         }
 
         /// <summary>
@@ -42,6 +51,12 @@
         public Status Status { get; }
 
         /// <summary>
+        /// Gets the winning side id if the status is <see cref="Status.Closed"/>.
+        /// </summary>
+        public string WinningSideId { get; }
+
+
+        /// <summary>
         ///     Add the values of the entity to the given dictionary.
         /// </summary>
         /// <param name="dictionary">The values are added to this dictionary.</param>
@@ -49,6 +64,7 @@
         public override IDictionary<string, object> AddToDictionary(IDictionary<string, object> dictionary)
         {
             dictionary.Add(GameStatus.StatusName, this.Status.ToString());
+            dictionary.Add(GameStatus.WinningSideIdName, this.WinningSideId);
             return base.AddToDictionary(dictionary);
         }
 
@@ -61,11 +77,13 @@
         {
             var baseObject = DatabaseObject.FromDictionary(dictionary);
             var status = dictionary.GetEnumValue<Status>(GameStatus.StatusName);
+            var winningSideId = dictionary.GetString(WinningSideIdName);
             return new GameStatus(
                 baseObject.DocumentId,
                 baseObject.Created,
                 baseObject.ParentDocumentId,
-                status);
+                status,
+                winningSideId);
         }
     }
 }

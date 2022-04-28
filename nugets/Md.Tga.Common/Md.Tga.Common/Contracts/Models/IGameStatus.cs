@@ -11,5 +11,10 @@
         ///     Gets the status.
         /// </summary>
         Status Status { get; }
+
+        /// <summary>
+        /// Gets the id of winning side if the status is <see cref="Status.Closed"/>.
+        /// </summary>
+        string WinningSideId { get; }
     }
 }
