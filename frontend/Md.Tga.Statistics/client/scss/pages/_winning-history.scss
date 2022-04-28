@@ -1,15 +1,18 @@
-#winning-history {
+#winning-history,
+#winning-history-by-side {
   gap: 5px;
   place-items: stretch;
 }
 
-#winning-history .victory {
+#winning-history .victory,
+#winning-history-by-side .victory {
   background-color: $win-color;
   min-height: 15px;
   min-width: 75px;
   padding: 10px;
 }
 
-#winning-history * {
+#winning-history *,
+#winning-history-by-side * {
   text-align: center;
 }

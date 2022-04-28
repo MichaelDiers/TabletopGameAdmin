@@ -1,2 +1,2 @@
-.win{color:#54be23}#winning-history{gap:5px;place-items:stretch}#winning-history .victory{background-color:#54be23;min-height:15px;min-width:75px;padding:10px}#winning-history *{text-align:center}
+.win{color:#54be23}#winning-history,#winning-history-by-side{gap:5px;place-items:stretch}#winning-history .victory,#winning-history-by-side .victory{background-color:#54be23;min-height:15px;min-width:75px;padding:10px}#winning-history *,#winning-history-by-side *{text-align:center}
 /*# sourceMappingURL=statistics.min.css.map */

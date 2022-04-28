@@ -31,6 +31,34 @@ const createHistory = (data) => {
   return { entries: history, cols: gameSeries.players.length + 1 };
 };
 
+const createWinningHistoryBySide = ({ gameSeries, winningSideIds }) => {
+  const counter = {};
+  gameSeries.sides.forEach(({ id }) => { counter[id] = 0; });
+  winningSideIds.forEach(({ winningSideId }) => {
+    if (winningSideId) {
+      counter[winningSideId] += 1;
+    }
+  });
+
+  const entries = [];
+  for (let i = Math.max(...Object.values(counter)); i > 0; i -= 1) {
+    gameSeries.sides.forEach(({ id }) => {
+      const entry = { value: '' };
+      if (counter[id] === i) {
+        entry.value = i;
+        entry.classs = 'victory table-header';
+      } else if (counter[id] > i) {
+        entry.class = 'victory';
+      }
+
+      entries.push(entry);
+    });
+  }
+
+  gameSeries.sides.forEach(({ name }) => { entries.push({ value: name, class: 'table-header' }); });
+  return { entries, cols: gameSeries.sides.length };
+};
+
 const createWinningHistory = ({ gameSeries, playerMappings, winningSideIds }) => {
   const counter = {};
   gameSeries.players.forEach(({ id }) => { counter[id] = 0; });
@@ -113,9 +141,12 @@ const initialize = (config = {}) => {
 
       const history = createHistory(data);
       const winningHistory = createWinningHistory(data);
+      const winningHistoryBySide = createWinningHistoryBySide(data);
+
       const options = {
         history,
         winningHistory,
+        winningHistoryBySide,
       };
 
       res.render('statistics/index', options);
