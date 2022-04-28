@@ -22,7 +22,6 @@
         /// </summary>
         public const string WinningSideIdName = "winningSideId";
 
-
         /// <summary>
         ///     Creates a new instance of <see cref="GameStatus" />.
         /// </summary>
@@ -51,10 +50,10 @@
         public Status Status { get; }
 
         /// <summary>
-        /// Gets the winning side id if the status is <see cref="Status.Closed"/>.
+        ///     Gets the winning side id if the status is <see cref="Contracts.Models.Status.Closed" />.
         /// </summary>
+        [JsonProperty(GameStatus.WinningSideIdName, Required = Required.Always, Order = 12)]
         public string WinningSideId { get; }
-
 
         /// <summary>
         ///     Add the values of the entity to the given dictionary.
@@ -77,7 +76,7 @@
         {
             var baseObject = DatabaseObject.FromDictionary(dictionary);
             var status = dictionary.GetEnumValue<Status>(GameStatus.StatusName);
-            var winningSideId = dictionary.GetString(WinningSideIdName);
+            var winningSideId = dictionary.GetString(GameStatus.WinningSideIdName);
             return new GameStatus(
                 baseObject.DocumentId,
                 baseObject.Created,
