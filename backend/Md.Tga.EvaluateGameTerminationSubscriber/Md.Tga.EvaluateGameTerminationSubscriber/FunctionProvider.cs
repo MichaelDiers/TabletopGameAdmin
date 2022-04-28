@@ -88,7 +88,8 @@
                 .Select(group => group.OrderByDescending(x => x.Created).First())
                 .ToArray();
 
-            if (FunctionProvider.IsGameTerminated(gameSeries, playerResults))
+            var winningSide = FunctionProvider.EvaluateGameTerminations(gameSeries, playerResults);
+            if (!string.IsNullOrWhiteSpace(winningSide))
             {
                 await this.saveGameStatusPubSubClient.PublishAsync(
                     new SaveGameStatusMessage(
@@ -97,7 +98,8 @@
                             null,
                             DateTime.Now,
                             game.DocumentId,
-                            Status.Closed),
+                            Status.Closed,
+                            winningSide),
                         new CreateGameMailMessage(
                             message.ProcessId,
                             GameMailType.GameTerminated,
@@ -124,20 +126,31 @@
         /// </summary>
         /// <param name="gameSeries">The game is part of that game series.</param>
         /// <param name="results">The game termination results.</param>
-        /// <returns>True if the game can be terminated and false otherwise.</returns>
-        private static bool IsGameTerminated(IGameSeries gameSeries, IList<IGameTerminationResult> results)
+        /// <returns>The winning side id if there is a winning side and an emptry string otherwise.</returns>
+        private static string EvaluateGameTerminations(IGameSeries gameSeries, IList<IGameTerminationResult> results)
         {
-            if (results.Select(x => x.WinningSideId).Distinct().Count() != 1)
+            var sorted = results.OrderByDescending(result => result.Created).ToArray();
+            var gameTerminationResults = gameSeries.Players
+                .Select(player => sorted.FirstOrDefault(result => result.PlayerId == player.Id))
+                .Where(x => x != null)
+                .ToArray();
+
+            if (!gameTerminationResults.Any())
             {
-                return false;
+                return string.Empty;
             }
 
-            if (gameSeries.Players.Count() != results.Count)
+            if (gameTerminationResults.Select(x => x.WinningSideId).Distinct().Count() != 1)
             {
-                return false;
+                return string.Empty;
             }
 
-            return true;
+            if (gameSeries.Players.Count() != gameTerminationResults.Length)
+            {
+                return string.Empty;
+            }
+
+            return gameTerminationResults.First().WinningSideId;
         }
 
         /// <summary>
