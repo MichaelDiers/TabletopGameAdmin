@@ -1,6 +1,8 @@
 ﻿namespace Md.Tga.MainSchedulerSubscriber.Tests
 {
+    using System;
     using Google.Cloud.Functions.Testing;
+    using Md.Common.Messages;
     using Xunit;
 
     /// <summary>
@@ -12,10 +14,9 @@
         public async void HandleAsync()
         {
             var logger = new MemoryLogger<Function>();
-            var provider =
-                new FunctionProvider(new[] {new SchedulerPubSubClientMock(), new SchedulerPubSubClientMock()});
+            var provider = new FunctionProvider(logger);
 
-            await provider.HandleAsync();
+            await provider.HandleAsync(new Message(Guid.NewGuid().ToString()));
 
             Assert.Empty(logger.ListLogEntries());
         }

@@ -1,42 +1,32 @@
 ﻿namespace Md.Tga.MainSchedulerSubscriber
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using Md.Common.Messages;
-    using Md.Tga.Common.PubSub.Contracts.Logic;
+    using Md.Common.Contracts.Messages;
+    using Md.GoogleCloudFunctions.Logic;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     ///     Provider that handles the business logic of the cloud function.
     /// </summary>
-    public class FunctionProvider : IFunctionProvider
+    public class FunctionProvider : PubSubProvider<IMessage, Function>
     {
         /// <summary>
-        ///     Clients for sending pub/sub messages to schedulers.
+        ///     Creates a new instance of <see cref="FunctionProvider" />.
         /// </summary>
-        private readonly IEnumerable<ISchedulerPubSubClient> schedulerPubSubClients;
-
-        /// <summary>
-        ///     Initializes a new instance of the FunctionProvider class.
-        /// </summary>
-        /// <param name="schedulerPubSubClients">Clients for sending pub/sub messages to schedulers.</param>
-        public FunctionProvider(IEnumerable<ISchedulerPubSubClient> schedulerPubSubClients)
+        /// <param name="logger">An error logger.</param>
+        public FunctionProvider(ILogger<Function> logger)
+            : base(logger)
         {
-            this.schedulerPubSubClients = schedulerPubSubClients;
         }
 
         /// <summary>
-        ///     The method is executed for each incoming request.
+        ///     Handles the pub/sub messages.
         /// </summary>
-        /// <returns>A <see cref="Task" /> whose result indicates termination.</returns>
-        public Task HandleAsync()
+        /// <param name="message">The message that is handled.</param>
+        /// <returns>A <see cref="Task" />.</returns>
+        protected override async Task HandleMessageAsync(IMessage message)
         {
-            var processId = Guid.NewGuid().ToString();
-            var results = this.schedulerPubSubClients.Select(client => client.PublishAsync(new Message(processId)))
-                .ToArray();
-            Task.WaitAll(results);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
     }
 }
