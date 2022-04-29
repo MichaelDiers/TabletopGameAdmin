@@ -12,7 +12,8 @@
         public async void HandleAsync()
         {
             var logger = new MemoryLogger<Function>();
-            var provider = new FunctionProvider();
+            var provider =
+                new FunctionProvider(new[] {new SchedulerPubSubClientMock(), new SchedulerPubSubClientMock()});
 
             await provider.HandleAsync();
 

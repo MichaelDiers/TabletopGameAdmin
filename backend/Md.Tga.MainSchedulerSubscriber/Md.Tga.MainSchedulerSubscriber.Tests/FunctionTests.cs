@@ -25,7 +25,8 @@
             };
 
             var logger = new MemoryLogger<Function>();
-            var provider = new FunctionProvider();
+            var provider =
+                new FunctionProvider(new[] {new SchedulerPubSubClientMock(), new SchedulerPubSubClientMock()});
             var function = new Function(logger, provider);
             await function.HandleAsync(cloudEvent, CancellationToken.None);
 
