@@ -24,7 +24,7 @@ jobs:
       projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
       projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
       projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
-      appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\",\"TopicNames\": [\"${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEYS_MAIN_SCHEDULER }}\"]\}'
-      appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\",\"TopicNames\": [\"${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEYS_MAIN_SCHEDULER }}\"]\}'
-      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\",\"TopicNames\": [\"${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEYS_MAIN_SCHEDULER }}\"]\}'
+      appSettingsJsonTest: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_TEST }}\",\"Environment\": \"Test\",\"TopicNames\": [\"${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEYS_MAIN_SCHEDULER }}\", \"${{ secrets.GLOBAL_PUBSUB_TOPIC_MAIN_SCHEDULER }}\"]\}'
+      appSettingsJsonStage: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_STAGE }}\",\"Environment\": \"Stage\",\"TopicNames\": [\"${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEYS_MAIN_SCHEDULER }}\", \"${{ secrets.GLOBAL_PUBSUB_TOPIC_MAIN_SCHEDULER }}\"]\}'
+      appSettingsJsonProd: '\{\"Logging\":\{\"LogLevel\":\{\"Microsoft\":\"Error\"\}\},\"ProjectId\": \"${{ secrets.GLOBAL_PROJECT_ID_PROD }}\",\"Environment\": \"Prod\",\"TopicNames\": [\"${{ secrets.GLOBAL_PUBSUB_TOPIC_SURVEYS_MAIN_SCHEDULER }}\", \"${{ secrets.GLOBAL_PUBSUB_TOPIC_MAIN_SCHEDULER }}\"]\}'
       subTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_ROOT_SCHEDULER }}
