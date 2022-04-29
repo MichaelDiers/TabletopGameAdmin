@@ -9,7 +9,7 @@ jobs:
     uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-pubsub-cron-job.yaml@main
     with:
       cronJobName: MainSchedulerCronJob
-      schedule: '0 11 * * *'
+      schedule: '0 12 * * *'
     secrets:
       gcpCredentialsTest: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
       gcpCredentialsStage: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
