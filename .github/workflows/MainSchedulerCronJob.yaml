@@ -1,0 +1,20 @@
+name: MainSchedulerCronJob
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [GoLive]
+    types: [completed]
+jobs:
+  createSchedulerJob:
+    uses: MichaelDiers/shared-workflows/.github/workflows/deploy-google-cloud-pubsub-cron-job.yaml@main
+    with:
+      cronJobName: MainSchedulerCronJob
+      schedule: '0 11 * * *'
+    secrets:
+      gcpCredentialsTest: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
+      gcpCredentialsStage: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
+      gcpCredentialsProd: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
+      projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
+      projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
+      pubSubTopicName: ${{ secrets.GLOBAL_PUBSUB_TOPIC_MAIN_SCHEDULER }}
