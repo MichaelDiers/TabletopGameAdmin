@@ -5,10 +5,10 @@ on:
       - main
     paths:
       - 'backend/Md.Tga.StartGameSubscriber/**'
-    workflow_dispatch:
-    workflow_run:
-      workflows: [StartGameSchema]
-      types: [completed]
+  workflow_dispatch:
+  workflow_run:
+    workflows: [StartGameSchema]
+    types: [completed]
 jobs:
   BuildAndDeploy:
     uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-deploy-google-cloud-function.yaml@main
