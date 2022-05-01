@@ -28,9 +28,10 @@ const initialize = (options) => {
         terminationId,
         winningSideId,
         reason,
+        rounds,
       } = message;
 
-      const json = `{"processId":"${uuid.v4()}","gameSeriesId":"${gameSeriesId}","gameId":"${gameId}","terminationId":"${terminationId}","winningSideId":"${winningSideId}","reason":"${reason}"}`;
+      const json = `{"processId":"${uuid.v4()}","gameSeriesId":"${gameSeriesId}","gameId":"${gameId}","terminationId":"${terminationId}","winningSideId":"${winningSideId}","reason":"${reason}","rounds":"${rounds}"}`;
 
       const data = Buffer.from(json);
       await pubSubClient

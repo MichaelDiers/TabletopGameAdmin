@@ -96,9 +96,13 @@ const initialize = (config = {}) => {
             name: gameName,
           },
           gameSeries: {
+            organizer: {
+              id: organizerId,
+            },
             sides,
           },
           player: {
+            id: playerId,
             name: playerName,
           },
         } = data;
@@ -110,6 +114,7 @@ const initialize = (config = {}) => {
           terminationId,
           formId: uuid.v4(),
           sides,
+          displayRounds: organizerId === playerId,
         };
 
         res.render('terminate/index', options);
@@ -127,6 +132,7 @@ const initialize = (config = {}) => {
         terminationId,
         winningSideId,
         reason,
+        rounds,
       } = req.body;
       const data = await readData({
         gameId, terminationId, database, winningSideId,
@@ -138,16 +144,25 @@ const initialize = (config = {}) => {
         const {
           gameSeries: {
             documentId: gameSeriesId,
+            organizer: {
+              id: organizerId,
+            },
+          },
+          player: {
+            id: playerId,
           },
         } = data;
 
-        await pubSubClient.publish({
+        const options = {
           gameSeriesId,
           gameId,
           terminationId,
           winningSideId,
           reason,
-        });
+          rounds: playerId === organizerId ? rounds : 0, 
+        };
+
+        await pubSubClient.publish(options);
 
         res.render(
           'terminate/thankyou',

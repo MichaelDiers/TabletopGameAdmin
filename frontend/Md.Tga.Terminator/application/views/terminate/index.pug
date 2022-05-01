@@ -7,10 +7,15 @@
     input(type='hidden', name='_csrf', value=csurfToken)
     input(type='hidden', name='gameId', value=gameId)
     input(type='hidden', name='terminationId', value=terminationId)
-    label(for=winningSide) Gewinnner
+    label(for='winningSide') Gewinnner
     select#winningSide(name='winningSideId', required='true')
       each side in sides
         option(value=side.id)= side.name
+    if displayRounds
+      label(for='rounds') Runden
+      input#rounds(type='number', name='rounds', required='true', min='1', max='40')
+    else
+      input#rounds(type='hidden', name='rounds', value='0')
     label(for='reason') Begründung
     textarea#reason(
       name='reason'
