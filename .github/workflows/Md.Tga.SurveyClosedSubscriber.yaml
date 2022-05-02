@@ -1,4 +1,4 @@
-name: Md.Tga.SurveyClosedSubscriber.yaml
+name: Md.Tga.SurveyClosedSubscriber
 on:
   push:
     branches:
@@ -6,6 +6,9 @@ on:
     paths:
       - 'backend/Md.Tga.SurveyClosedSubscriber/**'
   workflow_dispatch:
+  workflow_run:
+    workflows: [SurveyClosedSchema]
+    types: [completed]
 jobs:
   BuildAndDeploy:
     uses: MichaelDiers/shared-workflows/.github/workflows/dotnet-deploy-google-cloud-function.yaml@main
