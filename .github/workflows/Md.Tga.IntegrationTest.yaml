@@ -1,0 +1,35 @@
+name: Md.Tga.IntegrationTest ci/cd
+on:
+  pull_request:
+    branches:
+      - stage
+      - prod
+    paths:
+      - 'backend/Md.Tga.IntegrationTest/**'
+      - '.github/workflows/Md.Tga.IntegrationTest.yaml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/Md.Tga.IntegrationTest/**'
+      - '.github/workflows/Md.Tga.IntegrationTest.yaml'
+  workflow_dispatch:
+  workflow_run:
+    workflows: [GoLiveTest, GoLiveStage, GoLiveProd]
+    types: [completed]
+jobs:
+  deployGoogleCloudFunction:
+    uses: MichaelDiers/shared-workflows/.github/workflows/python-deploy-google-cloud-function-vnext.yaml@main
+    with:
+      functionName: IntegrationTest
+      sourceDirectory: backend/Md.Tga.IntegrationTest
+    secrets:
+      gcpCredentialsTest: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
+      gcpCredentialsStage: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
+      gcpCredentialsProd: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
+      projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
+      projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
+      projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
+      envVarsTest: ''
+      envVarsStage: ''
+      envVarsProd: ''
