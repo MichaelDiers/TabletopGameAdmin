@@ -33,4 +33,4 @@ jobs:
       envVarsTest: ''
       envVarsStage: ''
       envVarsProd: ''
-      serviceAccountTest: ${{ secrets.GLOBAL_READONLY_SERVICE_ACCOUNT_NAME_TEST }}
+      serviceAccountTest: ${{ secrets.GLOBAL_READONLY_SERVICE_ACCOUNT_NAME_TEST  }}
