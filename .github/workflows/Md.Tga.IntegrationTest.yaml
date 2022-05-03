@@ -24,7 +24,7 @@ jobs:
       functionName: IntegrationTest
       sourceDirectory: backend/Md.Tga.IntegrationTest
     secrets:
-      gcpCredentialsTest: ${{ secrets.GLOBAL_GCP_CREDENTIALS_TEST }}
+      gcpCredentialsTest: ${{ secrets.GLOBAL_DEPLOY_SERVICE_ACCOUNT_JSON_TEST }}
       gcpCredentialsStage: ${{ secrets.GLOBAL_GCP_CREDENTIALS_STAGE }}
       gcpCredentialsProd: ${{ secrets.GLOBAL_GCP_CREDENTIALS_PROD }}
       projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
@@ -33,3 +33,4 @@ jobs:
       envVarsTest: ''
       envVarsStage: ''
       envVarsProd: ''
+      serviceAccountTest: ${{ secrets.GLOBAL_READONLY_SERVICE_ACCOUNT_NAME_TEST }}
