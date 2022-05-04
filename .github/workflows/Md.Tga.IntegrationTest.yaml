@@ -30,7 +30,7 @@ jobs:
       projectIdTest: ${{ secrets.GLOBAL_PROJECT_ID_TEST }}
       projectIdStage: ${{ secrets.GLOBAL_PROJECT_ID_STAGE }}
       projectIdProd: ${{ secrets.GLOBAL_PROJECT_ID_PROD }}
-      envVarsTest: 'ENV_FUNCTION_EMAIL=${{ secrets.GLOBAL_INTEGRATION_TESTS_EMAIL }},ENV_FUNCTION_PROJECT_ID=${{ secrets.GLOBAL_PROJECT_ID_TEST }},ENV_FUNCTION_PUBSUB_SUFFIX=TEST'
+      envVarsTest: 'ENV_FUNCTION_API_KEY=${{ secrets.GLOBAL_INTEGRATION_TESTS_API_KEY }},ENV_FUNCTION_EMAIL=${{ secrets.GLOBAL_INTEGRATION_TESTS_EMAIL }},ENV_FUNCTION_PROJECT_ID=${{ secrets.GLOBAL_PROJECT_ID_TEST }},ENV_FUNCTION_PUBSUB_SUFFIX=TEST'
       envVarsStage: ''
       envVarsProd: ''
       serviceAccountTest: ${{ secrets.GLOBAL_FUNCTIONS_SERVICE_ACCOUNT_READONLY_TEST }}

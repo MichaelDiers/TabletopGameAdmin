@@ -1,79 +1,93 @@
-import os
+'''
+A google cloud http function.
+
+Functions:
+    handle_game_series(pub_sub_client, message_creator, external_id, email, result_creator)
+    integration_test(result_creator)
+    IntegrationTest(request)
+
+'''
 from uuid import uuid4
 
-from google.cloud import pubsub_v1
+from environment import Environment
+from game_series import GameSeries
+from message_creator import MessageCreator
+from pub_sub import PubSubClient
+from result_creator import ResultCreator
 
-ENV_EMAIL = 'ENV_FUNCTION_EMAIL'
-ENV_PROJECT_ID = 'ENV_FUNCTION_PROJECT_ID'
-ENV_PUBSUB_SUFFIX = 'ENV_FUNCTION_PUBSUB_SUFFIX'
+def handle_game_series(pub_sub_client, message_creator, external_id, email, result_creator) -> None:
+    '''
+        Handle all game series test from creating to checking its existence.
 
-PUBSUB_START_GAME_SERIES = 'START_GAME_SERIES_'
+        Parameters
+        ----------
+        pub_sub_client:
+            Client for sending pub/sub messages.
 
-def create_start_game_series_message(email, externalId):
-    message = (
-        f'{{'
-        f'  "processId":"{uuid4()}",'
-        f'  "gameSeries":{{'
-        f'    "externalId":"{externalId}",'
-        f'    "name":"IntegrationTest GameSeries",'
-        f'    "gameType":"AAG40",'
-        f'    "organizer":{{'
-        f'      "name":"Oraganizer Name",'
-        f'      "email":"{email}"'
-        f'    }},'
-        f'    "players": ['
-        f'      {{'
-        f'        "name":"Player1 Name",'
-        f'        "email":"{email}"'
-        f'      }},'
-        f'      {{'
-        f'        "name":"Player2 Name",'
-        f'        "email":"{email}"'
-        f'      }},'
-        f'      {{'
-        f'        "name":"Player3 Name",'
-        f'        "email":"{email}"'
-        f'      }},'
-        f'      {{'
-        f'        "name":"Player4 Name",'
-        f'        "email":"{email}"'
-        f'      }},'
-        f'      {{'
-        f'        "name":"Player5 Name",'
-        f'        "email":"{email}"'
-        f'      }}'
-        f'    ]'
-        f'  }}'
-        f'}}'
-    )
+        message_creator:
+            Creator for pub/sub messages.
+        external_id
+            The external id of the game series.
 
-    return message
+        email:
+            The email that is used for organizer and players of the game series.
 
-def publish_start_game_series_message(projectId, topicId, message):
-     client = pubsub_v1.PublisherClient()
-     topic = client.topic_path(projectId, topicId)
-     response = client.publish(topic, message.encode())
-     print(response.result())
+        result_creator:
+            Creator for collecting results of the tests.
 
-def integration_test():
-    email = os.environ.get(ENV_EMAIL)
-    projectId = os.environ.get(ENV_PROJECT_ID)
-    pubSubSuffix = os.environ.get(ENV_PUBSUB_SUFFIX)
+        Returns
+        -------
+        None
+        '''
+    game_series = GameSeries(pub_sub_client, message_creator, result_creator)
+    return game_series.start(external_id, email)
 
-    externalGameSeriesId = uuid4()
-    results = []
+def integration_test(result_creator) -> None:
+    '''
+        Initializes and executes all integration tests.
+
+        Parameters
+        ----------
+        result_creator:
+            Creator for results as a json string.
+
+        Returns
+        -------
+        None
+    '''
+    environment = Environment()
+    pub_sub_client = PubSubClient(environment.project_id)
+    message_creator = MessageCreator(environment.pubsub_suffix)
+
+    external_game_series_id = uuid4()
+
+    handle_game_series(
+        pub_sub_client,
+        message_creator,
+        external_game_series_id,
+        environment.email,
+        result_creator)
+
+# pylint: disable=unused-argument,invalid-name
+def IntegrationTest(request) -> str:
+    '''
+        The entry point of the google cloud http function.
+
+        Parameters
+        ----------
+        request:
+            The incoming http request.
+
+        Returns
+        -------
+        A json string containing the test results.
+    '''
+    result_creator = ResultCreator()
 
     try:
-        start_game_series_message = create_start_game_series_message(email, externalGameSeriesId)
-        publish_start_game_series_message(projectId, PUBSUB_START_GAME_SERIES + pubSubSuffix, start_game_series_message)
-        results.append(('GameSeries externalId', externalGameSeriesId))
-    except Exception as e:
-        results.append(('Error', e))
-    
-    return '{' + ','.join(f'"{key}":"{value}"' for (key, value) in results) + '}'
+        integration_test(result_creator)
+    # pylint: disable=broad-except
+    except Exception as exception:
+        result_creator.add_error(exception)
 
-
-def IntegrationTest(request):
-    return integration_test()
-
-print(IntegrationTest('email'))
+    return str(result_creator)
