@@ -3,7 +3,7 @@ A google cloud http function.
 
 Functions:
     handle_game_series(pub_sub_client, message_creator, external_id, email, result_creator)
-    integration_test(result_creator)
+    integration_test(request, result_creator)
     IntegrationTest(request)
 
 '''
@@ -14,6 +14,8 @@ from game_series import GameSeries
 from message_creator import MessageCreator
 from pub_sub import PubSubClient
 from result_creator import ResultCreator
+
+API_KEY_NAME = 'api_key'
 
 def handle_game_series(pub_sub_client, message_creator, external_id, email, result_creator) -> None:
     '''
@@ -42,12 +44,15 @@ def handle_game_series(pub_sub_client, message_creator, external_id, email, resu
     game_series = GameSeries(pub_sub_client, message_creator, result_creator)
     return game_series.start(external_id, email)
 
-def integration_test(result_creator) -> None:
+def integration_test(request, result_creator) -> None:
     '''
         Initializes and executes all integration tests.
 
         Parameters
         ----------
+        request:
+            The incoming http request object.
+
         result_creator:
             Creator for results as a json string.
 
@@ -56,6 +61,13 @@ def integration_test(result_creator) -> None:
         None
     '''
     environment = Environment()
+    if not request \
+        or not request.args \
+        or API_KEY_NAME not in request.args \
+        or request.args[API_KEY_NAME] != environment.api_key:
+        result_creator.add_error('forbidden')
+        return
+
     pub_sub_client = PubSubClient(environment.project_id)
     message_creator = MessageCreator(environment.pubsub_suffix)
 
@@ -85,7 +97,7 @@ def IntegrationTest(request) -> str:
     result_creator = ResultCreator()
 
     try:
-        integration_test(result_creator)
+        integration_test(request, result_creator)
     # pylint: disable=broad-except
     except Exception as exception:
         result_creator.add_error(exception)
