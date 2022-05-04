@@ -39,7 +39,7 @@ const initialize = (config = {}) => {
     isUuid(body('terminationId')),
     isUuid(body('winningSideId')),
     body('reason').escape(),
-    body('rounds').exists().isInt({gt: 0, lt: 40 }),
+    body('rounds').exists().isInt({gt: -1, lt: 40 }),
     middlewareFunc,
   );
 
