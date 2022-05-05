@@ -169,13 +169,17 @@ const initialize = (config = {}) => {
      * @param {express.Request} req The express request object.
      * @param {express.Response} res The express response object.
      */
-    index: async (req, res) => {
-      const { gameSeriesId } = req.params;
+    index: async (req, res, next) => {
+      try {
+        const { gameSeriesId } = req.params;
 
-      const data = await readData({ database, gameSeriesId });
+        const data = await readData({ database, gameSeriesId });
 
-      const options = evaluateData(data);
-      res.render('statistics/index', options);
+        const options = evaluateData(data);
+        res.render('statistics/index', options);
+      } catch (err) {
+        next(err);
+      }
     },
   };
 

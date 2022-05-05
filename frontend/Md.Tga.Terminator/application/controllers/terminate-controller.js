@@ -80,44 +80,48 @@ const initialize = (config = {}) => {
      * @param {express.Request} req The express request object.
      * @param {express.Response} res The express response object.
      */
-    index: async (req, res) => {
-      const { gameId, terminationId } = req.params;
+    index: async (req, res, next) => {
+      try {
+        const { gameId, terminationId } = req.params;
 
-      const data = await readData({ gameId, terminationId, database });
-      const { valid, view } = data;
-      if (valid === false) {
-        res.render(view);
-      } else {
-        const {
-          country: {
-            name: countryName,
-          },
-          game: {
-            name: gameName,
-          },
-          gameSeries: {
-            organizer: {
-              id: organizerId,
+        const data = await readData({ gameId, terminationId, database });
+        const { valid, view } = data;
+        if (valid === false) {
+          res.render(view);
+        } else {
+          const {
+            country: {
+              name: countryName,
             },
+            game: {
+              name: gameName,
+            },
+            gameSeries: {
+              organizer: {
+                id: organizerId,
+              },
+              sides,
+            },
+            player: {
+              id: playerId,
+              name: playerName,
+            },
+          } = data;
+          const options = {
+            playerName,
+            countryName,
+            gameId,
+            gameName,
+            terminationId,
+            formId: uuid.v4(),
             sides,
-          },
-          player: {
-            id: playerId,
-            name: playerName,
-          },
-        } = data;
-        const options = {
-          playerName,
-          countryName,
-          gameId,
-          gameName,
-          terminationId,
-          formId: uuid.v4(),
-          sides,
-          displayRounds: organizerId === playerId,
-        };
+            displayRounds: organizerId === playerId,
+          };
 
-        res.render('terminate/index', options);
+          res.render('terminate/index', options);
+        }
+      } catch (err) {
+        next(err);
       }
     },
 
@@ -126,50 +130,54 @@ const initialize = (config = {}) => {
      * @param {express.Request} req The express request object.
      * @param {express.Response} res The express response object.
      */
-    submit: async (req, res) => {
-      const {
-        gameId,
-        terminationId,
-        winningSideId,
-        reason,
-        rounds,
-      } = req.body;
-      const data = await readData({
-        gameId, terminationId, database, winningSideId,
-      });
-      const { valid, view } = data;
-      if (valid === false) {
-        res.render(view);
-      } else {
+    submit: async (req, res, next) => {
+      try {
         const {
-          gameSeries: {
-            documentId: gameSeriesId,
-            organizer: {
-              id: organizerId,
-            },
-          },
-          player: {
-            id: playerId,
-          },
-        } = data;
-
-        const options = {
-          gameSeriesId,
           gameId,
           terminationId,
           winningSideId,
           reason,
-          rounds: playerId === organizerId ? rounds : 0,
-        };
+          rounds,
+        } = req.body;
+        const data = await readData({
+          gameId, terminationId, database, winningSideId,
+        });
+        const { valid, view } = data;
+        if (valid === false) {
+          res.render(view);
+        } else {
+          const {
+            gameSeries: {
+              documentId: gameSeriesId,
+              organizer: {
+                id: organizerId,
+              },
+            },
+            player: {
+              id: playerId,
+            },
+          } = data;
 
-        await pubSubClient.publish(options);
+          const options = {
+            gameSeriesId,
+            gameId,
+            terminationId,
+            winningSideId,
+            reason,
+            rounds: playerId === organizerId ? rounds : 0,
+          };
 
-        res.render(
-          'terminate/thankyou',
-          {
-            pushStateUrl: '../../thankyou',
-          },
-        );
+          await pubSubClient.publish(options);
+
+          res.render(
+            'terminate/thankyou',
+            {
+              pushStateUrl: '../../thankyou',
+            },
+          );
+        }
+      } catch (err) {
+        next(err);
       }
     },
 
@@ -178,10 +186,14 @@ const initialize = (config = {}) => {
      * @param {express.Request} req The express request object.
      * @param {express.Response} res The express response object.
      */
-    thankyou: async (req, res) => {
-      res.render(
-        'terminate/thankyou',
-      );
+    thankyou: async (req, res, next) => {
+      try {
+        res.render(
+          'terminate/thankyou',
+        );
+      } catch (err) {
+        next(err);
+      }
     },
   };
 
