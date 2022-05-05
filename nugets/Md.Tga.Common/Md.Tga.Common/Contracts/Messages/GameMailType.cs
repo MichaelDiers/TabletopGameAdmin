@@ -13,6 +13,9 @@
         GameTerminationUpdate,
 
         [EnumMember(Value = "GAME_TERMINATED")]
-        GameTerminated
+        GameTerminated,
+
+        [EnumMember(Value = "GAME_TERMINATION_REMINDER")]
+        GameTerminationReminder
     }
 }
