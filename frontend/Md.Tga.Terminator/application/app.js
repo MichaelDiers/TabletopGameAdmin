@@ -46,7 +46,7 @@ const initialize = (config = {}) => {
   middlewares.pugMiddleware({
     router, lang, files, baseName, gatewayAddress,
   });
-  middlewares.csurfMiddleware({ router, csurfCookieName });
+  // middlewares.csurfMiddleware({ router, csurfCookieName });
 
   routers.footerRoute({
     router,
