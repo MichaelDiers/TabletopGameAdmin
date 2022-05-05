@@ -1,14 +1,9 @@
 '''
-A google cloud http function.
-
-Functions:
-    handle_game_series(pub_sub_client, message_creator, external_id, email, result_creator)
-    integration_test(request, result_creator)
-    IntegrationTest(request)
-
+A google cloud http function that executes integration tests.
 '''
 from uuid import uuid4
 
+from database import Database
 from environment import Environment
 from game_series import GameSeries
 from message_creator import MessageCreator
@@ -17,89 +12,55 @@ from result_creator import ResultCreator
 
 API_KEY_NAME = 'api_key'
 
-def handle_game_series(pub_sub_client, message_creator, external_id, email, result_creator) -> None:
-    '''
-        Handle all game series test from creating to checking its existence.
+def integration_test(request, result_creator: ResultCreator) -> None:
+  '''
+  Execute a complete integeration test.
 
-        Parameters
-        ----------
-        pub_sub_client:
-            Client for sending pub/sub messages.
+  Args:
+      request (any): An incoming google function flask.Request.
+      result_creator (ResultCreator): A json result generator.
+  '''
+  environment = Environment()
+  if not request \
+    or not request.args \
+    or API_KEY_NAME not in request.args \
+    or request.args[API_KEY_NAME] != environment.api_key:
+    result_creator.add_error('forbidden')
+    return
 
-        message_creator:
-            Creator for pub/sub messages.
-        external_id
-            The external id of the game series.
+  database = Database(environment.pubsub_suffix.lower())
+  pub_sub_client = PubSubClient(environment.project_id)
+  message_creator = MessageCreator(environment.pubsub_suffix)
 
-        email:
-            The email that is used for organizer and players of the game series.
+  external_game_series_id = str(uuid4())
+  game_series = GameSeries(pub_sub_client, message_creator, database) \
+    .start(result_creator, external_game_series_id, environment.email)
 
-        result_creator:
-            Creator for collecting results of the tests.
+  games = database.games(result_creator, game_series['id'])
+  if not games:
+    return
 
-        Returns
-        -------
-        None
-        '''
-    game_series = GameSeries(pub_sub_client, message_creator, result_creator)
-    return game_series.start(external_id, email)
-
-def integration_test(request, result_creator) -> None:
-    '''
-        Initializes and executes all integration tests.
-
-        Parameters
-        ----------
-        request:
-            The incoming http request object.
-
-        result_creator:
-            Creator for results as a json string.
-
-        Returns
-        -------
-        None
-    '''
-    environment = Environment()
-    if not request \
-        or not request.args \
-        or API_KEY_NAME not in request.args \
-        or request.args[API_KEY_NAME] != environment.api_key:
-        result_creator.add_error('forbidden')
-        return
-
-    pub_sub_client = PubSubClient(environment.project_id)
-    message_creator = MessageCreator(environment.pubsub_suffix)
-
-    external_game_series_id = uuid4()
-
-    handle_game_series(
-        pub_sub_client,
-        message_creator,
-        external_game_series_id,
-        environment.email,
-        result_creator)
+  surveys = database.surveys(result_creator, games[0]['id'])
+  if not surveys:
+    return
 
 # pylint: disable=unused-argument,invalid-name
 def IntegrationTest(request) -> str:
-    '''
-        The entry point of the google cloud http function.
+  '''
+  The entry point of the google cloud http function.
 
-        Parameters
-        ----------
-        request:
-            The incoming http request.
+  Args:
+      request (any): An incoming google function flask.Request.
 
-        Returns
-        -------
-        A json string containing the test results.
-    '''
-    result_creator = ResultCreator()
+  Returns:
+      str: The test result as a json string.
+  '''
+  result_creator = ResultCreator()
 
-    try:
-        integration_test(request, result_creator)
-    # pylint: disable=broad-except
-    except Exception as exception:
-        result_creator.add_error(exception)
+  try:
+    integration_test(request, result_creator)
+  # pylint: disable=broad-except
+  except Exception as exception:
+    result_creator.add_error(exception)
 
-    return str(result_creator)
+  return str(result_creator)

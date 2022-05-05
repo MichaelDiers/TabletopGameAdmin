@@ -1,62 +1,48 @@
 '''
-Create and check existence of GameSeries entities.
-
-Classes:
-
-    GameSeries
+Module game_series provides operations on game series database entities.
 '''
+from pub_sub import PubSubClient
+from message_creator import MessageCreator
+from result_creator import ResultCreator
+from database import Database
+
 class GameSeries:
+  '''
+  Send pub/sub messages for creating game series entities. Access the
+  created entities by a firestore database client.
+  '''
+  def __init__(
+    self,
+    pub_sub_client: PubSubClient,
+    message_creator: MessageCreator,
+    database: Database):
     '''
-        A class to represent operations on game series entities.
+    Initializes a new instance of the GameSeries class.
 
-        ...
-
-        Properties
-        ----------
-            None
-
-        Methods
-        -------
-        start(self, external_id, email):
-            Start a new game series.
+    Args:
+        pub_sub_client (PubSubClient): Client for sending google cloud pub/sub messages.
+        message_creator (MessageCreator): A generator for google cloud pub/sub messages.
+        database (Database): Client for accessing google cloud firestore.
     '''
+    self.__pub_sub_client = pub_sub_client
+    self.__message_creator = message_creator
+    self.__database = database
 
-    def __init__(self, pub_sub_client, message_creator, result_creator):
-        '''
-            Initializes a new instance of the GameSeries class.
+  def start(self, result_creator: ResultCreator, external_id: str, email: str) -> dict:
+    '''
+    Start a new game series and read the created data from the database.
 
-            Parameters
-            ----------
-            pub_sub_client : PubSubClient
-                a pub/sub client for publishing messages to topic
-            message_creator: MessageCreator
-                generator for pub/sub messages
-            result_creator
-                generator for a json result summary
-        '''
-        self.__pub_sub_client = pub_sub_client
-        self.__message_creator = message_creator
-        self.__result_creator = result_creator
+    Args:
+        result_creator (ResultCreator): A json result generator.
+        external_id (str): The external id of the new game series.
+        email (str): The email address that is used for the organizer and
+                     players of the game series.
 
-    def start(self, external_id, email):
-        '''
-            Sends a message to pub/sub for starting a new game series.
+    Returns:
+        dict: The game series entity as a dictionary.
+    '''
+    result_creator.add('GameSeriesExternalId', external_id)
+    (topic_id, message) = self.__message_creator.start_game_series_message(external_id, email)
+    self.__pub_sub_client.publish(topic_id, message)
 
-            Parameters
-            ----------
-            external_id : str
-                the external id of the game series
-
-            email: str
-                the email is used for each required email of the game series:
-                - organizer
-                - players
-
-            Returns
-            -------
-            None
-        '''
-        self.__result_creator.add('GameSeriesExternalId', external_id)
-        (topic_id, message) = self.__message_creator.start_game_series_message(external_id, email)
-        self.__pub_sub_client.publish(topic_id, message)
-        self.__result_creator.add_ok('StartGameSeries')
+    return self.__database.game_series(result_creator, external_id)

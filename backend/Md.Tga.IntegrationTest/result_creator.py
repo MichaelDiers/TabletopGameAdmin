@@ -1,102 +1,41 @@
 '''
-Json result creator.
-
-Classes:
-
-    ResultCreator
+Module result_creator provides a test result generator.
 '''
 class ResultCreator:
+  '''
+  A test result generator.
+  '''
+
+  def __init__(self):
     '''
-        Creator for a json string that contains test results.
-
-        ...
-
-        Properties
-        ----------
-            None
-
-        Methods
-        -------
-        add(self, key, value):
-            add a json entry to the result
-        add_error(self, value):
-            add a json value as an error to the result
-        add_ok(self, key):
-            add a success value to the json result
-        __str__(self):
-            creates the json value
+    Initializes a new instance of the ResultCreator class.
     '''
+    self.__results = []
 
-    def __init__(self) -> None:
-        '''
-            Initializes a new instance of the ResultCreator class.
+  def add(self, key: str, value: str) -> None:
+    '''
+    Add a json entry with key and value.
 
-            Parameters
-            ----------
-            None
-        '''
-        self.__results = []
+    Args:
+        key (str): The key of the json entry.
+        value (str): The value of the json entry.
+    '''
+    self.__results.append((key, value))
 
-    def add(self, key, value) -> None:
-        '''
-            Add a json entry to the result.
+  def add_error(self, value: str) -> None:
+    '''
+    Add a json entry with key 'error' and the given value.
 
-            Parameters
-            ----------
-            key : str
-                the json key of the entry
+    Args:
+        value (str): The value of the json entry.
+    '''
+    self.add('error', value)
 
-            value: str
-                the json value of the entry
+  def __str__(self) -> str:
+    '''
+    Create the json formatted string of the object.
 
-            Returns
-            -------
-            None
-        '''
-        self.__results.append((key, value))
-
-    def add_error(self, value) -> None:
-        '''
-            Add an error as a json entry to the result.
-
-            Parameters
-            ----------
-
-            value: str
-                the json value of the error entry
-
-            Returns
-            -------
-            None
-        '''
-        self.add('error', value)
-
-    def add_ok(self, key) -> None:
-        '''
-            Add a success value to the json result.
-
-            Parameters
-            ----------
-
-            key: str
-                the json key of the entry
-
-            Returns
-            -------
-            None
-        '''
-        self.add(key, 'ok')
-
-    def __str__(self) -> str:
-        '''
-            Create a json string for the added json entries.
-
-            Parameters
-            ----------
-            None
-            
-            Returns
-            -------
-            the result as a json string
-        '''
-        return '{' + ','.join(f'"{key}":"{value}"' for (key, value) in self.__results) + '}'
+    Returns:
+        str: A json formatted string.
+    '''
+    return '{' + ','.join(f'"{key}":"{value}"' for (key, value) in self.__results) + '}'

@@ -1,0 +1,16 @@
+{
+  "Docstring for modules": {
+    "prefix": ["docgm"],
+    "body": [
+      "'''",
+      "Module $TM_FILENAME_BASE provides operations on $1",
+      "'''"
+    ],
+    "description": "Generate a basic docstring for a module."
+  },
+  "Docstring for __init__": {
+    "prefix": ["docginit"],
+    "body": ["Initializes a new instance of the ${TM_FILENAME_BASE/(.*)/${1:/capitalize}/} class."],
+    "description": "Generate the summary for __init__."
+  }
+}
