@@ -3,7 +3,8 @@ message CreateGameMailMessage {
     enum GameMailType {
         SURVEY_RESULT = 0;
         GAME_TERMINATION_UPDATE = 1;
-        GAME_TERMINATED = 2;	
+        GAME_TERMINATED = 2;
+	GAME_TERMINATION_REMINDER = 3;	
     };
 
     message GameSeries {
