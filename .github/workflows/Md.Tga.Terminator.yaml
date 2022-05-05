@@ -1,17 +1,15 @@
-name: Md.Tga.Terminator
+name: Md.Tga.Terminator (semantic v1)
 on:
   push:
     branches:
       - main
     paths:
       - 'frontend/Md.Tga.Terminator/**'
+      - '.github/workflows/Md.Tga.Terminator.yaml'
   workflow_dispatch:
-  workflow_run:
-    workflows: [GoLive]
-    types: [completed]
 jobs:
   deployGoogleCloudFunction:
-    uses: MichaelDiers/shared-workflows/.github/workflows/node-deploy-google-cloud-function.yaml@main
+    uses: MichaelDiers/shared-workflows/.github/workflows/node-deploy-google-cloud-function-semantic.yaml@main
     with:
       functionName: terminate
       sourceDirectory: frontend/Md.Tga.Terminator

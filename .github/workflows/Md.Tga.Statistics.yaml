@@ -1,17 +1,15 @@
-name: Md.Tga.Statistics
+name: Md.Tga.Statistics (semantic v1)
 on:
   push:
     branches:
       - main
     paths:
       - 'frontend/Md.Tga.Statistics/**'
+      - '.github/workflows/Md.Tga.Statistics.yaml'
   workflow_dispatch:
-  workflow_run:
-    workflows: [GoLive]
-    types: [completed]
 jobs:
   deployGoogleCloudFunction:
-    uses: MichaelDiers/shared-workflows/.github/workflows/node-deploy-google-cloud-function.yaml@main
+    uses: MichaelDiers/shared-workflows/.github/workflows/node-deploy-google-cloud-function-semantic.yaml@main
     with:
       functionName: statistics
       sourceDirectory: frontend/Md.Tga.Statistics

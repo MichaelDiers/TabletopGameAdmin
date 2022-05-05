@@ -159,7 +159,7 @@ const initialize = (config = {}) => {
           terminationId,
           winningSideId,
           reason,
-          rounds: playerId === organizerId ? rounds : 0, 
+          rounds: playerId === organizerId ? rounds : 0,
         };
 
         await pubSubClient.publish(options);

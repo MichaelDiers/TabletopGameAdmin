@@ -36,7 +36,7 @@ const initialize = (config = {}) => {
       gameStatusCollectionName,
       playerMappingsCollectionName,
     }),
-    csurfCookieName,
+    // csurfCookieName,
     startGameTerminationTopic,
     pubSubClient = pubSubInit({ topicName: startGameTerminationTopic }),
   } = config;
