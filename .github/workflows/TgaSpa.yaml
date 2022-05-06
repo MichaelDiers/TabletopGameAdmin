@@ -1,0 +1,22 @@
+name: TgaSpa
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/TgaSpa/**'
+      - '.github/workflows/TgaSpa.yaml'
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: install packages
+        run: npm install
+      - name: build
+        run: npm run build
+      - name: run tests
+        run: npm run test:prod
+      
