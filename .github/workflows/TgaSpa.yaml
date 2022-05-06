@@ -10,13 +10,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      WORKING_DIRECTORY: 'frontend/TgaSpa' 
     steps:
       - name: checkout
         uses: actions/checkout@v2
       - name: install packages
         run: npm install
+        working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: build
         run: npm run build
+        working-directory: ${{ env.WORKING_DIRECTORY }}
       - name: run tests
         run: npm run test:prod
+        working-directory: ${{ env.WORKING_DIRECTORY }}
       
