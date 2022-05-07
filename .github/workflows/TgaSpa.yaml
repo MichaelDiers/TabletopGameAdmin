@@ -4,24 +4,28 @@ on:
     branches:
       - main
     paths:
-      - 'frontend/TgaSpa/**'
-      - '.github/workflows/TgaSpa.yaml'
+      - frontend/TgaSpa/**
+      - .github/workflows/TgaSpa.yaml
   workflow_dispatch:
 jobs:
   test:
     runs-on: ubuntu-latest
+    environment: tga-firebase-hosting-test
     env:
-      WORKING_DIRECTORY: 'frontend/TgaSpa' 
+      WORKING_DIRECTORY: frontend/TgaSpa 
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - name: install packages
-        run: npm install
+      - name: run ci
+        run: npm run ci
         working-directory: ${{ env.WORKING_DIRECTORY }}
-      - name: build
-        run: npm run build
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-      - name: run tests
-        run: npm run test:prod
-        working-directory: ${{ env.WORKING_DIRECTORY }}
-      
+      - name: deploy to firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          firebaseServiceAccount: "${{ secrets.SERVICE_ACCOUNT }}"
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          expires: 7d
+          projectId: "${{ secrets.PROJECT_ID }}"
+          channelId: preview
+          target: tga.web.app
+          entryPoint: frontend/TgaSpa 
