@@ -27,5 +27,5 @@ jobs:
           expires: 7d
           projectId: "${{ secrets.PROJECT_ID }}"
           channelId: preview
-          target: tga
+          target: test
           entryPoint: frontend/TgaSpa 

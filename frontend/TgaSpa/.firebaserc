@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "surveys-services-test"
+  },
+  "targets": {
+    "surveys-services-test": {
+      "hosting": {
+        "test": [
+          "test"
+        ]
+      }
+    }
+  }
+}
